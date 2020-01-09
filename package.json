@@ -1,0 +1,16 @@
+{
+  "name": "arm-ts",
+  "version": "1.0.0",
+  "description": "ARM Typescript template generator prototype",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index"
+  },
+  "author": "Anthony Martin (antm88@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^13.1.5",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.4"
+  }
+}
