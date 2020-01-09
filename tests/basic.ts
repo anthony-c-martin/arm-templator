@@ -1,25 +1,17 @@
-import { Template, ParameterExpression } from './library/language';
-import { createVirtualMachine, createNetworkInterface } from './library/types';
+import { Template, ParameterExpression } from '../library/language';
+import { createVirtualMachine, createNetworkInterface } from '../library/types';
 
 export default function execute(template: Template) {
   const location = 'West US';
 
-  // todo modules
-  // todo params
-  // todo functions
-  // todo outputs
-  // todo conditionals
-
-  var vmNameParam = new ParameterExpression('test');
-
   const vm = createVirtualMachine(
-    vmNameParam, {
+    'myVm', {
       adminName: 'antm88',
       password: 'secretPassword',
     }, location);
 
   const nic = createNetworkInterface(
-    vmNameParam, {
+    'myNic', {
       ipAddress: '10.0.0.24',
     }, location);
 
