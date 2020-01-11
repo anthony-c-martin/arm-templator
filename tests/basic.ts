@@ -1,9 +1,9 @@
-import { Template, ParameterExpression } from '../library/language';
+import { Template } from '../library/language';
 import { createVirtualMachine, createNetworkInterface } from '../library/types';
 
 export default function execute(template: Template) {
-  const location = new ParameterExpression('location');
-  const resourceName = new ParameterExpression('test');
+  const location = template.addParameter('location', 'West US');
+  const resourceName = template.addParameter('resourceName', 'test');
 
   // todo modules
   // todo params

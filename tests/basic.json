@@ -1,13 +1,22 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {},
+  "parameters": {
+    "location": {
+      "defaultValue": "West US",
+      "type": "string"
+    },
+    "resourceName": {
+      "defaultValue": "test",
+      "type": "string"
+    }
+  },
   "variables": {},
   "resources": [
     {
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2020-01-01",
-      "name": "[parameters('test')]",
+      "name": "[parameters('resourceName')]",
       "location": "[parameters('location')]",
       "properties": {
         "ipAddress": "10.0.0.24"
@@ -16,7 +25,7 @@
     {
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2020-01-01",
-      "name": "[parameters('test')]",
+      "name": "[parameters('resourceName')]",
       "location": "[parameters('location')]",
       "properties": {
         "adminName": "antm88",

@@ -1,6 +1,7 @@
 import 'mocha';
 import { expect } from 'chai';
-import { ConcreteTemplate, renderTemplate } from './library/executor';
+import { Template } from './library/language';
+import { renderTemplate } from './library/executor';
 
 const testDir = `${__dirname}/tests`;
 
@@ -8,7 +9,7 @@ async function executeTest(name: string) {
   const execute = (await import(`${testDir}/${name}.ts`)).default;
   const expected = require(`${testDir}/${name}.json`);
 
-  const template = new ConcreteTemplate();
+  const template = new Template();
   execute(template);
 
   const generated = renderTemplate(template);
