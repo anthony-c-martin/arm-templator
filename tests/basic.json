@@ -2,12 +2,13 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {},
+  "variables": {},
   "resources": [
     {
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2020-01-01",
-      "name": "myNic",
-      "location": "West US",
+      "name": "[parameters('test')]",
+      "location": "[parameters('location')]",
       "properties": {
         "ipAddress": "10.0.0.24"
       }
@@ -15,12 +16,13 @@
     {
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2020-01-01",
-      "name": "myVm",
-      "location": "West US",
+      "name": "[parameters('test')]",
+      "location": "[parameters('location')]",
       "properties": {
         "adminName": "antm88",
         "password": "secretPassword"
       }
     }
-  ]
+  ],
+  "outputs": {}
 }
