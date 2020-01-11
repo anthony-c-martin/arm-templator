@@ -39,7 +39,7 @@ function formatResourceObject<T>(resource: Resource<T>): any {
   };
 }
 
-function formatTemplateObject(template: ConcreteTemplate): any {
+export function renderTemplate(template: ConcreteTemplate): any {
   const resources = template.resources.map(formatResourceObject);
 
   return {
@@ -50,10 +50,4 @@ function formatTemplateObject(template: ConcreteTemplate): any {
     resources: resources,
     outputs: { },
   };
-}
-
-export function renderJson(template: ConcreteTemplate) {
-  const json = formatTemplateObject(template);
-
-  return JSON.stringify(json, null, 2);
 }
