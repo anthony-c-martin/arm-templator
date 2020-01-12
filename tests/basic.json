@@ -15,7 +15,7 @@
   "resources": [
     {
       "type": "Microsoft.Network/networkInterfaces",
-      "apiVersion": "2020-01-01",
+      "apiVersion": "2019-11-01",
       "name": "[parameters('resourceName')]",
       "location": "[parameters('location')]",
       "properties": {
@@ -24,7 +24,10 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2020-01-01",
+      "apiVersion": "2019-07-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', 'parameters('resourceName'))]"
+      ],
       "name": "[parameters('resourceName')]",
       "location": "[parameters('location')]",
       "properties": {

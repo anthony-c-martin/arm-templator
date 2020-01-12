@@ -1,6 +1,10 @@
-import { Template, Resource, ExpressionBase, ParameterExpression } from "./language";
+import { Template, TemplateResource, ExpressionBase } from "./language";
 
 function formatObject(input: any): any {
+  if (input === null || input === undefined) {
+    throw new Error(`Unable to format null or undefined input`);
+  }
+
   if (Array.isArray(input)) {
     return input.map(formatObject);
   } else if (input instanceof ExpressionBase) {
@@ -18,14 +22,20 @@ function formatObject(input: any): any {
   return input;
 }
 
-function formatResourceObject<T>(resource: Resource<T>): any {
-  return {
+function formatResourceObject<T>(resource: TemplateResource<T>): any {
+  const output: any = {
     type: formatObject(resource.type),
     apiVersion: formatObject(resource.apiVersion),
     name: formatObject(resource.name),
     location: formatObject(resource.location),
     properties: formatObject(resource.properties),
   };
+
+  if (resource.dependsOn) {
+    output.dependsOn = formatObject(resource.dependsOn);
+  }
+  
+  return output;
 }
 
 function formatParameters(template: Template): any {
