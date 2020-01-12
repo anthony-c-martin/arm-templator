@@ -2,12 +2,21 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "location": {
-      "defaultValue": "West US",
+    "bootDiagsStorageUri": {
       "type": "string"
     },
+    "location": {
+      "type": "string",
+      "defaultValue": "West US"
+    },
     "resourceName": {
-      "defaultValue": "test",
+      "type": "string",
+      "defaultValue": "test"
+    },
+    "subnetResourceId": {
+      "type": "string"
+    },
+    "publicIpAddressResourceId": {
       "type": "string"
     }
   },
@@ -19,21 +28,71 @@
       "name": "[parameters('resourceName')]",
       "location": "[parameters('location')]",
       "properties": {
-        "ipAddress": "10.0.0.24"
+        "ipConfigurations": [
+          {
+            "name": "myConfig",
+            "properties": {
+              "subnet": {
+                "id": "[parameters('subnetResourceId')]"
+              },
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[parameters('publicIpAddressResourceId')]"
+              }
+            }
+          }
+        ]
       }
     },
     {
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2019-07-01",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', 'parameters('resourceName'))]"
-      ],
       "name": "[parameters('resourceName')]",
       "location": "[parameters('location')]",
       "properties": {
-        "adminName": "antm88",
-        "password": "secretPassword"
-      }
+        "osProfile": {
+          "computerName": "myVm",
+          "adminUsername": "antm88",
+          "adminPassword": "secretPassword",
+          "windowsConfiguration": {
+            "provisionVMAgent": true
+          }
+        },
+        "hardwareProfile": {
+          "vmSize": "Standard_A1_v2"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "2016-Datacenter",
+            "version": "latest"
+          },
+          "osDisk": {
+            "createOption": "FromImage"
+          },
+          "dataDisks": []
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', 'parameters('resourceName'))]",
+              "properties": {
+                "primary": true
+              }
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "[parameters('bootDiagsStorageUri')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', 'parameters('resourceName'))]"
+      ]
     }
   ],
   "outputs": {}

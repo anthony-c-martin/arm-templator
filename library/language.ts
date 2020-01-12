@@ -80,6 +80,10 @@ export class Template {
   getReference<T>(resource: ResourceReference<T>): Expression<string> {
     return new ReferenceExpression<T>(resource);
   }
+
+  getResourceId<T>(resource: ResourceReference<T>): Expression<string> {
+    return new ResourceIdExpression(resource);
+  }
 }
 
 export abstract class ExpressionBase {

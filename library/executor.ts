@@ -41,10 +41,15 @@ function formatResourceObject<T>(resource: TemplateResource<T>): any {
 function formatParameters(template: Template): any {
   const output: any = {};
   for (const parameter of template.parameters) {
-    output[parameter.name] = {
+    const paramDefinition: any = {
       type: parameter.getType(),
-      defaultValue: parameter.defaultValue,
-    };
+    }
+
+    if (parameter.defaultValue) {
+      paramDefinition.defaultValue = parameter.defaultValue;
+    }
+
+    output[parameter.name] = paramDefinition;
   }
 
   return output;
