@@ -84,6 +84,10 @@ export class Template {
   getResourceId<T>(resource: ResourceReference<T>): Expression<string> {
     return new ResourceIdExpression(resource);
   }
+
+  concat(...components: OptionalExpression<string>[]) {
+    return new ConcatExpression(components);
+  }
 }
 
 export abstract class ExpressionBase {
@@ -109,12 +113,12 @@ export interface ResourceReference<T> {
   name: OptionalExpression<string>;
 }
 
-function formatOptionalExpression<T>(optionalExpression: OptionalExpression<T>) {
-  if (optionalExpression instanceof ExpressionBase) {
-    return (optionalExpression as ExpressionBase).format();
+function formatOptionalExpression(expression: OptionalExpression<string>) {
+  if (expression instanceof ExpressionBase) {
+    return expression.format();
   }
 
-  return optionalExpression;
+  return `'${expression}'`
 }
 
 class ParameterExpression<T> extends Expression<T> {
@@ -158,6 +162,23 @@ class ResourceIdExpression extends Expression<string> {
   }
 
   format() {
-    return `resourceId('${this.resource.type}', '${formatOptionalExpression(this.resource.name)})`;
+    return `resourceId('${this.resource.type}', ${formatOptionalExpression(this.resource.name)})`;
+  }
+}
+
+class ConcatExpression extends Expression<string> {
+  components: OptionalExpression<string>[];
+  constructor(components: OptionalExpression<string>[]) {
+    super();
+    if (components.length < 1) {
+      throw new Error(`Cannot build concat with 0 elements`);
+    }
+
+    this.components = components;
+  }
+
+  format() {
+    const formatted = this.components.map(formatOptionalExpression);
+    return `concat(${formatted.join(', ')})`;
   }
 }
