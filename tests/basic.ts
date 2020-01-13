@@ -1,6 +1,6 @@
-import { Template } from '../library/language';
-import { ComputeBuilder as compute } from '../library/types/compute.2019-07-01';
-import { NetworkBuilder as network } from '../library/types/network.2019-11-01';
+import { Template } from '../src/template';
+import { ComputeBuilder as compute } from '../defs/compute.2019-07-01';
+import { NetworkBuilder as network } from '../defs/network.2019-11-01';
 
 export default function execute(template: Template) {
   const location = template.addStringParameter('location', 'West US');

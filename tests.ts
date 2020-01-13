@@ -1,7 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import { Template } from './library/language';
-import { renderTemplate } from './library/executor';
+import { Template, renderTemplate } from './src/template';
 
 const testDir = `${__dirname}/tests`;
 
