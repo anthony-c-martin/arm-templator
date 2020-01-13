@@ -113,12 +113,20 @@ export interface ResourceReference<T> {
   name: OptionalExpression<string>;
 }
 
+function escapeQuotedString(input: string) {
+  return input.replace(/\'/g, '\'\'');
+}
+
 function formatOptionalExpression(expression: OptionalExpression<string>) {
   if (expression instanceof ExpressionBase) {
     return expression.format();
   }
 
-  return `'${expression}'`
+  return `'${escapeQuotedString(expression)}'`;
+}
+
+function formatFunction(name: string, ...parameters: OptionalExpression<string>[]) {
+  return `${name}(${parameters.map(formatOptionalExpression).join(', ')})`;
 }
 
 class ParameterExpression<T> extends Expression<T> {
@@ -133,11 +141,11 @@ class ParameterExpression<T> extends Expression<T> {
   }
 
   format() {
-    return `parameters('${this.name}')`;
+    return formatFunction('parameters', this.name);
   }
 
   getType(): string {
-    return this.type;      
+    return this.type;
   }
 }
 
@@ -150,7 +158,7 @@ class ReferenceExpression<T> extends Expression<T> {
 
   format() {
     const resourceIdExpression = new ResourceIdExpression(this.resource);
-    return `reference('${resourceIdExpression.format()}')`;
+    return formatFunction('reference', resourceIdExpression);
   }
 }
 
@@ -162,7 +170,7 @@ class ResourceIdExpression extends Expression<string> {
   }
 
   format() {
-    return `resourceId('${this.resource.type}', ${formatOptionalExpression(this.resource.name)})`;
+    return formatFunction('resourceId', this.resource.type, this.resource.name);
   }
 }
 
@@ -178,7 +186,6 @@ class ConcatExpression extends Expression<string> {
   }
 
   format() {
-    const formatted = this.components.map(formatOptionalExpression);
-    return `concat(${formatted.join(', ')})`;
+    return formatFunction('concat', ...this.components);
   }
 }
