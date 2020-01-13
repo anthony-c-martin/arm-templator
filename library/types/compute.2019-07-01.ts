@@ -71,15 +71,51 @@ interface NetworkInterfaceReferenceProperties {
 
 interface WindowsConfiguration {
   provisionVMAgent?: OptionalExpression<boolean>;
-  // omitted
+  enableAutomaticUpdates?: OptionalExpression<boolean>;
+  timeZone?: OptionalExpression<string>;
+  additionalUnattendContent?: OptionalExpression<AdditionalUnattendContent>;
+  winRM?: OptionalExpression<WinRMConfiguration>;
+}
+
+interface WinRMConfiguration {
+  listeners?: OptionalExpression<OptionalExpression<WinRMListener>[]>;
+}
+
+interface WinRMListener {
+  protocol?: OptionalExpression<Protocol>;
+  certificateUrl?: OptionalExpression<string>;
+}
+
+interface AdditionalUnattendContent {
+  passName?: OptionalExpression<PassName>;
+  componentName?: OptionalExpression<ComponentName>;
+  settingName?: OptionalExpression<SettingName>;
+  content?: OptionalExpression<string>;
 }
 
 interface LinuxConfiguration {
-  // omitted
+  disablePasswordAuthentication?: OptionalExpression<boolean>;
+  ssh?: OptionalExpression<SshConfiguration>;
+  provisionVMAgent?: OptionalExpression<boolean>;
+}
+
+interface SshConfiguration {
+  publicKeys?: OptionalExpression<OptionalExpression<SshPublicKey>[]>;
+}
+
+interface SshPublicKey {
+  path?: OptionalExpression<string>;
+  keyData?: OptionalExpression<string>;
 }
 
 interface VaultSecretGroup {
-  // omitted
+  sourceVault?: OptionalExpression<SubResource>;
+  vaultCertificates?: OptionalExpression<OptionalExpression<VaultCertificate>[]>;
+}
+
+interface VaultCertificate {
+  certificateUrl?: OptionalExpression<string>;
+  certificateStore?: OptionalExpression<string>;
 }
 
 interface ImageReference {
@@ -163,6 +199,10 @@ type Caching = 'None' | 'ReadOnly' | 'ReadWrite';
 type CreateOption = 'FromImage' | 'Empty' | 'Attach';
 type Option = 'Local';
 type StorageAccountType = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LR';
+type PassName = 'OobeSystem';
+type ComponentName = 'Microsoft-Windows-Shell-Setup';
+type SettingName = 'AutoLogon' | 'FirstLogonCommands';
+type Protocol = 'Http' | 'Https';
 
 export class ComputeBuilder {
   public static virtualMachine(name: OptionalExpression<string>, properties: VirtualMachineProps, location: OptionalExpression<string>): ResourceDefinition<VirtualMachineProps> {
