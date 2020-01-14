@@ -9,11 +9,6 @@ export default function execute(template: Template) {
   const publicIpAddressResourceId = template.addStringParameter('publicIpAddressResourceId');
   const bootDiagsStorageUri = template.addStringParameter('bootDiagsStorageUri');
 
-  // todo modules
-  // todo functions
-  // todo outputs
-  // todo conditionals
-
   const nic = template.deploy(
     network.networkInterface(
       resourceName, {

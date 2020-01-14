@@ -17,4 +17,5 @@ async function executeTest(name: string) {
 
 describe('generation tests', () => {
   it('basic.ts', async () => await executeTest('basic'));
+  it('modularity.ts', async () => await executeTest('modularity'));
 });

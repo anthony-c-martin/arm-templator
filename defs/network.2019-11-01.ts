@@ -1,6 +1,6 @@
 import { Expressionable, ResourceDefinition } from '../src/common';
 
-interface NetworkInterfaceProps {
+export interface NetworkInterfaceProps {
   networkSecurityGroup?: Expressionable<SubResource>;
   ipConfigurations: Expressionable<Expressionable<NetworkInterfaceIPConfiguration>[]>;
   dnsSettings?: Expressionable<NetworkInterfaceDnsSettings>;
