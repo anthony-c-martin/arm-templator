@@ -1,12 +1,18 @@
 {
-  "name": "arm-ts",
-  "version": "1.0.0",
+  "name": "arm-templator",
+  "version": "0.0.1",
   "description": "ARM Typescript template generator prototype",
   "main": "index.ts",
   "scripts": {
     "start": "ts-node execute",
     "test": "mocha -r ts-node/register tests.ts"
   },
+  "keywords": [
+    "azure",
+    "arm",
+    "arm template",
+    "azure resource manager"
+  ],
   "author": "Anthony Martin (antm88@gmail.com)",
   "license": "ISC",
   "dependencies": {
