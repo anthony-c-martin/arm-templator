@@ -7,7 +7,16 @@ export default function execute(template: Template) {
   const resourceName = template.addStringParameter('resourceName', 'test');
   const subnetResourceId = template.addStringParameter('subnetResourceId');
   const publicIpAddressResourceId = template.addStringParameter('publicIpAddressResourceId');
-  const bootDiagsStorageUri = template.addStringParameter('bootDiagsStorageUri');
+
+  const storageAccount = template.deploy({
+    apiVersion: '2015-06-15',
+    type: 'Microsoft.Storage/storageAccounts',
+    name: resourceName,
+    location: location,
+    properties: {
+      accountType: 'Standard_LRS',
+    }
+  }, []);
 
   const nic = template.deploy(
     network.networkInterface(
@@ -66,9 +75,9 @@ export default function execute(template: Template) {
         diagnosticsProfile: {
           bootDiagnostics: {
             enabled: true,
-            storageUri: bootDiagsStorageUri,
+            storageUri: template.concat('http://', resourceName, '.blob.core.windows.net'),
           },
         },
       }, location),
-    [nic]);
+    [nic, storageAccount]);
 }

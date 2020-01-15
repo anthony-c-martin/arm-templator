@@ -2,9 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "bootDiagsStorageUri": {
-      "type": "string"
-    },
     "location": {
       "type": "string",
       "defaultValue": "West US"
@@ -20,8 +17,18 @@
       "type": "string"
     }
   },
-  "variables": {},
+  "variables": {
+  },
   "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2015-06-15",
+      "name": "[parameters('resourceName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "accountType": "Standard_LRS"
+      }
+    },
     {
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2019-11-01",
@@ -71,7 +78,8 @@
           "osDisk": {
             "createOption": "FromImage"
           },
-          "dataDisks": []
+          "dataDisks": [
+          ]
         },
         "networkProfile": {
           "networkInterfaces": [
@@ -86,14 +94,16 @@
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": true,
-            "storageUri": "[parameters('bootDiagsStorageUri')]"
+            "storageUri": "[concat('http://', parameters('resourceName'), '.blob.core.windows.net')]"
           }
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', parameters('resourceName'))]"
+        "[resourceId('Microsoft.Network/networkInterfaces', parameters('resourceName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('resourceName'))]"
       ]
     }
   ],
-  "outputs": {}
+  "outputs": {
+  }
 }
