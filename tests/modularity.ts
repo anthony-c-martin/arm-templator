@@ -4,7 +4,7 @@ import { NetworkBuilder as network } from '../defs/network.2019-11-01';
 import { nicGenerator, vmGenerator } from './modularity.external';
 
 export default function execute(template: Template) {
-  const location = template.addStringParameter('location', 'West US');
+  const location = template.resourceGroupLocation();
   const resourceName = template.addStringParameter('resourceName', 'test');
   const subnetResourceId = template.addStringParameter('subnetResourceId');
   const publicIpAddressResourceId = template.addStringParameter('publicIpAddressResourceId');

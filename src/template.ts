@@ -1,5 +1,5 @@
 import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatExpressionable } from './common';
-import { ParameterExpression, VariableExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression } from './expression';
+import { ParameterExpression, VariableExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression } from './expression';
 
 interface TemplateResource<T> {
   type: string;
@@ -102,6 +102,10 @@ export class Template {
 
   concat(...components: Expressionable<string>[]) {
     return new ConcatExpression(components);
+  }
+
+  resourceGroupLocation() {
+    return new ResourceGroupLocationExpression();
   }
 }
 

@@ -74,3 +74,9 @@ export class ConcatExpression extends Expression<string> {
     return formatFunction('concat', ...this.components);
   }
 }
+
+export class ResourceGroupLocationExpression extends Expression<string> {
+  format() {
+    return `${formatFunction('resourceGroup')}.location`;
+  }
+}

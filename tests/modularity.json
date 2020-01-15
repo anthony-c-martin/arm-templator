@@ -2,10 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "location": {
-      "type": "string",
-      "defaultValue": "West US"
-    },
     "resourceName": {
       "type": "string",
       "defaultValue": "test"
@@ -23,7 +19,7 @@
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2019-11-01",
       "name": "[concat(parameters('resourceName'), '-nic1')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "ipConfigurations": [
           {
@@ -45,7 +41,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2019-07-01",
       "name": "[concat(parameters('resourceName'), '-vm1')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "osProfile": {
           "computerName": "[concat(parameters('resourceName'), '-vm1')]",
@@ -89,7 +85,7 @@
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2019-11-01",
       "name": "[concat(parameters('resourceName'), '-nic2')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "ipConfigurations": [
           {
@@ -111,7 +107,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2019-07-01",
       "name": "[concat(parameters('resourceName'), '-vm2')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "osProfile": {
           "computerName": "[concat(parameters('resourceName'), '-vm2')]",
