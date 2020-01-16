@@ -34,6 +34,21 @@ export class VariableExpression<T> extends Expression<T> {
   }
 }
 
+export class TemplateOutput<T> {
+  name: string;
+  type: string;
+  value: Expressionable<T>;
+  constructor(name: string, type: string, value: Expressionable<T>) {
+    this.name = name;
+    this.type = type;
+    this.value = value;
+  }
+
+  getType(): string {
+    return this.type;
+  }
+}
+
 export class ReferenceExpression<T> extends Expression<T> {
   resource: ResourceReference<T>;
   constructor(resource: ResourceReference<T>) {

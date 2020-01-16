@@ -1,5 +1,5 @@
 import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatExpressionable } from './common';
-import { ParameterExpression, VariableExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression } from './expression';
+import { ParameterExpression, VariableExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression, TemplateOutput } from './expression';
 
 interface TemplateResource<T> {
   type: string;
@@ -15,11 +15,13 @@ export class Template {
     this.resources = [];
     this.parameters = [];
     this.variables = [];
+    this.outputs = [];
   }
 
   resources: TemplateResource<any>[];
   parameters: ParameterExpression<any>[];
   variables: VariableExpression<any>[];
+  outputs: TemplateOutput<any>[];
 
   deploy<T>(resource: ResourceDefinition<T>, dependencies: ResourceReference<any>[]): ResourceReference<T> {
     const templateResource: TemplateResource<T> = {
@@ -90,6 +92,36 @@ export class Template {
     this.parameters.push(parameter);
 
     return parameter;
+  }
+
+  addObjectOutput<T extends object>(name: string, value: Expressionable<T>) {
+    const output = new TemplateOutput(name, 'object', value);
+    this.outputs.push(output);
+  }
+
+  addArrayOutput<T>(name: string, value: Expressionable<T[]>) {
+    const output = new TemplateOutput(name, 'array', value);
+    this.outputs.push(output);
+  }
+
+  addBooleanOutput(name: string, value: Expressionable<boolean>) {
+    const output = new TemplateOutput(name, 'boolean', value);
+    this.outputs.push(output);
+  }
+
+  addNumberOutput(name: string, value: Expressionable<number>) {
+    const output = new TemplateOutput(name, 'number', value);
+    this.outputs.push(output);
+  }
+
+  addStringOutput(name: string, value: Expressionable<string>) {
+    const output = new TemplateOutput(name, 'string', value);
+    this.outputs.push(output);
+  }
+
+  addSecureStringOutput(name: string, value: Expressionable<string>) {
+    const output = new TemplateOutput(name, 'securestring', value);
+    this.outputs.push(output);
   }
 
   getReference<T>(resource: ResourceReference<T>): Expression<string> {
@@ -173,10 +205,25 @@ function formatVariables(template: Template): any {
   return output;
 }
 
+function formatOutputs(template: Template): any {
+  const outputs: any = {};
+  for (const output of template.outputs) {
+    const outputDefinition: any = {
+      type: output.getType(),
+      value: `[${formatExpressionable(output.value)}]`,
+    };
+
+    outputs[output.name] = outputDefinition;
+  }
+
+  return outputs;
+}
+
 export function renderTemplate(template: Template): any {
   const resources = template.resources.map(formatResourceObject);
   const parameters = formatParameters(template);
   const variables = formatVariables(template);
+  const outputs = formatOutputs(template);
 
   return {
     $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
@@ -184,6 +231,6 @@ export function renderTemplate(template: Template): any {
     parameters,
     variables,
     resources,
-    outputs: { },
+    outputs,
   };
 }

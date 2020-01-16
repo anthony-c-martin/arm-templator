@@ -18,6 +18,7 @@
     }
   },
   "variables": {
+    "bootDiagsUri": "[concat('http://', parameters('resourceName'), '.blob.core.windows.net')]"
   },
   "resources": [
     {
@@ -94,7 +95,7 @@
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": true,
-            "storageUri": "[concat('http://', parameters('resourceName'), '.blob.core.windows.net')]"
+            "storageUri": "[variables('bootDiagsUri')]"
           }
         }
       },
@@ -105,5 +106,9 @@
     }
   ],
   "outputs": {
+    "storageUri": {
+      "type": "string",
+      "value": "[variables('bootDiagsUri')]"
+    }
   }
 }

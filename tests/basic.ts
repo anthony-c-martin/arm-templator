@@ -36,6 +36,8 @@ export default function execute(template: Template) {
       }, location),
     []);
 
+  const storageUri = template.addVariable('bootDiagsUri', template.concat('http://', resourceName, '.blob.core.windows.net'));
+
   const vm = template.deploy(
     compute.virtualMachine(
       resourceName, {
@@ -75,9 +77,11 @@ export default function execute(template: Template) {
         diagnosticsProfile: {
           bootDiagnostics: {
             enabled: true,
-            storageUri: template.concat('http://', resourceName, '.blob.core.windows.net'),
+            storageUri: storageUri,
           },
         },
       }, location),
     [nic, storageAccount]);
+
+  template.addStringOutput('storageUri', storageUri);
 }
