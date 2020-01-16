@@ -1,6 +1,13 @@
 import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatExpressionable } from './common';
 import { ParameterExpression, VariableExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression, TemplateOutput } from './expression';
 
+const TYPE_OBJECT = 'object';
+const TYPE_ARRAY = 'array';
+const TYPE_STRING = 'string';
+const TYPE_SECURESTRING = 'securestring';
+const TYPE_INT = 'int';
+const TYPE_BOOL = 'bool';
+
 interface TemplateResource<T> {
   type: string;
   apiVersion: string;
@@ -53,74 +60,74 @@ export class Template {
   }
 
   addObjectParameter<T extends object>(name: string, defaultValue?: T): Expression<T> {
-    const parameter = new ParameterExpression(name, 'object', defaultValue);
+    const parameter = new ParameterExpression(name, TYPE_OBJECT, defaultValue);
     this.parameters.push(parameter);
 
     return parameter;
   }
 
   addArrayParameter<T>(name: string, defaultValue?: T[]): Expression<T[]> {
-    const parameter = new ParameterExpression(name, 'array', defaultValue);
+    const parameter = new ParameterExpression(name, TYPE_ARRAY, defaultValue);
     this.parameters.push(parameter);
 
     return parameter;
   }
 
   addBooleanParameter(name: string, defaultValue?: boolean): Expression<boolean> {
-    const parameter = new ParameterExpression(name, 'boolean', defaultValue);
+    const parameter = new ParameterExpression(name, TYPE_BOOL, defaultValue);
     this.parameters.push(parameter);
 
     return parameter;
   }
 
   addNumericParameter(name: string, defaultValue?: number): Expression<number> {
-    const parameter = new ParameterExpression(name, 'number', defaultValue);
+    const parameter = new ParameterExpression(name, TYPE_INT, defaultValue);
     this.parameters.push(parameter);
 
     return parameter;
   }
 
   addStringParameter(name: string, defaultValue?: string): Expression<string> {
-    const parameter = new ParameterExpression(name, 'string', defaultValue);
+    const parameter = new ParameterExpression(name, TYPE_STRING, defaultValue);
     this.parameters.push(parameter);
 
     return parameter;
   }
 
   addSecureStringParameter(name: string, defaultValue?: string): Expression<string> {
-    const parameter = new ParameterExpression(name, 'securestring', defaultValue);
+    const parameter = new ParameterExpression(name, TYPE_SECURESTRING, defaultValue);
     this.parameters.push(parameter);
 
     return parameter;
   }
 
   addObjectOutput<T extends object>(name: string, value: Expressionable<T>) {
-    const output = new TemplateOutput(name, 'object', value);
+    const output = new TemplateOutput(name, TYPE_OBJECT, value);
     this.outputs.push(output);
   }
 
   addArrayOutput<T>(name: string, value: Expressionable<T[]>) {
-    const output = new TemplateOutput(name, 'array', value);
+    const output = new TemplateOutput(name, TYPE_ARRAY, value);
     this.outputs.push(output);
   }
 
   addBooleanOutput(name: string, value: Expressionable<boolean>) {
-    const output = new TemplateOutput(name, 'boolean', value);
+    const output = new TemplateOutput(name, TYPE_BOOL, value);
     this.outputs.push(output);
   }
 
   addNumberOutput(name: string, value: Expressionable<number>) {
-    const output = new TemplateOutput(name, 'number', value);
+    const output = new TemplateOutput(name, TYPE_INT, value);
     this.outputs.push(output);
   }
 
   addStringOutput(name: string, value: Expressionable<string>) {
-    const output = new TemplateOutput(name, 'string', value);
+    const output = new TemplateOutput(name, TYPE_STRING, value);
     this.outputs.push(output);
   }
 
   addSecureStringOutput(name: string, value: Expressionable<string>) {
-    const output = new TemplateOutput(name, 'securestring', value);
+    const output = new TemplateOutput(name, TYPE_SECURESTRING, value);
     this.outputs.push(output);
   }
 
