@@ -21,8 +21,12 @@ export interface ResourceDefinition<T> {
   properties: Expressionable<T>;
 }
 
-export function escapeQuotedString(input: string) {
+function escapeParameterStringLiteral(input: string) {
   return input.replace(/\'/g, '\'\'');
+}
+
+function escapeStringLiteral(input: string) {
+  return input.replace(/^\[/, '[[');
 }
 
 export function formatExpressionable(expression: Expressionable<string>) {
@@ -30,7 +34,15 @@ export function formatExpressionable(expression: Expressionable<string>) {
     return expression.format();
   }
 
-  return `'${escapeQuotedString(expression)}'`;
+  return `'${escapeParameterStringLiteral(expression)}'`;
+}
+
+export function formatTopLevelExpressionable(expression: Expressionable<string>) {
+  if (expression instanceof ExpressionBase) {
+    return `[${expression.format()}]`;
+  }
+
+  return escapeStringLiteral(expression);
 }
 
 export function formatFunction(name: string, ...parameters: Expressionable<string>[]) {

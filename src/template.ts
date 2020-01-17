@@ -1,4 +1,4 @@
-import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatExpressionable } from './common';
+import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatTopLevelExpressionable } from './common';
 import { ParameterExpression, VariableExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression, TemplateOutput, AccessExpression } from './expression';
 
 const TYPE_OBJECT = 'object';
@@ -210,7 +210,7 @@ function formatParameters(template: Template): any {
 function formatVariables(template: Template): any {
   const output: any = {};
   for (const variable of template.variables) {
-    output[variable.name] = `[${formatExpressionable(variable.value)}]`;
+    output[variable.name] = formatTopLevelExpressionable(variable.value);
   }
 
   return output;
@@ -221,7 +221,7 @@ function formatOutputs(template: Template): any {
   for (const output of template.outputs) {
     const outputDefinition: any = {
       type: output.getType(),
-      value: `[${formatExpressionable(output.value)}]`,
+      value: formatTopLevelExpressionable(output.value),
     };
 
     outputs[output.name] = outputDefinition;
