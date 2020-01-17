@@ -1,5 +1,5 @@
 import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatExpressionable } from './common';
-import { ParameterExpression, VariableExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression, TemplateOutput } from './expression';
+import { ParameterExpression, VariableExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression, TemplateOutput, AccessExpression } from './expression';
 
 const TYPE_OBJECT = 'object';
 const TYPE_ARRAY = 'array';
@@ -141,6 +141,10 @@ export class Template {
 
   concat(...components: Expressionable<string>[]) {
     return new ConcatExpression(components);
+  }
+
+  access<T, P extends keyof T>(expression: Expression<T>, prop: P): Expression<T[P]> {
+    return new AccessExpression(expression, prop);
   }
 
   resourceGroupLocation() {
