@@ -1,6 +1,6 @@
 import { series } from 'async';
 import path = require('path');
-import { Template, renderTemplate } from './src/template';
+import { Template, renderTemplate } from './lib/template';
 
 series([async () => {
   const execPath = path.resolve(process.argv[2]);

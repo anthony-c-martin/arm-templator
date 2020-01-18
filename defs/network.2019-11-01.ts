@@ -1,4 +1,4 @@
-import { Expressionable, ResourceDefinition } from '../src/common';
+import { Expressionable, ResourceDefinition } from '../lib/common';
 
 export interface NetworkInterfaceProps {
   networkSecurityGroup?: Expressionable<SubResource>;

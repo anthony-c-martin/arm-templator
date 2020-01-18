@@ -1,4 +1,4 @@
-import { Template } from '../../src/template';
+import { Template } from '../../lib/template';
 import { createScriptsResource } from '../includes/scripts';
 
 export default (template: Template) => {

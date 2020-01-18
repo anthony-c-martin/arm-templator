@@ -1,4 +1,4 @@
-import { Expressionable } from "../../src/common";
+import { Expressionable } from "../../lib/common";
 import { VirtualMachineProps } from "../../defs/compute.2019-07-01";
 import { NetworkInterfaceProps } from "../../defs/network.2019-11-01";
 

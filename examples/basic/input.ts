@@ -1,4 +1,4 @@
-import { Template } from '../../src/template';
+import { Template } from '../../lib/template';
 import { ComputeBuilder as compute } from '../../defs/compute.2019-07-01';
 import { NetworkBuilder as network } from '../../defs/network.2019-11-01';
 

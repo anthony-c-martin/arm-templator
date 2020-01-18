@@ -1,4 +1,4 @@
-import { Expressionable, ResourceDefinition } from '../src/common';
+import { Expressionable, ResourceDefinition } from '../lib/common';
 
 export interface VirtualMachineProps {
   hardwareProfile?: Expressionable<HardwareProfile>;
