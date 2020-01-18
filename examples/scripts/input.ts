@@ -3,14 +3,16 @@ import { createScriptsResource } from '../includes/scripts';
 
 export default (template: Template) => {
   const location = template.resourceGroupLocation();
-  const rgName = template.addStringParameter('resourceGroupName');
+  const name = template.addStringParameter('myName');
 
-  template.deploy(createScriptsResource(
+  const script = template.deploy(createScriptsResource(
     'myScript',
     location,
     `${__dirname}/myScript.ps1`,
     {
-      Location: location,
-      Name: rgName,
+      name,
     }), []);
+
+  const ref = template.getReference(script);
+  template.addObjectOutput('text', template.access(template.access(ref, 'output'), 'text'));
 }

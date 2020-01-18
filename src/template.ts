@@ -131,7 +131,7 @@ export class Template {
     this.outputs.push(output);
   }
 
-  getReference<T>(resource: ResourceReference<T>): Expression<string> {
+  getReference<T>(resource: ResourceReference<T>): Expression<T> {
     return new ReferenceExpression<T>(resource);
   }
 

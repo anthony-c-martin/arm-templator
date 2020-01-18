@@ -1,7 +1,9 @@
 Param(
-  [string] $Location,
-  [string] $Name
+  [string] $name
 )
 
-$deploymentScriptOutputs['test'] = 'value'
-Get-AzResourceGroup -Location $Location -Name $Name
+$output = 'Hello {0}' -f $name
+Write-Output $output
+
+$DeploymentScriptOutputs = @{}
+$DeploymentScriptOutputs['text'] = $output

@@ -13,13 +13,13 @@ Generate ARM templates programmatically by writing Typescript.
 Tests can be executed by running `npm test`. The tests simply execute a named `input.ts` file in subdirectories of the [examples](./examples/) directory, and compare the generated output to the `output.json` template file.
 
 ### Examples
-#### Basic
+#### [Basic](./examples/basic/input.ts)
 A basic example of template generation with little fancy Typescript syntax.
 
-#### Modularity
+#### [Modularity](./examples/modularity/input.ts)
 An example to show how script files can be simplified by modularizing the resource generation logic.
 
-#### Scripts
+#### [Scripts](./examples/scripts/input.ts)
 An example to demonstrate pulling in an external PowerShell script and running it as part of a deployment.
 
 ## Contributing
