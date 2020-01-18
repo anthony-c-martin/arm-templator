@@ -230,7 +230,10 @@ function formatOutputs(template: Template): any {
   return outputs;
 }
 
-export function renderTemplate(template: Template): any {
+export function renderTemplate(execute: (template: Template) => void): any {
+  const template = new Template();
+  execute(template);
+
   const resources = template.resources.map(formatResourceObject);
   const parameters = formatParameters(template);
   const variables = formatVariables(template);
