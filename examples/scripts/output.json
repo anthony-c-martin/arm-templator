@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "resourceGroupName": {
+        "type": "string"
+      }
+    },
+    "variables": {},
+    "resources": [
+      {
+        "type": "Microsoft.Resources/deploymentScripts",
+        "apiVersion": "2019-10-01-preview",
+        "name": "myScript",
+        "location": "[resourceGroup().location]",
+        "properties": {
+          "azPowerShellVersion": "1.7.0",
+          "scriptContent": "Param(\r\n  [string] $Location,\r\n  [string] $Name\r\n)\r\n\r\n$deploymentScriptOutputs['test'] = 'value'\r\nGet-AzResourceGroup -Location $Location -Name $Name",
+          "arguments": "[concat(' -Location', resourceGroup().location, ' -Name', parameters('resourceGroupName'))]",
+          "retentionInterval": "PT7D",
+          "timeout": "PT1H",
+          "cleanupPreference": "Always"
+        }
+      }
+    ],
+    "outputs": {}
+  }

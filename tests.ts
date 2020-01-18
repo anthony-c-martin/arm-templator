@@ -2,11 +2,11 @@ import 'mocha';
 import { expect } from 'chai';
 import { Template, renderTemplate } from './src/template';
 
-const testDir = `${__dirname}/tests`;
+const examplesDir = `${__dirname}/examples`;
 
 async function executeTest(name: string) {
-  const execute = (await import(`${testDir}/${name}.ts`)).default;
-  const expected = require(`${testDir}/${name}.json`);
+  const execute = (await import(`${examplesDir}/${name}/input.ts`)).default;
+  const expected = require(`${examplesDir}/${name}/output.json`);
 
   const template = new Template();
   execute(template);
@@ -16,6 +16,7 @@ async function executeTest(name: string) {
 }
 
 describe('generation tests', () => {
-  it('basic.ts', async () => await executeTest('basic'));
-  it('modularity.ts', async () => await executeTest('modularity'));
+  it('basic', async () => await executeTest('basic'));
+  it('modularity', async () => await executeTest('modularity'));
+  it('scripts', async () => await executeTest('scripts'));
 });

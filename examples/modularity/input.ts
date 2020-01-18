@@ -1,9 +1,9 @@
-import { Template } from '../src/template';
-import { ComputeBuilder as compute } from '../defs/compute.2019-07-01';
-import { NetworkBuilder as network } from '../defs/network.2019-11-01';
-import { nicGenerator, vmGenerator } from './modularity.external';
+import { Template } from '../../src/template';
+import { ComputeBuilder as compute } from '../../defs/compute.2019-07-01';
+import { NetworkBuilder as network } from '../../defs/network.2019-11-01';
+import { nicGenerator, vmGenerator } from '../includes/modularity';
 
-export default function execute(template: Template) {
+export default (template: Template) => {
   const location = template.resourceGroupLocation();
   const resourceName = template.addStringParameter('resourceName', 'test');
   const subnetResourceId = template.addStringParameter('subnetResourceId');
