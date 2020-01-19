@@ -17,7 +17,7 @@ interface TemplateResource<T> {
   dependsOn?: Expressionable<string>[];
 }
 
-export class Template {
+class Template {
   constructor() {
     this.resources = [];
     this.parameters = [];

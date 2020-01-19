@@ -1,7 +1,7 @@
-import { Template } from '../../lib/template';
+import { renderTemplate } from '../../lib/template';
 import { createScriptsResource } from '../includes/scripts';
 
-export default (template: Template) => {
+export default renderTemplate(template => {
   const location = template.resourceGroupLocation();
   const name = template.addStringParameter('myName');
 
@@ -15,4 +15,4 @@ export default (template: Template) => {
 
   const ref = template.getReference(script);
   template.addObjectOutput('text', template.access(template.access(ref, 'output'), 'text'));
-}
+});

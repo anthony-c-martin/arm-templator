@@ -1,9 +1,9 @@
-import { Template } from '../../lib/template';
+import { renderTemplate } from '../../lib/template';
 import { ComputeBuilder as compute } from '../../defs/compute.2019-07-01';
 import { NetworkBuilder as network } from '../../defs/network.2019-11-01';
 import { nicGenerator, vmGenerator } from '../includes/modularity';
 
-export default (template: Template) => {
+export default renderTemplate(template => {
   const location = template.resourceGroupLocation();
   const resourceName = template.addStringParameter('resourceName', 'test');
   const subnetResourceId = template.addStringParameter('subnetResourceId');
@@ -39,4 +39,4 @@ export default (template: Template) => {
       vmGenerator(vm2Name, template.getResourceId(nic2)),
       location),
     [nic2]);
-}
+});

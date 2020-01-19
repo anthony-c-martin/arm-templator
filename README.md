@@ -6,7 +6,7 @@ Generate ARM templates programmatically by writing Typescript.
 ### Authoring and generating a template
 1. Clone this repo
 2. Run `npm install` to install dependencies.
-3. Create a Typescript file implementing the `execute()` function (see [examples/basic/input.ts](./examples/basic/input.ts) for an example).
+3. Create a Typescript file which calls the `renderTemplate()` function and exports the result (see [examples/basic/input.ts](./examples/basic/input.ts) for an example).
 4. Run `npm start {path_to_ts_file.ts}` to generate the ARM template output. To generate a JSON file, use `npm start {path_to_ts_file.ts} --silent > {path_to_json_file.json}`.
 
 ### Running tests
