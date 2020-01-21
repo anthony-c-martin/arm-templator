@@ -95,17 +95,3 @@ export class ResourceGroupLocationExpression extends Expression<string> {
     return `${formatFunction('resourceGroup')}.location`;
   }
 }
-
-export class AccessExpression<T, P extends keyof T> extends Expression<T[P]> {
-  expression: Expression<T>;
-  prop: P;
-  constructor(expression: Expression<T>, prop: P) {
-    super();
-    this.expression = expression;
-    this.prop = prop;
-  }
-
-  format() {
-    return `${this.expression.format()}.${this.prop}`;
-  }
-}

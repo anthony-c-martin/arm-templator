@@ -1,5 +1,5 @@
 import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatTopLevelExpressionable } from './common';
-import { ParameterExpression, VariableExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression, TemplateOutput, AccessExpression } from './expression';
+import { ParameterExpression, VariableExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression, TemplateOutput } from './expression';
 
 const TYPE_OBJECT = 'object';
 const TYPE_ARRAY = 'array';
@@ -12,7 +12,7 @@ interface TemplateResource<T> {
   type: string;
   apiVersion: string;
   name: Expressionable<string>;
-  location: Expressionable<string>;
+  location?: Expressionable<string>;
   properties: Expressionable<T>;
   dependsOn?: Expressionable<string>[];
 }
@@ -138,18 +138,6 @@ class Template {
   getResourceId<T>(resource: ResourceReference<T>): Expression<string> {
     return new ResourceIdExpression(resource);
   }
-
-  concat(...components: Expressionable<string>[]) {
-    return new ConcatExpression(components);
-  }
-
-  access<T, P extends keyof T>(expression: Expression<T>, prop: P): Expression<T[P]> {
-    return new AccessExpression(expression, prop);
-  }
-
-  resourceGroupLocation() {
-    return new ResourceGroupLocationExpression();
-  }
 }
 
 function formatObject(input: any): any {
@@ -247,4 +235,12 @@ export function renderTemplate(execute: (template: Template) => void): any {
     resources,
     outputs,
   };
+}
+
+export function concat(...components: Expressionable<string>[]): Expression<string> {
+  return new ConcatExpression(components);
+}
+
+export function resourceGroupLocation(): Expression<string> {
+  return new ResourceGroupLocationExpression();
 }

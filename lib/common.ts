@@ -3,6 +3,23 @@ export abstract class ExpressionBase {
 }
 
 export abstract class Expression<T> extends ExpressionBase {
+  call<P extends keyof T>(prop: P): Expression<T[P]> {
+    return new CallExpression<T, P>(this, prop);
+  }
+}
+
+class CallExpression<T, P extends keyof T> extends Expression<T[P]> {
+  expression: Expression<T>;
+  prop: P;
+  constructor(expression: Expression<T>, prop: P) {
+    super();
+    this.expression = expression;
+    this.prop = prop;
+  }
+
+  format() {
+    return `${this.expression.format()}.${this.prop}`;
+  }
 }
 
 export type Expressionable<T> = T | Expression<T>
@@ -17,7 +34,7 @@ export interface ResourceDefinition<T> {
   type: string;
   apiVersion: string;
   name: Expressionable<string>;
-  location: Expressionable<string>;
+  location?: Expressionable<string>;
   properties: Expressionable<T>;
 }
 

@@ -1,8 +1,8 @@
-import { renderTemplate } from '../../lib/template';
+import { renderTemplate, resourceGroupLocation, concat } from '../../lib/template';
 import { createScriptsResource } from '../includes/scripts';
 
 export default renderTemplate(template => {
-  const location = template.resourceGroupLocation();
+  const location = resourceGroupLocation();
   const name = template.addStringParameter('myName');
 
   const script = template.deploy(createScriptsResource(
@@ -14,5 +14,5 @@ export default renderTemplate(template => {
     }), []);
 
   const ref = template.getReference(script);
-  template.addObjectOutput('text', template.access(template.access(ref, 'output'), 'text'));
+  template.addObjectOutput('text', ref.call('output').call('text'));
 });

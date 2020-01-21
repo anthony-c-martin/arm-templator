@@ -1,20 +1,20 @@
-import { renderTemplate } from '../../lib/template';
+import { renderTemplate, concat, resourceGroupLocation } from '../../lib/template';
 import { ComputeBuilder as compute } from '../../defs/compute.2019-07-01';
 import { NetworkBuilder as network } from '../../defs/network.2019-11-01';
 import { nicGenerator, vmGenerator } from '../includes/modularity';
 
 export default renderTemplate(template => {
-  const location = template.resourceGroupLocation();
+  const location = resourceGroupLocation();
   const resourceName = template.addStringParameter('resourceName', 'test');
   const subnetResourceId = template.addStringParameter('subnetResourceId');
   const publicIpAddressResourceId = template.addStringParameter('publicIpAddressResourceId');
 
-  const vm1Name = template.concat(resourceName, '-vm1');
-  const vm2Name = template.concat(resourceName, '-vm2');
+  const vm1Name = concat(resourceName, '-vm1');
+  const vm2Name = concat(resourceName, '-vm2');
 
   const nic1 = template.deploy(
     network.networkInterface(
-      template.concat(resourceName, '-nic1'),
+      concat(resourceName, '-nic1'),
       nicGenerator(subnetResourceId, publicIpAddressResourceId),
       location),
     []);
@@ -28,7 +28,7 @@ export default renderTemplate(template => {
 
   const nic2 = template.deploy(
     network.networkInterface(
-      template.concat(resourceName, '-nic2'),
+      concat(resourceName, '-nic2'),
       nicGenerator(subnetResourceId, publicIpAddressResourceId),
       location),
     []);

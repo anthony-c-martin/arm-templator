@@ -1,4 +1,4 @@
-import { renderTemplate } from '../../lib/template';
+import { renderTemplate, concat } from '../../lib/template';
 import { ComputeBuilder as compute } from '../../defs/compute.2019-07-01';
 import { NetworkBuilder as network } from '../../defs/network.2019-11-01';
 
@@ -36,7 +36,7 @@ export default renderTemplate(template => {
       }, location),
     []);
 
-  const storageUri = template.addVariable('bootDiagsUri', template.concat('http://', resourceName, '.blob.core.windows.net'));
+  const storageUri = template.addVariable('bootDiagsUri', concat('http://', resourceName, '.blob.core.windows.net'));
 
   const vm = template.deploy(
     compute.virtualMachine(
