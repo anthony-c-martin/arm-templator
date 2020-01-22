@@ -13,28 +13,28 @@ export default renderTemplate(template => {
   const vm2Name = concat(resourceName, '-vm2');
 
   const nic1 = template.deploy(
-    network.networkInterface(
+    network.networkInterfaces(
       concat(resourceName, '-nic1'),
       nicGenerator(subnetResourceId, publicIpAddressResourceId),
       location),
     []);
 
   const vm1 = template.deploy(
-    compute.virtualMachine(
+    compute.virtualMachines(
       vm1Name,
       vmGenerator(vm1Name, template.getResourceId(nic1)),
       location),
     [nic1]);
 
   const nic2 = template.deploy(
-    network.networkInterface(
+    network.networkInterfaces(
       concat(resourceName, '-nic2'),
       nicGenerator(subnetResourceId, publicIpAddressResourceId),
       location),
     []);
 
   const vm2 = template.deploy(
-    compute.virtualMachine(
+    compute.virtualMachines(
       vm2Name,
       vmGenerator(vm2Name, template.getResourceId(nic2)),
       location),

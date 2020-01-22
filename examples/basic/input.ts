@@ -19,7 +19,7 @@ export default renderTemplate(template => {
   }, []);
 
   const nic = template.deploy(
-    network.networkInterface(
+    network.networkInterfaces(
       resourceName, {
         ipConfigurations: [{
           name: 'myConfig',
@@ -39,7 +39,7 @@ export default renderTemplate(template => {
   const storageUri = template.addVariable('bootDiagsUri', concat('http://', resourceName, '.blob.core.windows.net'));
 
   const vm = template.deploy(
-    compute.virtualMachine(
+    compute.virtualMachines(
       resourceName, {
         osProfile: {
           computerName: 'myVm',

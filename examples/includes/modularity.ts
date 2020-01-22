@@ -1,8 +1,8 @@
 import { Expressionable } from "../../lib/common";
-import { VirtualMachineProps } from "../../defs/compute.2019-07-01";
-import { NetworkInterfaceProps } from "../../defs/network.2019-11-01";
+import { VirtualMachineProperties } from "../../defs/compute.2019-07-01";
+import { NetworkInterfacePropertiesFormat } from "../../defs/network.2019-11-01";
 
-export const vmGenerator = (computerName: Expressionable<string>, nicResourceId: Expressionable<string>): VirtualMachineProps => ({
+export const vmGenerator = (computerName: Expressionable<string>, nicResourceId: Expressionable<string>): VirtualMachineProperties => ({
   osProfile: {
     computerName: computerName,
     adminUsername: 'antm88',
@@ -38,7 +38,7 @@ export const vmGenerator = (computerName: Expressionable<string>, nicResourceId:
   },
 });
 
-export const nicGenerator = (subnetResourceId: Expressionable<string>, publicIpAddressResourceId: Expressionable<string>): NetworkInterfaceProps => ({
+export const nicGenerator = (subnetResourceId: Expressionable<string>, publicIpAddressResourceId: Expressionable<string>): NetworkInterfacePropertiesFormat => ({
   ipConfigurations: [{
     name: 'myConfig',
     properties: {

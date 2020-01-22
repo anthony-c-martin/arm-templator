@@ -5,7 +5,8 @@
   "main": "dist/template",
   "typings": "dist/template",
   "scripts": {
-    "start": "ts-node execute",
+    "start": "ts-node cli/gen-template",
+    "schema": "ts-node cli/gen-schema",
     "prepublishOnly": "npm run compile",
     "compile": "npm run clean && tsc -p .",
     "watch": "tsc -w -p .",
