@@ -30,7 +30,7 @@ class Template {
   variables: VariableExpression<any>[];
   outputs: TemplateOutput<any>[];
 
-  deploy<T>(resource: ResourceDefinition<T>, dependencies: ResourceReference<any>[]): ResourceReference<T> {
+  deploy<T>(resource: ResourceDefinition<T>, dependencies?: ResourceReference<any>[]): ResourceReference<T> {
     const templateResource: TemplateResource<T> = {
       type: resource.type,
       apiVersion: resource.apiVersion,
@@ -39,7 +39,7 @@ class Template {
       properties: resource.properties,
     };
 
-    if (dependencies.length > 0) {
+    if (dependencies && dependencies.length > 0) {
       templateResource.dependsOn = dependencies.map(d => new ResourceIdExpression(d));
     }
 

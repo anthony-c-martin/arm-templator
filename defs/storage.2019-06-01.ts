@@ -1,4 +1,4 @@
-// Generated using 'npm run schema /Users/antm88/Desktop/azure-resource-manager-schemas/schemas/2019-06-01/Microsoft.Storage.json'
+// Generated using 'npm run schema C:\github\azure-resource-manager-schemas\schemas\2019-06-01\Microsoft.Storage.json'
 import { Expressionable, ResourceDefinition } from '../lib/common';
 
 export interface ActiveDirectoryProperties {
@@ -11,7 +11,7 @@ export interface ActiveDirectoryProperties {
 }
 
 export interface AzureFilesIdentityBasedAuthentication {
-  directoryServiceOptions: Expressionable<'None' | 'AADDS' | 'AD'>;
+  directoryServiceOptions: Expressionable<('None' | 'AADDS' | 'AD')>;
   activeDirectoryProperties?: Expressionable<ActiveDirectoryProperties>;
 }
 
@@ -28,12 +28,12 @@ export interface ChangeFeed {
 }
 
 export interface ContainerProperties {
-  publicAccess?: Expressionable<'Container' | 'Blob' | 'None'>;
+  publicAccess?: Expressionable<('Container' | 'Blob' | 'None')>;
 }
 
 export interface CorsRule {
   allowedOrigins: Expressionable<string[]>;
-  allowedMethods: Expressionable<'DELETE' | 'GET' | 'HEAD' | 'MERGE' | 'POST' | 'OPTIONS' | 'PUT'[]>;
+  allowedMethods: Expressionable<('DELETE' | 'GET' | 'HEAD' | 'MERGE' | 'POST' | 'OPTIONS' | 'PUT')[]>;
   maxAgeInSeconds: Expressionable<number>;
   exposedHeaders: Expressionable<string[]>;
   allowedHeaders: Expressionable<string[]>;
@@ -63,13 +63,13 @@ export interface DeleteRetentionPolicy {
 
 export interface Encryption {
   services?: Expressionable<EncryptionServices>;
-  keySource: Expressionable<'Microsoft.Storage' | 'Microsoft.Keyvault'>;
+  keySource: Expressionable<('Microsoft.Storage' | 'Microsoft.Keyvault')>;
   keyvaultproperties?: Expressionable<KeyVaultProperties>;
 }
 
 export interface EncryptionService {
   enabled?: Expressionable<boolean>;
-  keyType?: Expressionable<'Service' | 'Account'>;
+  keyType?: Expressionable<('Service' | 'Account')>;
 }
 
 export interface EncryptionServices {
@@ -89,7 +89,7 @@ export interface FileShareProperties {
 }
 
 export interface Identity {
-  type: Expressionable<'SystemAssigned'>;
+  type: Expressionable<('SystemAssigned')>;
 }
 
 export interface ImmutabilityPolicyProperty {
@@ -98,7 +98,7 @@ export interface ImmutabilityPolicyProperty {
 
 export interface IPRule {
   value: Expressionable<string>;
-  action?: Expressionable<'Allow'>;
+  action?: Expressionable<('Allow')>;
 }
 
 export interface KeyVaultProperties {
@@ -135,7 +135,7 @@ export interface ManagementPolicyProperties {
 export interface ManagementPolicyRule {
   enabled?: Expressionable<boolean>;
   name: Expressionable<string>;
-  type: Expressionable<'Lifecycle'>;
+  type: Expressionable<('Lifecycle')>;
   definition: Expressionable<ManagementPolicyDefinition>;
 }
 
@@ -148,10 +148,10 @@ export interface ManagementPolicySnapShot {
 }
 
 export interface NetworkRuleSet {
-  bypass?: Expressionable<'None' | 'Logging' | 'Metrics' | 'AzureServices'>;
+  bypass?: Expressionable<('None' | 'Logging' | 'Metrics' | 'AzureServices')>;
   virtualNetworkRules?: Expressionable<VirtualNetworkRule[]>;
   ipRules?: Expressionable<IPRule[]>;
-  defaultAction: Expressionable<'Allow' | 'Deny'>;
+  defaultAction: Expressionable<('Allow' | 'Deny')>;
 }
 
 export interface PrivateEndpoint {
@@ -160,94 +160,94 @@ export interface PrivateEndpoint {
 export interface PrivateEndpointConnectionProperties {
   privateEndpoint?: Expressionable<PrivateEndpoint>;
   privateLinkServiceConnectionState: Expressionable<PrivateLinkServiceConnectionState>;
-  provisioningState?: Expressionable<'Succeeded' | 'Creating' | 'Deleting' | 'Failed'>;
+  provisioningState?: Expressionable<('Succeeded' | 'Creating' | 'Deleting' | 'Failed')>;
 }
 
 export interface PrivateLinkServiceConnectionState {
-  status?: Expressionable<'Pending' | 'Approved' | 'Rejected'>;
+  status?: Expressionable<('Pending' | 'Approved' | 'Rejected')>;
   description?: Expressionable<string>;
   actionRequired?: Expressionable<string>;
 }
 
 export interface RoutingPreference {
-  routingChoice?: Expressionable<'MicrosoftRouting' | 'InternetRouting'>;
+  routingChoice?: Expressionable<('MicrosoftRouting' | 'InternetRouting')>;
   publishMicrosoftEndpoints?: Expressionable<boolean>;
   publishInternetEndpoints?: Expressionable<boolean>;
 }
 
 export interface Sku {
-  name: Expressionable<'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS' | 'Premium_ZRS' | 'Standard_GZRS' | 'Standard_RAGZRS'>;
-  tier?: Expressionable<'Standard' | 'Premium'>;
+  name: Expressionable<('Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS' | 'Premium_ZRS' | 'Standard_GZRS' | 'Standard_RAGZRS')>;
+  tier?: Expressionable<('Standard' | 'Premium')>;
 }
 
 export interface StorageAccountPropertiesCreateParameters {
   customDomain?: Expressionable<CustomDomain>;
   encryption?: Expressionable<Encryption>;
   networkAcls?: Expressionable<NetworkRuleSet>;
-  accessTier?: Expressionable<'Hot' | 'Cool'>;
+  accessTier?: Expressionable<('Hot' | 'Cool')>;
   azureFilesIdentityBasedAuthentication?: Expressionable<AzureFilesIdentityBasedAuthentication>;
   supportsHttpsTrafficOnly?: Expressionable<boolean>;
   isHnsEnabled?: Expressionable<boolean>;
-  largeFileSharesState?: Expressionable<'Disabled' | 'Enabled'>;
+  largeFileSharesState?: Expressionable<('Disabled' | 'Enabled')>;
   routingPreference?: Expressionable<RoutingPreference>;
 }
 
 export interface storageAccounts_blobServices_childResource {
-  name: Expressionable<'default'>;
-  type: Expressionable<'blobServices'>;
-  apiVersion: Expressionable<'2019-06-01'>;
+  name: Expressionable<('default')>;
+  type: Expressionable<('blobServices')>;
+  apiVersion: Expressionable<('2019-06-01')>;
   properties?: Expressionable<BlobServicePropertiesProperties>;
   resources?: Expressionable<storageAccounts_blobServices_containers_childResource[]>;
 }
 
 export interface storageAccounts_blobServices_containers_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'containers'>;
-  apiVersion: Expressionable<'2019-06-01'>;
+  type: Expressionable<('containers')>;
+  apiVersion: Expressionable<('2019-06-01')>;
   properties?: Expressionable<ContainerProperties>;
   resources?: Expressionable<storageAccounts_blobServices_containers_immutabilityPolicies_childResource[]>;
 }
 
 export interface storageAccounts_blobServices_containers_immutabilityPolicies_childResource {
-  name: Expressionable<'default'>;
-  type: Expressionable<'immutabilityPolicies'>;
-  apiVersion: Expressionable<'2019-06-01'>;
+  name: Expressionable<('default')>;
+  type: Expressionable<('immutabilityPolicies')>;
+  apiVersion: Expressionable<('2019-06-01')>;
   properties?: Expressionable<ImmutabilityPolicyProperty>;
 }
 
 export interface storageAccounts_fileServices_childResource {
-  name: Expressionable<'default'>;
-  type: Expressionable<'fileServices'>;
-  apiVersion: Expressionable<'2019-06-01'>;
+  name: Expressionable<('default')>;
+  type: Expressionable<('fileServices')>;
+  apiVersion: Expressionable<('2019-06-01')>;
   properties?: Expressionable<FileServicePropertiesProperties>;
   resources?: Expressionable<storageAccounts_fileServices_shares_childResource[]>;
 }
 
 export interface storageAccounts_fileServices_shares_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'shares'>;
-  apiVersion: Expressionable<'2019-06-01'>;
+  type: Expressionable<('shares')>;
+  apiVersion: Expressionable<('2019-06-01')>;
   properties?: Expressionable<FileShareProperties>;
 }
 
 export interface storageAccounts_managementPolicies_childResource {
-  name: Expressionable<'default'>;
-  type: Expressionable<'managementPolicies'>;
-  apiVersion: Expressionable<'2019-06-01'>;
+  name: Expressionable<('default')>;
+  type: Expressionable<('managementPolicies')>;
+  apiVersion: Expressionable<('2019-06-01')>;
   properties?: Expressionable<ManagementPolicyProperties>;
 }
 
 export interface storageAccounts_privateEndpointConnections_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'privateEndpointConnections'>;
-  apiVersion: Expressionable<'2019-06-01'>;
+  type: Expressionable<('privateEndpointConnections')>;
+  apiVersion: Expressionable<('2019-06-01')>;
   properties?: Expressionable<PrivateEndpointConnectionProperties>;
 }
 
 export interface VirtualNetworkRule {
   id: Expressionable<string>;
-  action?: Expressionable<'Allow'>;
-  state?: Expressionable<'provisioning' | 'deprovisioning' | 'succeeded' | 'failed' | 'networkSourceDeleted'>;
+  action?: Expressionable<('Allow')>;
+  state?: Expressionable<('provisioning' | 'deprovisioning' | 'succeeded' | 'failed' | 'networkSourceDeleted')>;
 }
 
 export class StorageBuilder {

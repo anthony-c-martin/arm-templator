@@ -1,4 +1,4 @@
-// Generated using 'npm run schema /Users/antm88/Desktop/azure-resource-manager-schemas/schemas/2019-07-01/Microsoft.Compute.json'
+// Generated using 'npm run schema C:\github\azure-resource-manager-schemas\schemas\2019-07-01\Microsoft.Compute.json'
 import { Expressionable, ResourceDefinition } from '../lib/common';
 
 export interface AdditionalCapabilities {
@@ -6,9 +6,9 @@ export interface AdditionalCapabilities {
 }
 
 export interface AdditionalUnattendContent {
-  passName?: Expressionable<'OobeSystem'>;
-  componentName?: Expressionable<'Microsoft-Windows-Shell-Setup'>;
-  settingName?: Expressionable<'AutoLogon' | 'FirstLogonCommands'>;
+  passName?: Expressionable<('OobeSystem')>;
+  componentName?: Expressionable<('Microsoft-Windows-Shell-Setup')>;
+  settingName?: Expressionable<('AutoLogon' | 'FirstLogonCommands')>;
   content?: Expressionable<string>;
 }
 
@@ -44,7 +44,7 @@ export interface BootDiagnostics {
 }
 
 export interface CreationData {
-  createOption: Expressionable<'Empty' | 'Attach' | 'FromImage' | 'Import' | 'Copy' | 'Restore' | 'Upload'>;
+  createOption: Expressionable<('Empty' | 'Attach' | 'FromImage' | 'Import' | 'Copy' | 'Restore' | 'Upload')>;
   storageAccountId?: Expressionable<string>;
   imageReference?: Expressionable<ImageDiskReference>;
   sourceUri?: Expressionable<string>;
@@ -57,9 +57,9 @@ export interface DataDisk {
   name?: Expressionable<string>;
   vhd?: Expressionable<VirtualHardDisk>;
   image?: Expressionable<VirtualHardDisk>;
-  caching?: Expressionable<'None' | 'ReadOnly' | 'ReadWrite'>;
+  caching?: Expressionable<('None' | 'ReadOnly' | 'ReadWrite')>;
   writeAcceleratorEnabled?: Expressionable<boolean>;
-  createOption: Expressionable<'FromImage' | 'Empty' | 'Attach'>;
+  createOption: Expressionable<('FromImage' | 'Empty' | 'Attach')>;
   diskSizeGB?: Expressionable<number>;
   managedDisk?: Expressionable<ManagedDiskParameters>;
   toBeDetached?: Expressionable<boolean>;
@@ -72,7 +72,7 @@ export interface DedicatedHostGroupProperties {
 export interface DedicatedHostProperties {
   platformFaultDomain?: Expressionable<number>;
   autoReplaceOnFailure?: Expressionable<boolean>;
-  licenseType?: Expressionable<'None' | 'Windows_Server_Hybrid' | 'Windows_Server_Perpetual'>;
+  licenseType?: Expressionable<('None' | 'Windows_Server_Hybrid' | 'Windows_Server_Perpetual')>;
 }
 
 export interface DiagnosticsProfile {
@@ -80,7 +80,7 @@ export interface DiagnosticsProfile {
 }
 
 export interface DiffDiskSettings {
-  option?: Expressionable<'Local'>;
+  option?: Expressionable<('Local')>;
 }
 
 export interface Disallowed {
@@ -98,8 +98,8 @@ export interface DiskEncryptionSettings {
 }
 
 export interface DiskProperties {
-  osType?: Expressionable<'Windows' | 'Linux'>;
-  hyperVGeneration?: Expressionable<'V1' | 'V2'>;
+  osType?: Expressionable<('Windows' | 'Linux')>;
+  hyperVGeneration?: Expressionable<('V1' | 'V2')>;
   creationData: Expressionable<CreationData>;
   diskSizeGB?: Expressionable<number>;
   encryptionSettingsCollection?: Expressionable<EncryptionSettingsCollection>;
@@ -109,16 +109,16 @@ export interface DiskProperties {
 }
 
 export interface DiskSku {
-  name?: Expressionable<'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS'>;
+  name?: Expressionable<('Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS')>;
 }
 
 export interface Encryption {
   diskEncryptionSetId?: Expressionable<string>;
-  type: Expressionable<'EncryptionAtRestWithPlatformKey' | 'EncryptionAtRestWithCustomerKey'>;
+  type: Expressionable<('EncryptionAtRestWithPlatformKey' | 'EncryptionAtRestWithCustomerKey')>;
 }
 
 export interface EncryptionSetIdentity {
-  type?: Expressionable<'SystemAssigned'>;
+  type?: Expressionable<('SystemAssigned')>;
 }
 
 export interface EncryptionSetProperties {
@@ -138,8 +138,8 @@ export interface EncryptionSettingsElement {
 
 export interface galleries_applications_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'applications'>;
-  apiVersion: Expressionable<'2019-07-01'>;
+  type: Expressionable<('applications')>;
+  apiVersion: Expressionable<('2019-07-01')>;
   location: Expressionable<string>;
   properties: Expressionable<GalleryApplicationProperties>;
   resources?: Expressionable<galleries_applications_versions_childResource[]>;
@@ -147,16 +147,16 @@ export interface galleries_applications_childResource {
 
 export interface galleries_applications_versions_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'versions'>;
-  apiVersion: Expressionable<'2019-07-01'>;
+  type: Expressionable<('versions')>;
+  apiVersion: Expressionable<('2019-07-01')>;
   location: Expressionable<string>;
   properties: Expressionable<GalleryApplicationVersionProperties>;
 }
 
 export interface galleries_images_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'images'>;
-  apiVersion: Expressionable<'2019-07-01'>;
+  type: Expressionable<('images')>;
+  apiVersion: Expressionable<('2019-07-01')>;
   location: Expressionable<string>;
   properties: Expressionable<GalleryImageProperties>;
   resources?: Expressionable<galleries_images_versions_childResource[]>;
@@ -164,8 +164,8 @@ export interface galleries_images_childResource {
 
 export interface galleries_images_versions_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'versions'>;
-  apiVersion: Expressionable<'2019-07-01'>;
+  type: Expressionable<('versions')>;
+  apiVersion: Expressionable<('2019-07-01')>;
   location: Expressionable<string>;
   properties: Expressionable<GalleryImageVersionProperties>;
 }
@@ -176,7 +176,7 @@ export interface GalleryApplicationProperties {
   privacyStatementUri?: Expressionable<string>;
   releaseNoteUri?: Expressionable<string>;
   endOfLifeDate?: Expressionable<string>;
-  supportedOSType: Expressionable<'Windows' | 'Linux'>;
+  supportedOSType: Expressionable<('Windows' | 'Linux')>;
 }
 
 export interface GalleryApplicationVersionProperties {
@@ -188,7 +188,7 @@ export interface GalleryApplicationVersionPublishingProfile {
   replicaCount?: Expressionable<number>;
   excludeFromLatest?: Expressionable<boolean>;
   endOfLifeDate?: Expressionable<string>;
-  storageAccountType?: Expressionable<'Standard_LRS' | 'Standard_ZRS'>;
+  storageAccountType?: Expressionable<('Standard_LRS' | 'Standard_ZRS')>;
   source: Expressionable<UserArtifactSource>;
   contentType?: Expressionable<string>;
   enableHealthCheck?: Expressionable<boolean>;
@@ -199,7 +199,7 @@ export interface GalleryArtifactVersionSource {
 }
 
 export interface GalleryDataDiskImage {
-  hostCaching?: Expressionable<'None' | 'ReadOnly' | 'ReadWrite'>;
+  hostCaching?: Expressionable<('None' | 'ReadOnly' | 'ReadWrite')>;
   source?: Expressionable<GalleryArtifactVersionSource>;
   lun: Expressionable<number>;
 }
@@ -218,9 +218,9 @@ export interface GalleryImageProperties {
   eula?: Expressionable<string>;
   privacyStatementUri?: Expressionable<string>;
   releaseNoteUri?: Expressionable<string>;
-  osType: Expressionable<'Windows' | 'Linux'>;
-  osState: Expressionable<'Generalized' | 'Specialized'>;
-  hyperVGeneration?: Expressionable<'V1' | 'V2'>;
+  osType: Expressionable<('Windows' | 'Linux')>;
+  osState: Expressionable<('Generalized' | 'Specialized')>;
+  hyperVGeneration?: Expressionable<('V1' | 'V2')>;
   endOfLifeDate?: Expressionable<string>;
   identifier: Expressionable<GalleryImageIdentifier>;
   recommended?: Expressionable<RecommendedMachineConfiguration>;
@@ -238,7 +238,7 @@ export interface GalleryImageVersionPublishingProfile {
   replicaCount?: Expressionable<number>;
   excludeFromLatest?: Expressionable<boolean>;
   endOfLifeDate?: Expressionable<string>;
-  storageAccountType?: Expressionable<'Standard_LRS' | 'Standard_ZRS'>;
+  storageAccountType?: Expressionable<('Standard_LRS' | 'Standard_ZRS')>;
 }
 
 export interface GalleryImageVersionStorageProfile {
@@ -248,7 +248,7 @@ export interface GalleryImageVersionStorageProfile {
 }
 
 export interface GalleryOSDiskImage {
-  hostCaching?: Expressionable<'None' | 'ReadOnly' | 'ReadWrite'>;
+  hostCaching?: Expressionable<('None' | 'ReadOnly' | 'ReadWrite')>;
   source?: Expressionable<GalleryArtifactVersionSource>;
 }
 
@@ -258,13 +258,13 @@ export interface GalleryProperties {
 }
 
 export interface HardwareProfile {
-  vmSize?: Expressionable<'Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Basic_A3' | 'Basic_A4' | 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_A1_v2' | 'Standard_A2_v2' | 'Standard_A4_v2' | 'Standard_A8_v2' | 'Standard_A2m_v2' | 'Standard_A4m_v2' | 'Standard_A8m_v2' | 'Standard_B1s' | 'Standard_B1ms' | 'Standard_B2s' | 'Standard_B2ms' | 'Standard_B4ms' | 'Standard_B8ms' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D2_v3' | 'Standard_D4_v3' | 'Standard_D8_v3' | 'Standard_D16_v3' | 'Standard_D32_v3' | 'Standard_D64_v3' | 'Standard_D2s_v3' | 'Standard_D4s_v3' | 'Standard_D8s_v3' | 'Standard_D16s_v3' | 'Standard_D32s_v3' | 'Standard_D64s_v3' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_D15_v2' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_DS1_v2' | 'Standard_DS2_v2' | 'Standard_DS3_v2' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_DS11_v2' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_DS13-4_v2' | 'Standard_DS13-2_v2' | 'Standard_DS14-8_v2' | 'Standard_DS14-4_v2' | 'Standard_E2_v3' | 'Standard_E4_v3' | 'Standard_E8_v3' | 'Standard_E16_v3' | 'Standard_E32_v3' | 'Standard_E64_v3' | 'Standard_E2s_v3' | 'Standard_E4s_v3' | 'Standard_E8s_v3' | 'Standard_E16s_v3' | 'Standard_E32s_v3' | 'Standard_E64s_v3' | 'Standard_E32-16_v3' | 'Standard_E32-8s_v3' | 'Standard_E64-32s_v3' | 'Standard_E64-16s_v3' | 'Standard_F1' | 'Standard_F2' | 'Standard_F4' | 'Standard_F8' | 'Standard_F16' | 'Standard_F1s' | 'Standard_F2s' | 'Standard_F4s' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_F2s_v2' | 'Standard_F4s_v2' | 'Standard_F8s_v2' | 'Standard_F16s_v2' | 'Standard_F32s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_GS4-8' | 'Standard_GS4-4' | 'Standard_GS5-16' | 'Standard_GS5-8' | 'Standard_H8' | 'Standard_H16' | 'Standard_H8m' | 'Standard_H16m' | 'Standard_H16r' | 'Standard_H16mr' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s' | 'Standard_M64s' | 'Standard_M64ms' | 'Standard_M128s' | 'Standard_M128ms' | 'Standard_M64-32ms' | 'Standard_M64-16ms' | 'Standard_M128-64ms' | 'Standard_M128-32ms' | 'Standard_NC6' | 'Standard_NC12' | 'Standard_NC24' | 'Standard_NC24r' | 'Standard_NC6s_v2' | 'Standard_NC12s_v2' | 'Standard_NC24s_v2' | 'Standard_NC24rs_v2' | 'Standard_NC6s_v3' | 'Standard_NC12s_v3' | 'Standard_NC24s_v3' | 'Standard_NC24rs_v3' | 'Standard_ND6s' | 'Standard_ND12s' | 'Standard_ND24s' | 'Standard_ND24rs' | 'Standard_NV6' | 'Standard_NV12' | 'Standard_NV24'>;
+  vmSize?: Expressionable<('Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Basic_A3' | 'Basic_A4' | 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_A1_v2' | 'Standard_A2_v2' | 'Standard_A4_v2' | 'Standard_A8_v2' | 'Standard_A2m_v2' | 'Standard_A4m_v2' | 'Standard_A8m_v2' | 'Standard_B1s' | 'Standard_B1ms' | 'Standard_B2s' | 'Standard_B2ms' | 'Standard_B4ms' | 'Standard_B8ms' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D2_v3' | 'Standard_D4_v3' | 'Standard_D8_v3' | 'Standard_D16_v3' | 'Standard_D32_v3' | 'Standard_D64_v3' | 'Standard_D2s_v3' | 'Standard_D4s_v3' | 'Standard_D8s_v3' | 'Standard_D16s_v3' | 'Standard_D32s_v3' | 'Standard_D64s_v3' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_D15_v2' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_DS1_v2' | 'Standard_DS2_v2' | 'Standard_DS3_v2' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_DS11_v2' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_DS13-4_v2' | 'Standard_DS13-2_v2' | 'Standard_DS14-8_v2' | 'Standard_DS14-4_v2' | 'Standard_E2_v3' | 'Standard_E4_v3' | 'Standard_E8_v3' | 'Standard_E16_v3' | 'Standard_E32_v3' | 'Standard_E64_v3' | 'Standard_E2s_v3' | 'Standard_E4s_v3' | 'Standard_E8s_v3' | 'Standard_E16s_v3' | 'Standard_E32s_v3' | 'Standard_E64s_v3' | 'Standard_E32-16_v3' | 'Standard_E32-8s_v3' | 'Standard_E64-32s_v3' | 'Standard_E64-16s_v3' | 'Standard_F1' | 'Standard_F2' | 'Standard_F4' | 'Standard_F8' | 'Standard_F16' | 'Standard_F1s' | 'Standard_F2s' | 'Standard_F4s' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_F2s_v2' | 'Standard_F4s_v2' | 'Standard_F8s_v2' | 'Standard_F16s_v2' | 'Standard_F32s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_GS4-8' | 'Standard_GS4-4' | 'Standard_GS5-16' | 'Standard_GS5-8' | 'Standard_H8' | 'Standard_H16' | 'Standard_H8m' | 'Standard_H16m' | 'Standard_H16r' | 'Standard_H16mr' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s' | 'Standard_M64s' | 'Standard_M64ms' | 'Standard_M128s' | 'Standard_M128ms' | 'Standard_M64-32ms' | 'Standard_M64-16ms' | 'Standard_M128-64ms' | 'Standard_M128-32ms' | 'Standard_NC6' | 'Standard_NC12' | 'Standard_NC24' | 'Standard_NC24r' | 'Standard_NC6s_v2' | 'Standard_NC12s_v2' | 'Standard_NC24s_v2' | 'Standard_NC24rs_v2' | 'Standard_NC6s_v3' | 'Standard_NC12s_v3' | 'Standard_NC24s_v3' | 'Standard_NC24rs_v3' | 'Standard_ND6s' | 'Standard_ND12s' | 'Standard_ND24s' | 'Standard_ND24rs' | 'Standard_NV6' | 'Standard_NV12' | 'Standard_NV24')>;
 }
 
 export interface hostGroups_hosts_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'hosts'>;
-  apiVersion: Expressionable<'2019-07-01'>;
+  type: Expressionable<('hosts')>;
+  apiVersion: Expressionable<('2019-07-01')>;
   location: Expressionable<string>;
   properties: Expressionable<DedicatedHostProperties>;
   sku: Expressionable<Sku>;
@@ -274,9 +274,9 @@ export interface ImageDataDisk {
   snapshot?: Expressionable<SubResource>;
   managedDisk?: Expressionable<SubResource>;
   blobUri?: Expressionable<string>;
-  caching?: Expressionable<'None' | 'ReadOnly' | 'ReadWrite'>;
+  caching?: Expressionable<('None' | 'ReadOnly' | 'ReadWrite')>;
   diskSizeGB?: Expressionable<number>;
-  storageAccountType?: Expressionable<'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS'>;
+  storageAccountType?: Expressionable<('Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS')>;
   diskEncryptionSet?: Expressionable<DiskEncryptionSetParameters>;
   lun: Expressionable<number>;
 }
@@ -290,18 +290,18 @@ export interface ImageOSDisk {
   snapshot?: Expressionable<SubResource>;
   managedDisk?: Expressionable<SubResource>;
   blobUri?: Expressionable<string>;
-  caching?: Expressionable<'None' | 'ReadOnly' | 'ReadWrite'>;
+  caching?: Expressionable<('None' | 'ReadOnly' | 'ReadWrite')>;
   diskSizeGB?: Expressionable<number>;
-  storageAccountType?: Expressionable<'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS'>;
+  storageAccountType?: Expressionable<('Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS')>;
   diskEncryptionSet?: Expressionable<DiskEncryptionSetParameters>;
-  osType: Expressionable<'Windows' | 'Linux'>;
-  osState: Expressionable<'Generalized' | 'Specialized'>;
+  osType: Expressionable<('Windows' | 'Linux')>;
+  osState: Expressionable<('Generalized' | 'Specialized')>;
 }
 
 export interface ImageProperties {
   sourceVirtualMachine?: Expressionable<SubResource>;
   storageProfile?: Expressionable<ImageStorageProfile>;
-  hyperVGeneration?: Expressionable<'V1' | 'V2'>;
+  hyperVGeneration?: Expressionable<('V1' | 'V2')>;
 }
 
 export interface ImagePurchasePlan {
@@ -326,7 +326,7 @@ export interface ImageStorageProfile {
 
 export interface InstanceViewStatus {
   code?: Expressionable<string>;
-  level?: Expressionable<'Info' | 'Warning' | 'Error'>;
+  level?: Expressionable<('Info' | 'Warning' | 'Error')>;
   displayStatus?: Expressionable<string>;
   message?: Expressionable<string>;
   time?: Expressionable<string>;
@@ -360,7 +360,7 @@ export interface LinuxConfiguration {
 
 export interface ManagedDiskParameters {
   id?: Expressionable<string>;
-  storageAccountType?: Expressionable<'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS'>;
+  storageAccountType?: Expressionable<('Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS')>;
   diskEncryptionSet?: Expressionable<DiskEncryptionSetParameters>;
 }
 
@@ -378,15 +378,15 @@ export interface NetworkProfile {
 }
 
 export interface OSDisk {
-  osType?: Expressionable<'Windows' | 'Linux'>;
+  osType?: Expressionable<('Windows' | 'Linux')>;
   encryptionSettings?: Expressionable<DiskEncryptionSettings>;
   name?: Expressionable<string>;
   vhd?: Expressionable<VirtualHardDisk>;
   image?: Expressionable<VirtualHardDisk>;
-  caching?: Expressionable<'None' | 'ReadOnly' | 'ReadWrite'>;
+  caching?: Expressionable<('None' | 'ReadOnly' | 'ReadWrite')>;
   writeAcceleratorEnabled?: Expressionable<boolean>;
   diffDiskSettings?: Expressionable<DiffDiskSettings>;
-  createOption: Expressionable<'FromImage' | 'Empty' | 'Attach'>;
+  createOption: Expressionable<('FromImage' | 'Empty' | 'Attach')>;
   diskSizeGB?: Expressionable<number>;
   managedDisk?: Expressionable<ManagedDiskParameters>;
 }
@@ -411,7 +411,7 @@ export interface Plan {
 }
 
 export interface ProximityPlacementGroupProperties {
-  proximityPlacementGroupType?: Expressionable<'Standard' | 'Ultra'>;
+  proximityPlacementGroupType?: Expressionable<('Standard' | 'Ultra')>;
 }
 
 export interface RecommendedMachineConfiguration {
@@ -432,7 +432,7 @@ export interface RollingUpgradePolicy {
 }
 
 export interface ScaleInPolicy {
-  rules?: Expressionable<'Default' | 'OldestVM' | 'NewestVM'[]>;
+  rules?: Expressionable<('Default' | 'OldestVM' | 'NewestVM')[]>;
 }
 
 export interface ScheduledEventsProfile {
@@ -446,8 +446,8 @@ export interface Sku {
 }
 
 export interface SnapshotProperties {
-  osType?: Expressionable<'Windows' | 'Linux'>;
-  hyperVGeneration?: Expressionable<'V1' | 'V2'>;
+  osType?: Expressionable<('Windows' | 'Linux')>;
+  hyperVGeneration?: Expressionable<('V1' | 'V2')>;
   creationData: Expressionable<CreationData>;
   diskSizeGB?: Expressionable<number>;
   encryptionSettingsCollection?: Expressionable<EncryptionSettingsCollection>;
@@ -456,7 +456,7 @@ export interface SnapshotProperties {
 }
 
 export interface SnapshotSku {
-  name?: Expressionable<'Standard_LRS' | 'Premium_LRS' | 'Standard_ZRS'>;
+  name?: Expressionable<('Standard_LRS' | 'Premium_LRS' | 'Standard_ZRS')>;
 }
 
 export interface SourceVault {
@@ -485,7 +485,7 @@ export interface SubResource {
 export interface TargetRegion {
   name: Expressionable<string>;
   regionalReplicaCount?: Expressionable<number>;
-  storageAccountType?: Expressionable<'Standard_LRS' | 'Standard_ZRS'>;
+  storageAccountType?: Expressionable<('Standard_LRS' | 'Standard_ZRS')>;
 }
 
 export interface TerminateNotificationProfile {
@@ -494,7 +494,7 @@ export interface TerminateNotificationProfile {
 }
 
 export interface UpgradePolicy {
-  mode?: Expressionable<'Automatic' | 'Manual' | 'Rolling'>;
+  mode?: Expressionable<('Automatic' | 'Manual' | 'Rolling')>;
   rollingUpgradePolicy?: Expressionable<RollingUpgradePolicy>;
   automaticOSUpgradePolicy?: Expressionable<AutomaticOSUpgradePolicy>;
 }
@@ -536,7 +536,7 @@ export interface VirtualMachineExtensionProperties {
 }
 
 export interface VirtualMachineIdentity {
-  type?: Expressionable<'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None'>;
+  type?: Expressionable<('SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None')>;
 }
 
 export interface VirtualMachineIdentityUserAssignedIdentitiesValue {
@@ -552,8 +552,8 @@ export interface VirtualMachineProperties {
   availabilitySet?: Expressionable<SubResource>;
   virtualMachineScaleSet?: Expressionable<SubResource>;
   proximityPlacementGroup?: Expressionable<SubResource>;
-  priority?: Expressionable<'Regular' | 'Low' | 'Spot'>;
-  evictionPolicy?: Expressionable<'Deallocate' | 'Delete'>;
+  priority?: Expressionable<('Regular' | 'Low' | 'Spot')>;
+  evictionPolicy?: Expressionable<('Deallocate' | 'Delete')>;
   billingProfile?: Expressionable<BillingProfile>;
   host?: Expressionable<SubResource>;
   licenseType?: Expressionable<string>;
@@ -561,17 +561,17 @@ export interface VirtualMachineProperties {
 
 export interface virtualMachines_extensions_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'extensions'>;
-  apiVersion: Expressionable<'2019-07-01'>;
+  type: Expressionable<('extensions')>;
+  apiVersion: Expressionable<('2019-07-01')>;
   location: Expressionable<string>;
 }
 
 export interface VirtualMachineScaleSetDataDisk {
   name?: Expressionable<string>;
   lun: Expressionable<number>;
-  caching?: Expressionable<'None' | 'ReadOnly' | 'ReadWrite'>;
+  caching?: Expressionable<('None' | 'ReadOnly' | 'ReadWrite')>;
   writeAcceleratorEnabled?: Expressionable<boolean>;
-  createOption: Expressionable<'FromImage' | 'Empty' | 'Attach'>;
+  createOption: Expressionable<('FromImage' | 'Empty' | 'Attach')>;
   diskSizeGB?: Expressionable<number>;
   managedDisk?: Expressionable<VirtualMachineScaleSetManagedDiskParameters>;
   diskIOPSReadWrite?: Expressionable<number>;
@@ -596,7 +596,7 @@ export interface VirtualMachineScaleSetExtensionProperties {
 }
 
 export interface VirtualMachineScaleSetIdentity {
-  type?: Expressionable<'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None'>;
+  type?: Expressionable<('SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None')>;
 }
 
 export interface VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue {
@@ -612,7 +612,7 @@ export interface VirtualMachineScaleSetIPConfigurationProperties {
   subnet?: Expressionable<ApiEntityReference>;
   primary?: Expressionable<boolean>;
   publicIPAddressConfiguration?: Expressionable<VirtualMachineScaleSetPublicIPAddressConfiguration>;
-  privateIPAddressVersion?: Expressionable<'IPv4' | 'IPv6'>;
+  privateIPAddressVersion?: Expressionable<('IPv4' | 'IPv6')>;
   applicationGatewayBackendAddressPools?: Expressionable<SubResource[]>;
   applicationSecurityGroups?: Expressionable<SubResource[]>;
   loadBalancerBackendAddressPools?: Expressionable<SubResource[]>;
@@ -625,7 +625,7 @@ export interface VirtualMachineScaleSetIpTag {
 }
 
 export interface VirtualMachineScaleSetManagedDiskParameters {
-  storageAccountType?: Expressionable<'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS'>;
+  storageAccountType?: Expressionable<('Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS')>;
   diskEncryptionSet?: Expressionable<DiskEncryptionSetParameters>;
 }
 
@@ -655,12 +655,12 @@ export interface VirtualMachineScaleSetNetworkProfile {
 
 export interface VirtualMachineScaleSetOSDisk {
   name?: Expressionable<string>;
-  caching?: Expressionable<'None' | 'ReadOnly' | 'ReadWrite'>;
+  caching?: Expressionable<('None' | 'ReadOnly' | 'ReadWrite')>;
   writeAcceleratorEnabled?: Expressionable<boolean>;
-  createOption: Expressionable<'FromImage' | 'Empty' | 'Attach'>;
+  createOption: Expressionable<('FromImage' | 'Empty' | 'Attach')>;
   diffDiskSettings?: Expressionable<DiffDiskSettings>;
   diskSizeGB?: Expressionable<number>;
-  osType?: Expressionable<'Windows' | 'Linux'>;
+  osType?: Expressionable<('Windows' | 'Linux')>;
   image?: Expressionable<VirtualHardDisk>;
   vhdContainers?: Expressionable<string[]>;
   managedDisk?: Expressionable<VirtualMachineScaleSetManagedDiskParameters>;
@@ -704,20 +704,20 @@ export interface VirtualMachineScaleSetPublicIPAddressConfigurationProperties {
   dnsSettings?: Expressionable<VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings>;
   ipTags?: Expressionable<VirtualMachineScaleSetIpTag[]>;
   publicIPPrefix?: Expressionable<SubResource>;
-  publicIPAddressVersion?: Expressionable<'IPv4' | 'IPv6'>;
+  publicIPAddressVersion?: Expressionable<('IPv4' | 'IPv6')>;
 }
 
 export interface virtualMachineScaleSets_extensions_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'extensions'>;
-  apiVersion: Expressionable<'2019-07-01'>;
+  type: Expressionable<('extensions')>;
+  apiVersion: Expressionable<('2019-07-01')>;
   properties: Expressionable<VirtualMachineScaleSetExtensionProperties>;
 }
 
 export interface virtualMachineScaleSets_virtualmachines_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'virtualmachines'>;
-  apiVersion: Expressionable<'2019-07-01'>;
+  type: Expressionable<('virtualmachines')>;
+  apiVersion: Expressionable<('2019-07-01')>;
   location: Expressionable<string>;
   properties: Expressionable<VirtualMachineScaleSetVMProperties>;
   plan?: Expressionable<Plan>;
@@ -740,8 +740,8 @@ export interface VirtualMachineScaleSetVMProfile {
   diagnosticsProfile?: Expressionable<DiagnosticsProfile>;
   extensionProfile?: Expressionable<VirtualMachineScaleSetExtensionProfile>;
   licenseType?: Expressionable<string>;
-  priority?: Expressionable<'Regular' | 'Low' | 'Spot'>;
-  evictionPolicy?: Expressionable<'Deallocate' | 'Delete'>;
+  priority?: Expressionable<('Regular' | 'Low' | 'Spot')>;
+  evictionPolicy?: Expressionable<('Deallocate' | 'Delete')>;
   billingProfile?: Expressionable<BillingProfile>;
   scheduledEventsProfile?: Expressionable<ScheduledEventsProfile>;
 }
@@ -777,7 +777,7 @@ export interface WinRMConfiguration {
 }
 
 export interface WinRMListener {
-  protocol?: Expressionable<'Http' | 'Https'>;
+  protocol?: Expressionable<('Http' | 'Https')>;
   certificateUrl?: Expressionable<string>;
 }
 

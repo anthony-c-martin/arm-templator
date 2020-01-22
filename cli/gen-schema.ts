@@ -24,7 +24,7 @@ class EnumProperty extends Property {
   }
   values: string[];
   getType(): string {
-    return `'${this.values.join("' | '")}'`;
+    return `('${this.values.join("' | '")}')`;
   }
 }
 

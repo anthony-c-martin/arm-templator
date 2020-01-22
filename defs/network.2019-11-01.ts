@@ -1,4 +1,4 @@
-// Generated using 'npm run schema /Users/antm88/Desktop/azure-resource-manager-schemas/schemas/2019-11-01/Microsoft.Network.json'
+// Generated using 'npm run schema C:\github\azure-resource-manager-schemas\schemas\2019-11-01\Microsoft.Network.json'
 import { Expressionable, ResourceDefinition } from '../lib/common';
 
 export interface AadAuthenticationParameters {
@@ -46,8 +46,8 @@ export interface ApplicationGatewayBackendHttpSettings {
 
 export interface ApplicationGatewayBackendHttpSettingsPropertiesFormat {
   port?: Expressionable<number>;
-  protocol?: Expressionable<'Http' | 'Https'>;
-  cookieBasedAffinity?: Expressionable<'Enabled' | 'Disabled'>;
+  protocol?: Expressionable<('Http' | 'Https')>;
+  cookieBasedAffinity?: Expressionable<('Enabled' | 'Disabled')>;
   requestTimeout?: Expressionable<number>;
   probe?: Expressionable<SubResource>;
   authenticationCertificates?: Expressionable<SubResource[]>;
@@ -66,7 +66,7 @@ export interface ApplicationGatewayConnectionDraining {
 }
 
 export interface ApplicationGatewayCustomError {
-  statusCode?: Expressionable<'HttpStatus403' | 'HttpStatus502'>;
+  statusCode?: Expressionable<('HttpStatus403' | 'HttpStatus502')>;
   customErrorPageUrl?: Expressionable<string>;
 }
 
@@ -88,7 +88,7 @@ export interface ApplicationGatewayFrontendIPConfiguration {
 
 export interface ApplicationGatewayFrontendIPConfigurationPropertiesFormat {
   privateIPAddress?: Expressionable<string>;
-  privateIPAllocationMethod?: Expressionable<'Static' | 'Dynamic'>;
+  privateIPAllocationMethod?: Expressionable<('Static' | 'Dynamic')>;
   subnet?: Expressionable<SubResource>;
   publicIPAddress?: Expressionable<SubResource>;
 }
@@ -115,7 +115,7 @@ export interface ApplicationGatewayHttpListener {
 export interface ApplicationGatewayHttpListenerPropertiesFormat {
   frontendIPConfiguration?: Expressionable<SubResource>;
   frontendPort?: Expressionable<SubResource>;
-  protocol?: Expressionable<'Http' | 'Https'>;
+  protocol?: Expressionable<('Http' | 'Https')>;
   hostName?: Expressionable<string>;
   sslCertificate?: Expressionable<SubResource>;
   requireServerNameIndication?: Expressionable<boolean>;
@@ -158,7 +158,7 @@ export interface ApplicationGatewayProbeHealthResponseMatch {
 }
 
 export interface ApplicationGatewayProbePropertiesFormat {
-  protocol?: Expressionable<'Http' | 'Https'>;
+  protocol?: Expressionable<('Http' | 'Https')>;
   host?: Expressionable<string>;
   path?: Expressionable<string>;
   interval?: Expressionable<number>;
@@ -201,7 +201,7 @@ export interface ApplicationGatewayRedirectConfiguration {
 }
 
 export interface ApplicationGatewayRedirectConfigurationPropertiesFormat {
-  redirectType?: Expressionable<'Permanent' | 'Found' | 'SeeOther' | 'Temporary'>;
+  redirectType?: Expressionable<('Permanent' | 'Found' | 'SeeOther' | 'Temporary')>;
   targetListener?: Expressionable<SubResource>;
   targetUrl?: Expressionable<string>;
   includePath?: Expressionable<boolean>;
@@ -217,7 +217,7 @@ export interface ApplicationGatewayRequestRoutingRule {
 }
 
 export interface ApplicationGatewayRequestRoutingRulePropertiesFormat {
-  ruleType?: Expressionable<'Basic' | 'PathBasedRouting'>;
+  ruleType?: Expressionable<('Basic' | 'PathBasedRouting')>;
   priority?: Expressionable<number>;
   backendAddressPool?: Expressionable<SubResource>;
   backendHttpSettings?: Expressionable<SubResource>;
@@ -256,8 +256,8 @@ export interface ApplicationGatewayRewriteRuleSetPropertiesFormat {
 }
 
 export interface ApplicationGatewaySku {
-  name?: Expressionable<'Standard_Small' | 'Standard_Medium' | 'Standard_Large' | 'WAF_Medium' | 'WAF_Large' | 'Standard_v2' | 'WAF_v2'>;
-  tier?: Expressionable<'Standard' | 'WAF' | 'Standard_v2' | 'WAF_v2'>;
+  name?: Expressionable<('Standard_Small' | 'Standard_Medium' | 'Standard_Large' | 'WAF_Medium' | 'WAF_Large' | 'Standard_v2' | 'WAF_v2')>;
+  tier?: Expressionable<('Standard' | 'WAF' | 'Standard_v2' | 'WAF_v2')>;
   capacity?: Expressionable<number>;
 }
 
@@ -273,11 +273,11 @@ export interface ApplicationGatewaySslCertificatePropertiesFormat {
 }
 
 export interface ApplicationGatewaySslPolicy {
-  disabledSslProtocols?: Expressionable<'TLSv1_0' | 'TLSv1_1' | 'TLSv1_2'[]>;
-  policyType?: Expressionable<'Predefined' | 'Custom'>;
-  policyName?: Expressionable<'AppGwSslPolicy20150501' | 'AppGwSslPolicy20170401' | 'AppGwSslPolicy20170401S'>;
-  cipherSuites?: Expressionable<'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA256' | 'TLS_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA' | 'TLS_RSA_WITH_AES_128_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_3DES_EDE_CBC_SHA' | 'TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384'[]>;
-  minProtocolVersion?: Expressionable<'TLSv1_0' | 'TLSv1_1' | 'TLSv1_2'>;
+  disabledSslProtocols?: Expressionable<('TLSv1_0' | 'TLSv1_1' | 'TLSv1_2')[]>;
+  policyType?: Expressionable<('Predefined' | 'Custom')>;
+  policyName?: Expressionable<('AppGwSslPolicy20150501' | 'AppGwSslPolicy20170401' | 'AppGwSslPolicy20170401S')>;
+  cipherSuites?: Expressionable<('TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_DHE_RSA_WITH_AES_256_CBC_SHA' | 'TLS_DHE_RSA_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_AES_256_GCM_SHA384' | 'TLS_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA256' | 'TLS_RSA_WITH_AES_128_CBC_SHA256' | 'TLS_RSA_WITH_AES_256_CBC_SHA' | 'TLS_RSA_WITH_AES_128_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256' | 'TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA' | 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA256' | 'TLS_DHE_DSS_WITH_AES_256_CBC_SHA' | 'TLS_DHE_DSS_WITH_AES_128_CBC_SHA' | 'TLS_RSA_WITH_3DES_EDE_CBC_SHA' | 'TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA' | 'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256' | 'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384')[]>;
+  minProtocolVersion?: Expressionable<('TLSv1_0' | 'TLSv1_1' | 'TLSv1_2')>;
 }
 
 export interface ApplicationGatewayTrustedRootCertificate {
@@ -305,7 +305,7 @@ export interface ApplicationGatewayUrlPathMapPropertiesFormat {
 
 export interface ApplicationGatewayWebApplicationFirewallConfiguration {
   enabled: Expressionable<boolean>;
-  firewallMode: Expressionable<'Detection' | 'Prevention'>;
+  firewallMode: Expressionable<('Detection' | 'Prevention')>;
   ruleSetType: Expressionable<string>;
   ruleSetVersion: Expressionable<string>;
   disabledRuleGroups?: Expressionable<ApplicationGatewayFirewallDisabledRuleGroup[]>;
@@ -353,7 +353,7 @@ export interface AzureFirewallApplicationRuleCollectionPropertiesFormat {
 }
 
 export interface AzureFirewallApplicationRuleProtocol {
-  protocolType?: Expressionable<'Http' | 'Https' | 'Mssql'>;
+  protocolType?: Expressionable<('Http' | 'Https' | 'Mssql')>;
   port?: Expressionable<number>;
 }
 
@@ -368,7 +368,7 @@ export interface AzureFirewallIPConfigurationPropertiesFormat {
 }
 
 export interface AzureFirewallNatRCAction {
-  type?: Expressionable<'Snat' | 'Dnat'>;
+  type?: Expressionable<('Snat' | 'Dnat')>;
 }
 
 export interface AzureFirewallNatRule {
@@ -377,7 +377,7 @@ export interface AzureFirewallNatRule {
   sourceAddresses?: Expressionable<string[]>;
   destinationAddresses?: Expressionable<string[]>;
   destinationPorts?: Expressionable<string[]>;
-  protocols?: Expressionable<'TCP' | 'UDP' | 'Any' | 'ICMP'[]>;
+  protocols?: Expressionable<('TCP' | 'UDP' | 'Any' | 'ICMP')[]>;
   translatedAddress?: Expressionable<string>;
   translatedPort?: Expressionable<string>;
   translatedFqdn?: Expressionable<string>;
@@ -398,7 +398,7 @@ export interface AzureFirewallNatRuleCollectionProperties {
 export interface AzureFirewallNetworkRule {
   name?: Expressionable<string>;
   description?: Expressionable<string>;
-  protocols?: Expressionable<'TCP' | 'UDP' | 'Any' | 'ICMP'[]>;
+  protocols?: Expressionable<('TCP' | 'UDP' | 'Any' | 'ICMP')[]>;
   sourceAddresses?: Expressionable<string[]>;
   destinationAddresses?: Expressionable<string[]>;
   destinationPorts?: Expressionable<string[]>;
@@ -423,19 +423,19 @@ export interface AzureFirewallPropertiesFormat {
   natRuleCollections?: Expressionable<AzureFirewallNatRuleCollection[]>;
   networkRuleCollections?: Expressionable<AzureFirewallNetworkRuleCollection[]>;
   ipConfigurations?: Expressionable<AzureFirewallIPConfiguration[]>;
-  threatIntelMode?: Expressionable<'Alert' | 'Deny' | 'Off'>;
+  threatIntelMode?: Expressionable<('Alert' | 'Deny' | 'Off')>;
   virtualHub?: Expressionable<SubResource>;
   firewallPolicy?: Expressionable<SubResource>;
   sku?: Expressionable<AzureFirewallSku>;
 }
 
 export interface AzureFirewallRCAction {
-  type?: Expressionable<'Allow' | 'Deny'>;
+  type?: Expressionable<('Allow' | 'Deny')>;
 }
 
 export interface AzureFirewallSku {
-  name?: Expressionable<'AZFW_VNet' | 'AZFW_Hub'>;
-  tier?: Expressionable<'Standard'>;
+  name?: Expressionable<('AZFW_VNet' | 'AZFW_Hub')>;
+  tier?: Expressionable<('Standard')>;
 }
 
 export interface BackendAddressPool {
@@ -454,7 +454,7 @@ export interface BastionHostIPConfiguration {
 export interface BastionHostIPConfigurationPropertiesFormat {
   subnet: Expressionable<SubResource>;
   publicIPAddress: Expressionable<SubResource>;
-  privateIPAllocationMethod?: Expressionable<'Static' | 'Dynamic'>;
+  privateIPAllocationMethod?: Expressionable<('Static' | 'Dynamic')>;
 }
 
 export interface BastionHostPropertiesFormat {
@@ -487,7 +487,7 @@ export interface DdosProtectionPlanPropertiesFormat {
 
 export interface DdosSettings {
   ddosCustomPolicy?: Expressionable<SubResource>;
-  protectionCoverage?: Expressionable<'Basic' | 'Standard'>;
+  protectionCoverage?: Expressionable<('Basic' | 'Standard')>;
 }
 
 export interface Delegation {
@@ -531,8 +531,8 @@ export interface ExpressRouteCircuitPeeringConfig {
 }
 
 export interface ExpressRouteCircuitPeeringPropertiesFormat {
-  peeringType?: Expressionable<'AzurePublicPeering' | 'AzurePrivatePeering' | 'MicrosoftPeering'>;
-  state?: Expressionable<'Disabled' | 'Enabled'>;
+  peeringType?: Expressionable<('AzurePublicPeering' | 'AzurePrivatePeering' | 'MicrosoftPeering')>;
+  state?: Expressionable<('Disabled' | 'Enabled')>;
   peerASN?: Expressionable<number>;
   primaryPeerAddressPrefix?: Expressionable<string>;
   secondaryPeerAddressPrefix?: Expressionable<string>;
@@ -559,23 +559,23 @@ export interface ExpressRouteCircuitPropertiesFormat {
 
 export interface expressRouteCircuits_authorizations_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'authorizations'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('authorizations')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<AuthorizationPropertiesFormat>;
 }
 
 export interface expressRouteCircuits_peerings_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'peerings'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('peerings')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<ExpressRouteCircuitPeeringPropertiesFormat>;
   resources?: Expressionable<expressRouteCircuits_peerings_connections_childResource[]>;
 }
 
 export interface expressRouteCircuits_peerings_connections_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'connections'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('connections')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<ExpressRouteCircuitConnectionPropertiesFormat>;
 }
 
@@ -587,8 +587,8 @@ export interface ExpressRouteCircuitServiceProviderProperties {
 
 export interface ExpressRouteCircuitSku {
   name?: Expressionable<string>;
-  tier?: Expressionable<'Standard' | 'Premium' | 'Basic' | 'Local'>;
-  family?: Expressionable<'UnlimitedData' | 'MeteredData'>;
+  tier?: Expressionable<('Standard' | 'Premium' | 'Basic' | 'Local')>;
+  family?: Expressionable<('UnlimitedData' | 'MeteredData')>;
 }
 
 export interface ExpressRouteCircuitStats {
@@ -611,8 +611,8 @@ export interface ExpressRouteCrossConnectionPeering {
 }
 
 export interface ExpressRouteCrossConnectionPeeringProperties {
-  peeringType?: Expressionable<'AzurePublicPeering' | 'AzurePrivatePeering' | 'MicrosoftPeering'>;
-  state?: Expressionable<'Disabled' | 'Enabled'>;
+  peeringType?: Expressionable<('AzurePublicPeering' | 'AzurePrivatePeering' | 'MicrosoftPeering')>;
+  state?: Expressionable<('Disabled' | 'Enabled')>;
   peerASN?: Expressionable<number>;
   primaryPeerAddressPrefix?: Expressionable<string>;
   secondaryPeerAddressPrefix?: Expressionable<string>;
@@ -627,15 +627,15 @@ export interface ExpressRouteCrossConnectionProperties {
   peeringLocation?: Expressionable<string>;
   bandwidthInMbps?: Expressionable<number>;
   expressRouteCircuit?: Expressionable<SubResource>;
-  serviceProviderProvisioningState?: Expressionable<'NotProvisioned' | 'Provisioning' | 'Provisioned' | 'Deprovisioning'>;
+  serviceProviderProvisioningState?: Expressionable<('NotProvisioned' | 'Provisioning' | 'Provisioned' | 'Deprovisioning')>;
   serviceProviderNotes?: Expressionable<string>;
   peerings?: Expressionable<ExpressRouteCrossConnectionPeering[]>;
 }
 
 export interface expressRouteCrossConnections_peerings_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'peerings'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('peerings')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<ExpressRouteCrossConnectionPeeringProperties>;
 }
 
@@ -655,8 +655,8 @@ export interface ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds {
 
 export interface expressRouteGateways_expressRouteConnections_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'expressRouteConnections'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('expressRouteConnections')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<ExpressRouteConnectionProperties>;
 }
 
@@ -668,25 +668,25 @@ export interface ExpressRouteLink {
 export interface ExpressRouteLinkMacSecConfig {
   cknSecretIdentifier?: Expressionable<string>;
   cakSecretIdentifier?: Expressionable<string>;
-  cipher?: Expressionable<'gcm-aes-128' | 'gcm-aes-256'>;
+  cipher?: Expressionable<('gcm-aes-128' | 'gcm-aes-256')>;
 }
 
 export interface ExpressRouteLinkPropertiesFormat {
-  adminState?: Expressionable<'Enabled' | 'Disabled'>;
+  adminState?: Expressionable<('Enabled' | 'Disabled')>;
   macSecConfig?: Expressionable<ExpressRouteLinkMacSecConfig>;
 }
 
 export interface ExpressRoutePortPropertiesFormat {
   peeringLocation?: Expressionable<string>;
   bandwidthInGbps?: Expressionable<number>;
-  encapsulation?: Expressionable<'Dot1Q' | 'QinQ'>;
+  encapsulation?: Expressionable<('Dot1Q' | 'QinQ')>;
   links?: Expressionable<ExpressRouteLink[]>;
 }
 
 export interface firewallPolicies_ruleGroups_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'ruleGroups'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('ruleGroups')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<FirewallPolicyRuleGroupProperties>;
 }
 
@@ -697,7 +697,7 @@ export interface FirewallPolicyFilterRule {
 }
 
 export interface FirewallPolicyFilterRuleAction {
-  type?: Expressionable<'Allow' | 'Deny'>;
+  type?: Expressionable<('Allow' | 'Deny')>;
 }
 
 export interface FirewallPolicyNatRule {
@@ -709,12 +709,12 @@ export interface FirewallPolicyNatRule {
 }
 
 export interface FirewallPolicyNatRuleAction {
-  type?: Expressionable<'DNAT'>;
+  type?: Expressionable<('DNAT')>;
 }
 
 export interface FirewallPolicyPropertiesFormat {
   basePolicy?: Expressionable<SubResource>;
-  threatIntelMode?: Expressionable<'Alert' | 'Deny' | 'Off'>;
+  threatIntelMode?: Expressionable<('Alert' | 'Deny' | 'Off')>;
 }
 
 export interface FirewallPolicyRule {
@@ -730,7 +730,7 @@ export interface FirewallPolicyRuleCondition {
 }
 
 export interface FirewallPolicyRuleConditionApplicationProtocol {
-  protocolType?: Expressionable<'Http' | 'Https'>;
+  protocolType?: Expressionable<('Http' | 'Https')>;
   port?: Expressionable<number>;
 }
 
@@ -747,8 +747,8 @@ export interface FrontendIPConfiguration {
 
 export interface FrontendIPConfigurationPropertiesFormat {
   privateIPAddress?: Expressionable<string>;
-  privateIPAllocationMethod?: Expressionable<'Static' | 'Dynamic'>;
-  privateIPAddressVersion?: Expressionable<'IPv4' | 'IPv6'>;
+  privateIPAllocationMethod?: Expressionable<('Static' | 'Dynamic')>;
+  privateIPAddressVersion?: Expressionable<('IPv4' | 'IPv6')>;
   subnet?: Expressionable<SubResource>;
   publicIPAddress?: Expressionable<SubResource>;
   publicIPPrefix?: Expressionable<SubResource>;
@@ -773,7 +773,7 @@ export interface InboundNatPool {
 
 export interface InboundNatPoolPropertiesFormat {
   frontendIPConfiguration: Expressionable<SubResource>;
-  protocol: Expressionable<'Udp' | 'Tcp' | 'All'>;
+  protocol: Expressionable<('Udp' | 'Tcp' | 'All')>;
   frontendPortRangeStart: Expressionable<number>;
   frontendPortRangeEnd: Expressionable<number>;
   backendPort: Expressionable<number>;
@@ -789,7 +789,7 @@ export interface InboundNatRule {
 
 export interface InboundNatRulePropertiesFormat {
   frontendIPConfiguration: Expressionable<SubResource>;
-  protocol: Expressionable<'Udp' | 'Tcp' | 'All'>;
+  protocol: Expressionable<('Udp' | 'Tcp' | 'All')>;
   frontendPort: Expressionable<number>;
   backendPort: Expressionable<number>;
   idleTimeoutInMinutes?: Expressionable<number>;
@@ -813,12 +813,12 @@ export interface IpGroupPropertiesFormat {
 export interface IpsecPolicy {
   saLifeTimeSeconds: Expressionable<number>;
   saDataSizeKilobytes: Expressionable<number>;
-  ipsecEncryption: Expressionable<'None' | 'DES' | 'DES3' | 'AES128' | 'AES192' | 'AES256' | 'GCMAES128' | 'GCMAES192' | 'GCMAES256'>;
-  ipsecIntegrity: Expressionable<'MD5' | 'SHA1' | 'SHA256' | 'GCMAES128' | 'GCMAES192' | 'GCMAES256'>;
-  ikeEncryption: Expressionable<'DES' | 'DES3' | 'AES128' | 'AES192' | 'AES256' | 'GCMAES256' | 'GCMAES128'>;
-  ikeIntegrity: Expressionable<'MD5' | 'SHA1' | 'SHA256' | 'SHA384' | 'GCMAES256' | 'GCMAES128'>;
-  dhGroup: Expressionable<'None' | 'DHGroup1' | 'DHGroup2' | 'DHGroup14' | 'DHGroup2048' | 'ECP256' | 'ECP384' | 'DHGroup24'>;
-  pfsGroup: Expressionable<'None' | 'PFS1' | 'PFS2' | 'PFS2048' | 'ECP256' | 'ECP384' | 'PFS24' | 'PFS14' | 'PFSMM'>;
+  ipsecEncryption: Expressionable<('None' | 'DES' | 'DES3' | 'AES128' | 'AES192' | 'AES256' | 'GCMAES128' | 'GCMAES192' | 'GCMAES256')>;
+  ipsecIntegrity: Expressionable<('MD5' | 'SHA1' | 'SHA256' | 'GCMAES128' | 'GCMAES192' | 'GCMAES256')>;
+  ikeEncryption: Expressionable<('DES' | 'DES3' | 'AES128' | 'AES192' | 'AES256' | 'GCMAES256' | 'GCMAES128')>;
+  ikeIntegrity: Expressionable<('MD5' | 'SHA1' | 'SHA256' | 'SHA384' | 'GCMAES256' | 'GCMAES128')>;
+  dhGroup: Expressionable<('None' | 'DHGroup1' | 'DHGroup2' | 'DHGroup14' | 'DHGroup2048' | 'ECP256' | 'ECP384' | 'DHGroup24')>;
+  pfsGroup: Expressionable<('None' | 'PFS1' | 'PFS2' | 'PFS2048' | 'ECP256' | 'ECP384' | 'PFS24' | 'PFS14' | 'PFSMM')>;
 }
 
 export interface IpTag {
@@ -831,7 +831,7 @@ export interface Ipv6ExpressRouteCircuitPeeringConfig {
   secondaryPeerAddressPrefix?: Expressionable<string>;
   microsoftPeeringConfig?: Expressionable<ExpressRouteCircuitPeeringConfig>;
   routeFilter?: Expressionable<SubResource>;
-  state?: Expressionable<'Disabled' | 'Enabled'>;
+  state?: Expressionable<('Disabled' | 'Enabled')>;
 }
 
 export interface LoadBalancerPropertiesFormat {
@@ -846,13 +846,13 @@ export interface LoadBalancerPropertiesFormat {
 
 export interface loadBalancers_inboundNatRules_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'inboundNatRules'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('inboundNatRules')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<InboundNatRulePropertiesFormat>;
 }
 
 export interface LoadBalancerSku {
-  name?: Expressionable<'Basic' | 'Standard'>;
+  name?: Expressionable<('Basic' | 'Standard')>;
 }
 
 export interface LoadBalancingRule {
@@ -864,8 +864,8 @@ export interface LoadBalancingRulePropertiesFormat {
   frontendIPConfiguration: Expressionable<SubResource>;
   backendAddressPool?: Expressionable<SubResource>;
   probe?: Expressionable<SubResource>;
-  protocol: Expressionable<'Udp' | 'Tcp' | 'All'>;
-  loadDistribution?: Expressionable<'Default' | 'SourceIP' | 'SourceIPProtocol'>;
+  protocol: Expressionable<('Udp' | 'Tcp' | 'All')>;
+  loadDistribution?: Expressionable<('Default' | 'SourceIP' | 'SourceIPProtocol')>;
   frontendPort: Expressionable<number>;
   backendPort: Expressionable<number>;
   idleTimeoutInMinutes?: Expressionable<number>;
@@ -887,7 +887,7 @@ export interface ManagedRuleGroupOverride {
 
 export interface ManagedRuleOverride {
   ruleId: Expressionable<string>;
-  state?: Expressionable<'Disabled'>;
+  state?: Expressionable<('Disabled')>;
 }
 
 export interface ManagedRulesDefinition {
@@ -902,7 +902,7 @@ export interface ManagedRuleSet {
 }
 
 export interface ManagedServiceIdentity {
-  type?: Expressionable<'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None'>;
+  type?: Expressionable<('SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None')>;
 }
 
 export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
@@ -910,14 +910,14 @@ export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
 
 export interface MatchCondition {
   matchVariables: Expressionable<MatchVariable[]>;
-  operator: Expressionable<'IPMatch' | 'Equal' | 'Contains' | 'LessThan' | 'GreaterThan' | 'LessThanOrEqual' | 'GreaterThanOrEqual' | 'BeginsWith' | 'EndsWith' | 'Regex' | 'GeoMatch'>;
+  operator: Expressionable<('IPMatch' | 'Equal' | 'Contains' | 'LessThan' | 'GreaterThan' | 'LessThanOrEqual' | 'GreaterThanOrEqual' | 'BeginsWith' | 'EndsWith' | 'Regex' | 'GeoMatch')>;
   negationConditon?: Expressionable<boolean>;
   matchValues: Expressionable<string[]>;
-  transforms?: Expressionable<'Lowercase' | 'Trim' | 'UrlDecode' | 'UrlEncode' | 'RemoveNulls' | 'HtmlEntityDecode'[]>;
+  transforms?: Expressionable<('Lowercase' | 'Trim' | 'UrlDecode' | 'UrlEncode' | 'RemoveNulls' | 'HtmlEntityDecode')[]>;
 }
 
 export interface MatchVariable {
-  variableName: Expressionable<'RemoteAddr' | 'RequestMethod' | 'QueryString' | 'PostArgs' | 'RequestUri' | 'RequestHeaders' | 'RequestBody' | 'RequestCookies'>;
+  variableName: Expressionable<('RemoteAddr' | 'RequestMethod' | 'QueryString' | 'PostArgs' | 'RequestUri' | 'RequestHeaders' | 'RequestBody' | 'RequestCookies')>;
   selector?: Expressionable<string>;
 }
 
@@ -928,7 +928,7 @@ export interface NatGatewayPropertiesFormat {
 }
 
 export interface NatGatewaySku {
-  name?: Expressionable<'Standard'>;
+  name?: Expressionable<('Standard')>;
 }
 
 export interface NetworkInterfaceDnsSettings {
@@ -947,8 +947,8 @@ export interface NetworkInterfaceIPConfigurationPropertiesFormat {
   loadBalancerBackendAddressPools?: Expressionable<SubResource[]>;
   loadBalancerInboundNatRules?: Expressionable<SubResource[]>;
   privateIPAddress?: Expressionable<string>;
-  privateIPAllocationMethod?: Expressionable<'Static' | 'Dynamic'>;
-  privateIPAddressVersion?: Expressionable<'IPv4' | 'IPv6'>;
+  privateIPAllocationMethod?: Expressionable<('Static' | 'Dynamic')>;
+  privateIPAddressVersion?: Expressionable<('IPv4' | 'IPv6')>;
   subnet?: Expressionable<SubResource>;
   primary?: Expressionable<boolean>;
   publicIPAddress?: Expressionable<SubResource>;
@@ -965,8 +965,8 @@ export interface NetworkInterfacePropertiesFormat {
 
 export interface networkInterfaces_tapConfigurations_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'tapConfigurations'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('tapConfigurations')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<NetworkInterfaceTapConfigurationPropertiesFormat>;
 }
 
@@ -979,7 +979,7 @@ export interface NetworkProfilePropertiesFormat {
 }
 
 export interface NetworkRuleCondition {
-  ipProtocols?: Expressionable<'TCP' | 'UDP' | 'Any' | 'ICMP'[]>;
+  ipProtocols?: Expressionable<('TCP' | 'UDP' | 'Any' | 'ICMP')[]>;
   sourceAddresses?: Expressionable<string[]>;
   destinationAddresses?: Expressionable<string[]>;
   destinationPorts?: Expressionable<string[]>;
@@ -992,8 +992,8 @@ export interface NetworkSecurityGroupPropertiesFormat {
 
 export interface networkSecurityGroups_securityRules_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'securityRules'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('securityRules')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<SecurityRulePropertiesFormat>;
 }
 
@@ -1002,8 +1002,8 @@ export interface NetworkWatcherPropertiesFormat {
 
 export interface networkWatchers_packetCaptures_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'packetCaptures'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('packetCaptures')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<PacketCaptureParameters>;
 }
 
@@ -1016,14 +1016,14 @@ export interface OutboundRulePropertiesFormat {
   allocatedOutboundPorts?: Expressionable<number>;
   frontendIPConfigurations: Expressionable<SubResource[]>;
   backendAddressPool: Expressionable<SubResource>;
-  protocol: Expressionable<'Tcp' | 'Udp' | 'All'>;
+  protocol: Expressionable<('Tcp' | 'Udp' | 'All')>;
   enableTcpReset?: Expressionable<boolean>;
   idleTimeoutInMinutes?: Expressionable<number>;
 }
 
 export interface OwaspCrsExclusionEntry {
-  matchVariable: Expressionable<'RequestHeaderNames' | 'RequestCookieNames' | 'RequestArgNames'>;
-  selectorMatchOperator: Expressionable<'Equals' | 'Contains' | 'StartsWith' | 'EndsWith' | 'EqualsAny'>;
+  matchVariable: Expressionable<('RequestHeaderNames' | 'RequestCookieNames' | 'RequestArgNames')>;
+  selectorMatchOperator: Expressionable<('Equals' | 'Contains' | 'StartsWith' | 'EndsWith' | 'EqualsAny')>;
   selector: Expressionable<string>;
 }
 
@@ -1044,7 +1044,7 @@ export interface P2SVpnGatewayProperties {
 }
 
 export interface PacketCaptureFilter {
-  protocol?: Expressionable<'TCP' | 'UDP' | 'Any'>;
+  protocol?: Expressionable<('TCP' | 'UDP' | 'Any')>;
   localIPAddress?: Expressionable<string>;
   remoteIPAddress?: Expressionable<string>;
   localPort?: Expressionable<string>;
@@ -1067,8 +1067,8 @@ export interface PacketCaptureStorageLocation {
 }
 
 export interface PolicySettings {
-  state?: Expressionable<'Disabled' | 'Enabled'>;
-  mode?: Expressionable<'Prevention' | 'Detection'>;
+  state?: Expressionable<('Disabled' | 'Enabled')>;
+  mode?: Expressionable<('Prevention' | 'Detection')>;
   requestBodyCheck?: Expressionable<boolean>;
   maxRequestBodySizeInKb?: Expressionable<number>;
   fileUploadLimitInMb?: Expressionable<number>;
@@ -1109,10 +1109,10 @@ export interface PrivateLinkServiceIpConfiguration {
 
 export interface PrivateLinkServiceIpConfigurationProperties {
   privateIPAddress?: Expressionable<string>;
-  privateIPAllocationMethod?: Expressionable<'Static' | 'Dynamic'>;
+  privateIPAllocationMethod?: Expressionable<('Static' | 'Dynamic')>;
   subnet?: Expressionable<SubResource>;
   primary?: Expressionable<boolean>;
-  privateIPAddressVersion?: Expressionable<'IPv4' | 'IPv6'>;
+  privateIPAddressVersion?: Expressionable<('IPv4' | 'IPv6')>;
 }
 
 export interface PrivateLinkServiceProperties {
@@ -1134,8 +1134,8 @@ export interface PrivateLinkServicePropertiesVisibility {
 
 export interface privateLinkServices_privateEndpointConnections_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'privateEndpointConnections'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('privateEndpointConnections')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<PrivateEndpointConnectionProperties>;
 }
 
@@ -1145,7 +1145,7 @@ export interface Probe {
 }
 
 export interface ProbePropertiesFormat {
-  protocol: Expressionable<'Http' | 'Tcp' | 'Https'>;
+  protocol: Expressionable<('Http' | 'Tcp' | 'Https')>;
   port: Expressionable<number>;
   intervalInSeconds?: Expressionable<number>;
   numberOfProbes: Expressionable<number>;
@@ -1153,10 +1153,10 @@ export interface ProbePropertiesFormat {
 }
 
 export interface ProtocolCustomSettingsFormat {
-  protocol?: Expressionable<'Tcp' | 'Udp' | 'Syn'>;
+  protocol?: Expressionable<('Tcp' | 'Udp' | 'Syn')>;
   triggerRateOverride?: Expressionable<string>;
   sourceRateOverride?: Expressionable<string>;
-  triggerSensitivityOverride?: Expressionable<'Relaxed' | 'Low' | 'Default' | 'High'>;
+  triggerSensitivityOverride?: Expressionable<('Relaxed' | 'Low' | 'Default' | 'High')>;
 }
 
 export interface PublicIPAddressDnsSettings {
@@ -1166,8 +1166,8 @@ export interface PublicIPAddressDnsSettings {
 }
 
 export interface PublicIPAddressPropertiesFormat {
-  publicIPAllocationMethod: Expressionable<'Static' | 'Dynamic'>;
-  publicIPAddressVersion?: Expressionable<'IPv4' | 'IPv6'>;
+  publicIPAllocationMethod: Expressionable<('Static' | 'Dynamic')>;
+  publicIPAddressVersion?: Expressionable<('IPv4' | 'IPv6')>;
   dnsSettings?: Expressionable<PublicIPAddressDnsSettings>;
   ddosSettings?: Expressionable<DdosSettings>;
   ipTags?: Expressionable<IpTag[]>;
@@ -1177,17 +1177,17 @@ export interface PublicIPAddressPropertiesFormat {
 }
 
 export interface PublicIPAddressSku {
-  name?: Expressionable<'Basic' | 'Standard'>;
+  name?: Expressionable<('Basic' | 'Standard')>;
 }
 
 export interface PublicIPPrefixPropertiesFormat {
-  publicIPAddressVersion?: Expressionable<'IPv4' | 'IPv6'>;
+  publicIPAddressVersion?: Expressionable<('IPv4' | 'IPv6')>;
   ipTags?: Expressionable<IpTag[]>;
   prefixLength?: Expressionable<number>;
 }
 
 export interface PublicIPPrefixSku {
-  name?: Expressionable<'Standard'>;
+  name?: Expressionable<('Standard')>;
 }
 
 export interface Route {
@@ -1206,22 +1206,22 @@ export interface RouteFilterRule {
 }
 
 export interface RouteFilterRulePropertiesFormat {
-  access: Expressionable<'Allow' | 'Deny'>;
-  routeFilterRuleType: Expressionable<'Community'>;
+  access: Expressionable<('Allow' | 'Deny')>;
+  routeFilterRuleType: Expressionable<('Community')>;
   communities: Expressionable<string[]>;
 }
 
 export interface routeFilters_routeFilterRules_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'routeFilterRules'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('routeFilterRules')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<RouteFilterRulePropertiesFormat>;
   location?: Expressionable<string>;
 }
 
 export interface RoutePropertiesFormat {
   addressPrefix: Expressionable<string>;
-  nextHopType: Expressionable<'VirtualNetworkGateway' | 'VnetLocal' | 'Internet' | 'VirtualAppliance' | 'None'>;
+  nextHopType: Expressionable<('VirtualNetworkGateway' | 'VnetLocal' | 'Internet' | 'VirtualAppliance' | 'None')>;
   nextHopIpAddress?: Expressionable<string>;
 }
 
@@ -1232,8 +1232,8 @@ export interface RouteTablePropertiesFormat {
 
 export interface routeTables_routes_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'routes'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('routes')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<RoutePropertiesFormat>;
 }
 
@@ -1244,7 +1244,7 @@ export interface SecurityRule {
 
 export interface SecurityRulePropertiesFormat {
   description?: Expressionable<string>;
-  protocol: Expressionable<'Tcp' | 'Udp' | 'Icmp' | 'Esp' | '*' | 'Ah'>;
+  protocol: Expressionable<('Tcp' | 'Udp' | 'Icmp' | 'Esp' | '*' | 'Ah')>;
   sourcePortRange?: Expressionable<string>;
   destinationPortRange?: Expressionable<string>;
   sourceAddressPrefix?: Expressionable<string>;
@@ -1255,9 +1255,9 @@ export interface SecurityRulePropertiesFormat {
   destinationApplicationSecurityGroups?: Expressionable<SubResource[]>;
   sourcePortRanges?: Expressionable<string[]>;
   destinationPortRanges?: Expressionable<string[]>;
-  access: Expressionable<'Allow' | 'Deny'>;
+  access: Expressionable<('Allow' | 'Deny')>;
   priority: Expressionable<number>;
-  direction: Expressionable<'Inbound' | 'Outbound'>;
+  direction: Expressionable<('Inbound' | 'Outbound')>;
 }
 
 export interface ServiceDelegationPropertiesFormat {
@@ -1266,8 +1266,8 @@ export interface ServiceDelegationPropertiesFormat {
 
 export interface serviceEndpointPolicies_serviceEndpointPolicyDefinitions_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'serviceEndpointPolicyDefinitions'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('serviceEndpointPolicyDefinitions')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<ServiceEndpointPolicyDefinitionPropertiesFormat>;
 }
 
@@ -1360,8 +1360,8 @@ export interface VirtualHubRouteV2 {
 
 export interface virtualHubs_routeTables_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'routeTables'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('routeTables')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<VirtualHubRouteTableV2Properties>;
 }
 
@@ -1374,8 +1374,8 @@ export interface VirtualNetworkGatewayConnectionPropertiesFormat {
   virtualNetworkGateway1: Expressionable<SubResource>;
   virtualNetworkGateway2?: Expressionable<SubResource>;
   localNetworkGateway2?: Expressionable<SubResource>;
-  connectionType: Expressionable<'IPsec' | 'Vnet2Vnet' | 'ExpressRoute' | 'VPNClient'>;
-  connectionProtocol?: Expressionable<'IKEv2' | 'IKEv1'>;
+  connectionType: Expressionable<('IPsec' | 'Vnet2Vnet' | 'ExpressRoute' | 'VPNClient')>;
+  connectionProtocol?: Expressionable<('IKEv2' | 'IKEv1')>;
   routingWeight?: Expressionable<number>;
   sharedKey?: Expressionable<string>;
   peer?: Expressionable<SubResource>;
@@ -1392,16 +1392,16 @@ export interface VirtualNetworkGatewayIPConfiguration {
 }
 
 export interface VirtualNetworkGatewayIPConfigurationPropertiesFormat {
-  privateIPAllocationMethod?: Expressionable<'Static' | 'Dynamic'>;
+  privateIPAllocationMethod?: Expressionable<('Static' | 'Dynamic')>;
   subnet?: Expressionable<SubResource>;
   publicIPAddress?: Expressionable<SubResource>;
 }
 
 export interface VirtualNetworkGatewayPropertiesFormat {
   ipConfigurations?: Expressionable<VirtualNetworkGatewayIPConfiguration[]>;
-  gatewayType?: Expressionable<'Vpn' | 'ExpressRoute' | 'HyperNet'>;
-  vpnType?: Expressionable<'PolicyBased' | 'RouteBased'>;
-  vpnGatewayGeneration?: Expressionable<'None' | 'Generation1' | 'Generation2'>;
+  gatewayType?: Expressionable<('Vpn' | 'ExpressRoute' | 'HyperNet')>;
+  vpnType?: Expressionable<('PolicyBased' | 'RouteBased')>;
+  vpnGatewayGeneration?: Expressionable<('None' | 'Generation1' | 'Generation2')>;
   enableBgp?: Expressionable<boolean>;
   activeActive?: Expressionable<boolean>;
   gatewayDefaultSite?: Expressionable<SubResource>;
@@ -1413,8 +1413,8 @@ export interface VirtualNetworkGatewayPropertiesFormat {
 }
 
 export interface VirtualNetworkGatewaySku {
-  name?: Expressionable<'Basic' | 'HighPerformance' | 'Standard' | 'UltraPerformance' | 'VpnGw1' | 'VpnGw2' | 'VpnGw3' | 'VpnGw4' | 'VpnGw5' | 'VpnGw1AZ' | 'VpnGw2AZ' | 'VpnGw3AZ' | 'VpnGw4AZ' | 'VpnGw5AZ' | 'ErGw1AZ' | 'ErGw2AZ' | 'ErGw3AZ'>;
-  tier?: Expressionable<'Basic' | 'HighPerformance' | 'Standard' | 'UltraPerformance' | 'VpnGw1' | 'VpnGw2' | 'VpnGw3' | 'VpnGw4' | 'VpnGw5' | 'VpnGw1AZ' | 'VpnGw2AZ' | 'VpnGw3AZ' | 'VpnGw4AZ' | 'VpnGw5AZ' | 'ErGw1AZ' | 'ErGw2AZ' | 'ErGw3AZ'>;
+  name?: Expressionable<('Basic' | 'HighPerformance' | 'Standard' | 'UltraPerformance' | 'VpnGw1' | 'VpnGw2' | 'VpnGw3' | 'VpnGw4' | 'VpnGw5' | 'VpnGw1AZ' | 'VpnGw2AZ' | 'VpnGw3AZ' | 'VpnGw4AZ' | 'VpnGw5AZ' | 'ErGw1AZ' | 'ErGw2AZ' | 'ErGw3AZ')>;
+  tier?: Expressionable<('Basic' | 'HighPerformance' | 'Standard' | 'UltraPerformance' | 'VpnGw1' | 'VpnGw2' | 'VpnGw3' | 'VpnGw4' | 'VpnGw5' | 'VpnGw1AZ' | 'VpnGw2AZ' | 'VpnGw3AZ' | 'VpnGw4AZ' | 'VpnGw5AZ' | 'ErGw1AZ' | 'ErGw2AZ' | 'ErGw3AZ')>;
 }
 
 export interface VirtualNetworkPeering {
@@ -1429,7 +1429,7 @@ export interface VirtualNetworkPeeringPropertiesFormat {
   useRemoteGateways?: Expressionable<boolean>;
   remoteVirtualNetwork: Expressionable<SubResource>;
   remoteAddressSpace?: Expressionable<AddressSpace>;
-  peeringState?: Expressionable<'Initiated' | 'Connected' | 'Disconnected'>;
+  peeringState?: Expressionable<('Initiated' | 'Connected' | 'Disconnected')>;
 }
 
 export interface VirtualNetworkPropertiesFormat {
@@ -1445,15 +1445,15 @@ export interface VirtualNetworkPropertiesFormat {
 
 export interface virtualNetworks_subnets_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'subnets'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('subnets')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<SubnetPropertiesFormat>;
 }
 
 export interface virtualNetworks_virtualNetworkPeerings_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'virtualNetworkPeerings'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('virtualNetworkPeerings')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<VirtualNetworkPeeringPropertiesFormat>;
 }
 
@@ -1477,8 +1477,8 @@ export interface VirtualRouterPropertiesFormat {
 
 export interface virtualRouters_peerings_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'peerings'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('peerings')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<VirtualRouterPeeringProperties>;
 }
 
@@ -1486,7 +1486,7 @@ export interface VirtualWanProperties {
   disableVpnEncryption?: Expressionable<boolean>;
   allowBranchToBranchTraffic?: Expressionable<boolean>;
   allowVnetToVnetTraffic?: Expressionable<boolean>;
-  office365LocalBreakoutCategory?: Expressionable<'Optimize' | 'OptimizeAndAllow' | 'All' | 'None'>;
+  office365LocalBreakoutCategory?: Expressionable<('Optimize' | 'OptimizeAndAllow' | 'All' | 'None')>;
   type?: Expressionable<string>;
 }
 
@@ -1494,7 +1494,7 @@ export interface VpnClientConfiguration {
   vpnClientAddressPool?: Expressionable<AddressSpace>;
   vpnClientRootCertificates?: Expressionable<VpnClientRootCertificate[]>;
   vpnClientRevokedCertificates?: Expressionable<VpnClientRevokedCertificate[]>;
-  vpnClientProtocols?: Expressionable<'IkeV2' | 'SSTP' | 'OpenVPN'[]>;
+  vpnClientProtocols?: Expressionable<('IkeV2' | 'SSTP' | 'OpenVPN')[]>;
   vpnClientIpsecPolicies?: Expressionable<IpsecPolicy[]>;
   radiusServerAddress?: Expressionable<string>;
   radiusServerSecret?: Expressionable<string>;
@@ -1529,8 +1529,8 @@ export interface VpnConnection {
 export interface VpnConnectionProperties {
   remoteVpnSite?: Expressionable<SubResource>;
   routingWeight?: Expressionable<number>;
-  connectionStatus?: Expressionable<'Unknown' | 'Connecting' | 'Connected' | 'NotConnected'>;
-  vpnConnectionProtocolType?: Expressionable<'IKEv2' | 'IKEv1'>;
+  connectionStatus?: Expressionable<('Unknown' | 'Connecting' | 'Connected' | 'NotConnected')>;
+  vpnConnectionProtocolType?: Expressionable<('IKEv2' | 'IKEv1')>;
   connectionBandwidth?: Expressionable<number>;
   sharedKey?: Expressionable<string>;
   enableBgp?: Expressionable<boolean>;
@@ -1551,8 +1551,8 @@ export interface VpnGatewayProperties {
 
 export interface vpnGateways_vpnConnections_childResource {
   name: Expressionable<string>;
-  type: Expressionable<'vpnConnections'>;
-  apiVersion: Expressionable<'2019-11-01'>;
+  type: Expressionable<('vpnConnections')>;
+  apiVersion: Expressionable<('2019-11-01')>;
   properties: Expressionable<VpnConnectionProperties>;
 }
 
@@ -1578,8 +1578,8 @@ export interface VpnServerConfigRadiusServerRootCertificate {
 
 export interface VpnServerConfigurationProperties {
   name?: Expressionable<string>;
-  vpnProtocols?: Expressionable<'IkeV2' | 'OpenVPN'[]>;
-  vpnAuthenticationTypes?: Expressionable<'Certificate' | 'Radius' | 'AAD'[]>;
+  vpnProtocols?: Expressionable<('IkeV2' | 'OpenVPN')[]>;
+  vpnAuthenticationTypes?: Expressionable<('Certificate' | 'Radius' | 'AAD')[]>;
   vpnClientRootCertificates?: Expressionable<VpnServerConfigVpnClientRootCertificate[]>;
   vpnClientRevokedCertificates?: Expressionable<VpnServerConfigVpnClientRevokedCertificate[]>;
   radiusServerRootCertificates?: Expressionable<VpnServerConfigRadiusServerRootCertificate[]>;
@@ -1613,8 +1613,8 @@ export interface VpnSiteLinkConnection {
 export interface VpnSiteLinkConnectionProperties {
   vpnSiteLink?: Expressionable<SubResource>;
   routingWeight?: Expressionable<number>;
-  connectionStatus?: Expressionable<'Unknown' | 'Connecting' | 'Connected' | 'NotConnected'>;
-  vpnConnectionProtocolType?: Expressionable<'IKEv2' | 'IKEv1'>;
+  connectionStatus?: Expressionable<('Unknown' | 'Connecting' | 'Connected' | 'NotConnected')>;
+  vpnConnectionProtocolType?: Expressionable<('IKEv2' | 'IKEv1')>;
   connectionBandwidth?: Expressionable<number>;
   sharedKey?: Expressionable<string>;
   enableBgp?: Expressionable<boolean>;
@@ -1644,9 +1644,9 @@ export interface VpnSiteProperties {
 export interface WebApplicationFirewallCustomRule {
   name?: Expressionable<string>;
   priority: Expressionable<number>;
-  ruleType: Expressionable<'MatchRule' | 'Invalid'>;
+  ruleType: Expressionable<('MatchRule' | 'Invalid')>;
   matchConditions: Expressionable<MatchCondition[]>;
-  action: Expressionable<'Allow' | 'Block' | 'Log'>;
+  action: Expressionable<('Allow' | 'Block' | 'Log')>;
 }
 
 export interface WebApplicationFirewallPolicyPropertiesFormat {
