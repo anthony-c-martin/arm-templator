@@ -1,5 +1,5 @@
-import { Expressionable, ResourceDefinition, Expression } from "../../lib/common";
-import { ConcatExpression } from "../../lib/expression";
+import { Expressionable, ResourceDefinition, Expression } from '../../lib/common';
+import { ConcatExpression } from '../../lib/expression';
 import fs from 'fs';
 
 function readScriptFile(path: string): string {

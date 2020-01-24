@@ -1,5 +1,5 @@
 // Generated using 'npm run schema C:\github\azure-resource-manager-schemas\schemas\2019-06-01\Microsoft.Storage.json'
-import { Expressionable, ResourceDefinition } from '../lib/common';
+import { Expressionable, ResourceDefinition } from '../common';
 
 export interface ActiveDirectoryProperties {
   domainName: Expressionable<string>;

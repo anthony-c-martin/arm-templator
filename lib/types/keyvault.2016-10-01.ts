@@ -1,5 +1,5 @@
 // Generated using 'npm run schema C:\github\azure-resource-manager-schemas\schemas\2016-10-01\Microsoft.KeyVault.json'
-import { Expressionable, ResourceDefinition } from '../lib/common';
+import { Expressionable, ResourceDefinition } from '../common';
 
 export interface AccessPolicyEntry {
   tenantId: Expressionable<string>;

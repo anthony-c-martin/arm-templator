@@ -198,7 +198,7 @@ const schema = JSON.parse(fs.readFileSync(schemaPath, { encoding: 'utf8' }));
 const definitions = schema.definitions;
 
 appendOutput(`// Generated using 'npm run schema ${schemaPath}'`);
-appendOutput(`import { Expressionable, ResourceDefinition } from '../lib/common';`);
+appendOutput(`import { Expressionable, ResourceDefinition } from '../common';`);
 appendOutput(``);
 
 for (const name of Object.keys(definitions)) {

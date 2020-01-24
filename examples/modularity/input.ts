@@ -1,6 +1,6 @@
 import { renderTemplate, concat, resourceGroupLocation } from '../../lib/template';
-import { ComputeBuilder as compute } from '../../defs/compute.2019-07-01';
-import { NetworkBuilder as network } from '../../defs/network.2019-11-01';
+import { ComputeBuilder as compute } from '../../lib/types/compute.2019-07-01';
+import { NetworkBuilder as network } from '../../lib/types/network.2019-11-01';
 import { nicGenerator, vmGenerator } from '../includes/modularity';
 
 export default renderTemplate(template => {

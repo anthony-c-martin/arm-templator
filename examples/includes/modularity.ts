@@ -1,6 +1,6 @@
-import { Expressionable } from "../../lib/common";
-import { VirtualMachineProperties } from "../../defs/compute.2019-07-01";
-import { NetworkInterfacePropertiesFormat } from "../../defs/network.2019-11-01";
+import { Expressionable } from '../../lib/common';
+import { VirtualMachineProperties } from '../../lib/types/compute.2019-07-01';
+import { NetworkInterfacePropertiesFormat } from '../../lib/types/network.2019-11-01';
 
 export const vmGenerator = (computerName: Expressionable<string>, nicResourceId: Expressionable<string>): VirtualMachineProperties => ({
   osProfile: {

@@ -1,5 +1,5 @@
 // Generated using 'npm run schema C:\github\azure-resource-manager-schemas\schemas\2019-11-01\Microsoft.Network.json'
-import { Expressionable, ResourceDefinition } from '../lib/common';
+import { Expressionable, ResourceDefinition } from '../common';
 
 export interface AadAuthenticationParameters {
   aadTenant?: Expressionable<string>;
