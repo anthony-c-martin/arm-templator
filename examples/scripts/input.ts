@@ -1,4 +1,4 @@
-import { renderTemplate, resourceGroupLocation, concat } from '../../lib/template';
+import { renderTemplate, resourceGroupLocation, getReference } from '../../lib/template';
 import { createScriptsResource } from '../includes/scripts';
 
 export default renderTemplate(template => {
@@ -13,6 +13,6 @@ export default renderTemplate(template => {
       name,
     }), []);
 
-  const ref = template.getReference(script);
+  const ref = getReference(script);
   template.addObjectOutput('text', ref.call('output').call('text'));
 });

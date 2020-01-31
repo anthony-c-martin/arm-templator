@@ -130,14 +130,6 @@ class Template {
     const output = new TemplateOutput(name, TYPE_SECURESTRING, value);
     this.outputs.push(output);
   }
-
-  getReference<T>(resource: ResourceReference<T>): Expression<T> {
-    return new ReferenceExpression<T>(resource);
-  }
-
-  getResourceId<T>(resource: ResourceReference<T>): Expression<string> {
-    return new ResourceIdExpression(resource);
-  }
 }
 
 function formatObject(input: any): any {
@@ -243,4 +235,12 @@ export function concat(...components: Expressionable<string>[]): Expression<stri
 
 export function resourceGroupLocation(): Expression<string> {
   return new ResourceGroupLocationExpression();
+}
+
+export function getReference<T>(resource: ResourceReference<T>): Expression<T> {
+  return new ReferenceExpression<T>(resource);
+}
+
+export function getResourceId<T>(resource: ResourceReference<T>): Expression<string> {
+  return new ResourceIdExpression(resource);
 }

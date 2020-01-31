@@ -1,5 +1,5 @@
-import { renderTemplate, concat } from '../../lib/template';
-import { ComputeBuilder as compute } from '../../lib/types/compute.2019-07-01';
+import { renderTemplate, concat, getResourceId } from '../../lib/template';
+import { ComputeBuilder as compute, StorageProfile } from '../../lib/types/compute.2019-07-01';
 import { NetworkBuilder as network } from '../../lib/types/network.2019-11-01';
 
 export default renderTemplate(template => {
@@ -38,6 +38,19 @@ export default renderTemplate(template => {
 
   const storageUri = template.addVariable('bootDiagsUri', concat('http://', resourceName, '.blob.core.windows.net'));
 
+  const storageProfile: StorageProfile = {
+    imageReference: {
+      publisher: 'MicrosoftWindowsServer',
+      offer: 'WindowsServer',
+      sku: '2016-Datacenter',
+      version: 'latest'
+    },
+    osDisk: {
+      createOption: 'FromImage'
+    },
+    dataDisks: []
+  };
+
   const vm = template.deploy(
     compute.virtualMachines(
       resourceName, {
@@ -52,25 +65,14 @@ export default renderTemplate(template => {
         hardwareProfile: {
           vmSize: 'Standard_A1_v2',
         },
-        storageProfile: {
-          imageReference: {
-            publisher: 'MicrosoftWindowsServer',
-            offer: 'WindowsServer',
-            sku: '2016-Datacenter',
-            version: 'latest'
-          },
-          osDisk: {
-            createOption: 'FromImage'
-          },
-          dataDisks: []
-        },
+        storageProfile,
         networkProfile: {
           networkInterfaces: [
             {
               properties: {
                 primary: true
               },
-              id: template.getResourceId(nic),
+              id: getResourceId(nic),
             },
           ]
         },

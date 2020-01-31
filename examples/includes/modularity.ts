@@ -1,8 +1,21 @@
 import { Expressionable } from '../../lib/common';
-import { VirtualMachineProperties } from '../../lib/types/compute.2019-07-01';
+import { VirtualMachineProperties, StorageProfile } from '../../lib/types/compute.2019-07-01';
 import { NetworkInterfacePropertiesFormat } from '../../lib/types/network.2019-11-01';
 
-export const vmGenerator = (computerName: Expressionable<string>, nicResourceId: Expressionable<string>): VirtualMachineProperties => ({
+const baseStorageProfile: StorageProfile = {
+  imageReference: {
+    publisher: 'MicrosoftWindowsServer',
+    offer: 'WindowsServer',
+    sku: '2016-Datacenter',
+    version: 'latest'
+  },
+  osDisk: {
+    createOption: 'FromImage'
+  },
+  dataDisks: []
+};
+
+export const createBaseVm = (computerName: Expressionable<string>, nicResourceId: Expressionable<string>): VirtualMachineProperties => ({
   osProfile: {
     computerName: computerName,
     adminUsername: 'antm88',
@@ -14,18 +27,7 @@ export const vmGenerator = (computerName: Expressionable<string>, nicResourceId:
   hardwareProfile: {
     vmSize: 'Standard_A1_v2',
   },
-  storageProfile: {
-    imageReference: {
-      publisher: 'MicrosoftWindowsServer',
-      offer: 'WindowsServer',
-      sku: '2016-Datacenter',
-      version: 'latest'
-    },
-    osDisk: {
-      createOption: 'FromImage'
-    },
-    dataDisks: []
-  },
+  storageProfile: baseStorageProfile,
   networkProfile: {
     networkInterfaces: [
       {
@@ -38,7 +40,7 @@ export const vmGenerator = (computerName: Expressionable<string>, nicResourceId:
   },
 });
 
-export const nicGenerator = (subnetResourceId: Expressionable<string>, publicIpAddressResourceId: Expressionable<string>): NetworkInterfacePropertiesFormat => ({
+export const createBaseNic = (subnetResourceId: Expressionable<string>, publicIpAddressResourceId: Expressionable<string>): NetworkInterfacePropertiesFormat => ({
   ipConfigurations: [{
     name: 'myConfig',
     properties: {
