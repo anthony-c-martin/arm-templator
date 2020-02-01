@@ -25,9 +25,9 @@ class CallExpression<T, P extends keyof T> extends Expression<T[P]> {
 export type Expressionable<T> = T | Expression<T>
 
 export interface ResourceReference<T> {
-  type: string;
-  apiVersion: string;
-  name: Expressionable<string>;
+  readonly type: string;
+  readonly apiVersion: string;
+  readonly name: Expressionable<string>;
 }
 
 export interface ResourceDefinition<T> {

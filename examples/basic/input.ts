@@ -1,17 +1,30 @@
-import { renderTemplate, concat, getResourceId } from '../../lib/template';
+import { renderTemplate, concat, getResourceId, resourceGroupLocation } from '../../lib/template';
 import { ComputeBuilder as compute, StorageProfile } from '../../lib/types/compute.2019-07-01';
 import { NetworkBuilder as network } from '../../lib/types/network.2019-11-01';
 
-export default renderTemplate(template => {
-  const location = template.addStringParameter('location', 'West US');
-  const resourceName = template.addStringParameter('resourceName', 'test');
-  const subnetResourceId = template.addStringParameter('subnetResourceId');
-  const publicIpAddressResourceId = template.addStringParameter('publicIpAddressResourceId');
+const defaultStorageProfile: StorageProfile = {
+  imageReference: {
+    publisher: 'MicrosoftWindowsServer',
+    offer: 'WindowsServer',
+    sku: '2016-Datacenter',
+    version: 'latest'
+  },
+  osDisk: {
+    createOption: 'FromImage'
+  },
+  dataDisks: []
+};
 
+export default renderTemplate(template => {
+  const location = resourceGroupLocation();
+  const namePrefix = template.addStringParameter('namePrefix');
+  const subnetResourceId = template.addStringParameter('subnetResourceId');
+
+  // example of un-typed resource
   const storageAccount = template.deploy({
     apiVersion: '2015-06-15',
     type: 'Microsoft.Storage/storageAccounts',
-    name: resourceName,
+    name: concat(namePrefix, 'stg'),
     location: location,
     properties: {
       accountType: 'Standard_LRS',
@@ -20,7 +33,7 @@ export default renderTemplate(template => {
 
   const nic = template.deploy(
     network.networkInterfaces(
-      resourceName, {
+      concat(namePrefix, '-nic'), {
         ipConfigurations: [{
           name: 'myConfig',
           properties: {
@@ -28,36 +41,20 @@ export default renderTemplate(template => {
               id: subnetResourceId,
             },
             privateIPAllocationMethod: 'Dynamic',
-            publicIPAddress: {
-              id: publicIpAddressResourceId,
-            }
           }
         }],
       }, location),
     []);
 
-  const storageUri = template.addVariable('bootDiagsUri', concat('http://', resourceName, '.blob.core.windows.net'));
-
-  const storageProfile: StorageProfile = {
-    imageReference: {
-      publisher: 'MicrosoftWindowsServer',
-      offer: 'WindowsServer',
-      sku: '2016-Datacenter',
-      version: 'latest'
-    },
-    osDisk: {
-      createOption: 'FromImage'
-    },
-    dataDisks: []
-  };
+  const storageUri = template.addVariable('bootDiagsUri', concat('http://', storageAccount.name, '.blob.core.windows.net'));
 
   const vm = template.deploy(
     compute.virtualMachines(
-      resourceName, {
+      concat(namePrefix, '-vm'), {
         osProfile: {
           computerName: 'myVm',
-          adminUsername: 'antm88',
-          adminPassword: 'secretPassword',
+          adminUsername: concat(namePrefix, 'admin'),
+          adminPassword: 'myS3cretP@ssw0rd',
           windowsConfiguration: {
             provisionVMAgent: true,
           },
@@ -65,7 +62,7 @@ export default renderTemplate(template => {
         hardwareProfile: {
           vmSize: 'Standard_A1_v2',
         },
-        storageProfile,
+        storageProfile: defaultStorageProfile,
         networkProfile: {
           networkInterfaces: [
             {
