@@ -258,6 +258,6 @@ for (const name of Object.keys(resources)) {
 appendOutput(`}`);
 
 fs.writeFileSync(
-  `${__dirname}/../defs/${shortNamespace.toLowerCase()}.${globalApiVersion}.ts`,
+  `${__dirname}/../lib/types/${shortNamespace.toLowerCase()}.${globalApiVersion}.ts`,
   output,
   { encoding: 'utf8' });
