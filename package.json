@@ -1,6 +1,6 @@
 {
   "name": "arm-templator",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "ARM Typescript template generator prototype",
   "main": "dist/template",
   "typings": "dist/template",
