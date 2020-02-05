@@ -5,8 +5,9 @@ import * as yargs from 'yargs';
 import { Deployment } from '../lib/template';
 import { inspect } from 'util';
 import chalk from 'chalk';
+import { series } from 'async';
 
-export async function deploy() {
+async function deployAsync() {
   const argv = yargs.options({
     path: { type: 'string', demandOption: true, desc: 'Path to the deployment ts file' },
   }).argv;
@@ -52,7 +53,7 @@ export async function deploy() {
   }
 }
 
-export async function display() {
+async function displayAsync() {
   const argv = yargs.options({
     path: { type: 'string', demandOption: true, desc: 'Path to the deployment ts file' },
     full: { type: 'boolean', demandOption: false, desc: 'Include the full deployment object' },
@@ -76,3 +77,16 @@ function renderParams(parameters: {[key: string]: any}) {
 
   return output;
 }
+
+function runSynchronously(asyncFunction: () => Promise<any>) {
+  series(
+    [asyncFunction], 
+    (error, _) => {
+      if (error) {
+        throw error;
+      }
+    });
+}
+
+export function deploy() { runSynchronously(deployAsync); }
+export function display() { runSynchronously(displayAsync); }

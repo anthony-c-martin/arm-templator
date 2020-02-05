@@ -1,13 +1,12 @@
 {
   "name": "arm-templator",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "ARM Typescript template generator prototype",
   "main": "dist/template",
   "typings": "dist/template",
   "scripts": {
     "deploy": "ts-node cli/deploy",
     "display": "ts-node cli/display",
-    "start": "ts-node cli/gen-template",
     "schema": "ts-node cli/gen-schema",
     "prepublishOnly": "npm run compile",
     "compile": "npm run clean && tsc -p .",
