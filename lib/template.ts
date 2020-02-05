@@ -17,6 +17,16 @@ interface TemplateResource<T> {
   dependsOn?: Expressionable<string>[];
 }
 
+export interface Deployment {
+  location: string,
+  subscriptionId: string,
+  resourceGroup: string,
+  name: string,
+  mode: 'Incremental' | 'Complete',
+  template: any,
+  parameters: {[key: string]: any},
+}
+
 class Template {
   constructor() {
     this.resources = [];

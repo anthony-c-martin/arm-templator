@@ -3,47 +3,54 @@ import { interactiveLogin } from 'ms-rest-azure';
 import { ResourceManagementClient } from 'azure-arm-resource';
 import { series } from 'async';
 import * as yargs from 'yargs';
+import { Deployment } from '../lib/template';
+import { inspect } from 'util';
+import chalk from 'chalk';
 
 const argv = yargs.options({
-  template: { type: 'string', demandOption: true, desc: 'Path to the template ts file' },
-  params: { type: 'string', demandOption: true, desc: 'Path to the params ts file' },
-  sub: { type: 'string', demandOption: true, desc: 'Azure Subscription Id' },
-  group: { type: 'string', demandOption: true, desc: 'Resource Group Name' },
-  deployment: { type: 'string', demandOption: true, desc: 'Deployment Name' },
-  location: { type: 'string', demandOption: true, desc: 'Resource Group Location' }
+  path: { type: 'string', demandOption: true, desc: 'Path to the deployment ts file' },
 }).argv;
 
 series([async () => {
-  const template = require(path.resolve(argv.template)).default;
-  const parameters = renderParams(path.resolve(argv.params));
+  const deployment: Deployment = require(path.resolve(argv.path)).default;
 
   const creds = await interactiveLogin();
 
-  const client = new ResourceManagementClient.ResourceManagementClient(creds, argv.sub);
+  const client = new ResourceManagementClient.ResourceManagementClient(creds, deployment.subscriptionId);
   
-  const rgExists = await client.resourceGroups.checkExistence(argv.group);
+  const rgExists = await client.resourceGroups.checkExistence(deployment.resourceGroup);
   
   if (!rgExists) {
     await client.resourceGroups.createOrUpdate(
-      argv.group,
+      deployment.resourceGroup,
       {
-        location: argv.location,
+        location: deployment.location,
       },
     );
   }
 
-  const deployment = await client.deployments.createOrUpdate(
-    argv.group,
-    argv.deployment,
-    {
-      properties: {
-        template,
-        mode: 'Complete',
-        parameters,
-      },
-    });
+  try {
+    const result = await client.deployments.createOrUpdate(
+      deployment.resourceGroup,
+      deployment.name,
+      {
+        properties: {
+          template: deployment.template,
+          mode: deployment.mode,
+          parameters: renderParams(deployment.parameters),
+        },
+      });
 
-  console.log(JSON.stringify(deployment?.properties?.outputs, null, 2));
+      console.log(chalk.green('Deployment Succeeded!'));
+      console.log(inspect(result?.properties?.outputs, false, null));
+  } catch (err) {
+    console.log(chalk.red('Deployment Failed!'));
+
+    const result = await client.deploymentOperations.list(deployment.resourceGroup, deployment.name);
+    console.log(inspect(result.slice(), false, null));
+
+    throw err;
+  }
 }], 
 (error, _) => {
   if (error) {
@@ -51,8 +58,7 @@ series([async () => {
   }
 });
 
-function renderParams(paramsPath: string) {
-  const parameters = require(paramsPath).default;
+function renderParams(parameters: {[key: string]: any}) {
   const output: {[key: string]: any} = {};
 
   for (const key of Object.keys(parameters)) {
