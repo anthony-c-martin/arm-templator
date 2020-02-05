@@ -2,7 +2,7 @@ import path = require('path');
 import { interactiveLogin } from 'ms-rest-azure';
 import { ResourceManagementClient } from 'azure-arm-resource';
 import * as yargs from 'yargs';
-import { Deployment } from '../lib/template';
+import { Deployment } from './template';
 import { inspect } from 'util';
 import chalk from 'chalk';
 import { series } from 'async';
