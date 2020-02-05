@@ -1,5 +1,6 @@
-import { Deployment } from "../../lib/template";
+import { Deployment } from '../../lib/template';
 import { default as template } from './input'
+import { createCli } from '../../lib/cli';
 
 const subscriptionId = '319b29d4-ae29-421c-b557-eac405f673b6';
 const resourceGroup = 'antscripts';
@@ -16,4 +17,4 @@ const deployment: Deployment = {
   }
 }
 
-export default deployment;
+export default createCli(deployment);

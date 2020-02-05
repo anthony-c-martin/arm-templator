@@ -7,13 +7,9 @@ import { inspect } from 'util';
 import chalk from 'chalk';
 import { series } from 'async';
 
-async function deployAsync() {
-  const argv = yargs.options({
-    path: { type: 'string', demandOption: true, desc: 'Path to the deployment ts file' },
-  }).argv;
+async function deployAsync(deployment: Deployment) {
+  const argv = yargs.options({ }).argv;
   
-  const deployment: Deployment = require(path.resolve(argv.path)).default;
-
   const creds = await interactiveLogin();
 
   const client = new ResourceManagementClient.ResourceManagementClient(creds, deployment.subscriptionId);
@@ -53,13 +49,10 @@ async function deployAsync() {
   }
 }
 
-async function displayAsync() {
+async function displayAsync(deployment: Deployment) {
   const argv = yargs.options({
-    path: { type: 'string', demandOption: true, desc: 'Path to the deployment ts file' },
     full: { type: 'boolean', demandOption: false, desc: 'Include the full deployment object' },
   }).argv;
-  
-  const deployment: Deployment = require(path.resolve(argv.path)).default;
   
   const output: any = argv.full ? deployment : deployment.template;
   
@@ -88,5 +81,21 @@ function runSynchronously(asyncFunction: () => Promise<any>) {
     });
 }
 
-export function deploy() { runSynchronously(deployAsync); }
-export function display() { runSynchronously(displayAsync); }
+export class Cli {
+  private deployment: Deployment;
+  constructor(deployment: Deployment) {
+    this.deployment = deployment;
+  }
+
+  deploy() {
+    runSynchronously(() => deployAsync(this.deployment));
+  }
+
+  display() {
+    runSynchronously(() => displayAsync(this.deployment));
+  }
+}
+
+export function createCli(deployment: Deployment) {
+  return new Cli(deployment);
+}
