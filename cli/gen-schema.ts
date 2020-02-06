@@ -62,13 +62,17 @@ class ArrayProperty extends Property {
 }
 
 class ObjectProperty extends Property {
-  constructor(properties: { [name: string]: Property }, required: string[]) {
+  constructor(properties: { [name: string]: Property }, required: string[], oneOfs: Property[], additional: Property | null) {
     super();
     this.properties = properties;
     this.required = required;
+    this.oneOfs = oneOfs;
+    this.additional = additional;
   }
   properties: { [name: string]: Property };
   required: string[];
+  oneOfs: Property[];
+  additional: Property | null;
   getType(): string {
     //todo
     return 'any';
@@ -134,22 +138,34 @@ function getObjectProperty(prop: any) {
   const properties: { [name: string]: Property } = {};
   const required: string[] = [];
 
-  for (const name of Object.keys(prop.properties)) {
-    const subProp = flattenOneOf(prop.properties[name], p => prop.properties[name] = p);
-
-    const property = getProperty(subProp);
-    if (property instanceof Property) {
-      properties[name] = property;
+  if (prop.properties) {
+    for (const name of Object.keys(prop.properties)) {
+      const subProp = flattenOneOf(prop.properties[name], p => prop.properties[name] = p);
+  
+      const property = getProperty(subProp);
+      if (property instanceof Property) {
+        properties[name] = property;
+      }
+    }
+  
+    if (prop.required) {
+      for (const name of prop.required) {
+        required.push(name);
+      }
     }
   }
 
-  if (prop.required) {
-    for (const name of prop.required) {
-      required.push(name);
-    }
+  let additionals = null;
+  if (prop.additionalProperties) {
+    additionals = getProperty(prop.additionalProperties);
   }
 
-  return new ObjectProperty(properties, required);
+  let oneOfs = [];
+  if (prop.oneOf) {
+    oneOfs = prop.oneOf.map(getProperty);
+  }
+
+  return new ObjectProperty(properties, required, oneOfs, additionals);
 }
 
 function getStringProperty(prop: any): Property {
@@ -162,7 +178,7 @@ function getStringProperty(prop: any): Property {
 
 function getDefinition(jsonDef: any, jsonName: string): ObjectProperty {
   if (!jsonDef.properties) {
-    return new ObjectProperty({}, []);
+    return new ObjectProperty({}, [], [], null);
   }
 
   return getObjectProperty(jsonDef);
@@ -192,22 +208,13 @@ function appendOutput(line: string) {
   output += `${line}${os.EOL}`;
 }
 
-const schemaPath = path.resolve(process.argv[2]);
-const schema = JSON.parse(fs.readFileSync(schemaPath, { encoding: 'utf8' }));
+function writeHeaders(schemaPath: string) {
+  appendOutput(`// Generated using 'npm run schema ${schemaPath}'`);
+  appendOutput(`import { Expressionable, ResourceDefinition } from '../common';`);
+  appendOutput(``);
+}
 
-const definitions = schema.definitions;
-
-appendOutput(`// Generated using 'npm run schema ${schemaPath}'`);
-appendOutput(`import { Expressionable, ResourceDefinition } from '../common';`);
-appendOutput(``);
-
-for (const name of Object.keys(definitions)) {
-  const definition = getDefinition(definitions[name], name);
-
-  if (!(definition instanceof ObjectProperty)) {
-    throw `Unable to process properties for definition ${name}`;
-  }
-
+function writeDefinition(definition: ObjectProperty, name: string) {
   appendOutput(`export interface ${name} {`);
   for (const key of Object.keys(definition.properties)) {
     const required = definition.required.indexOf(key) > -1;
@@ -217,9 +224,66 @@ for (const name of Object.keys(definitions)) {
   appendOutput(``);
 }
 
+function writeBuilderFunction(definition: ObjectProperty, name: string) {
+  let resourceProperties = [];
+  if (definition.properties.properties instanceof RefProperty) {
+    resourceProperties = [definition.properties.properties];
+  } else if (definition.oneOfs)
+    for (const oneOf of definition.oneOfs) {
+      if (!(oneOf instanceof RefProperty)) {
+        throw `Unable to process oneOf for resource ${name}`;
+      }
+
+      const target = getDefinition(schema.definitions[oneOf.refName], oneOf.refName);
+      if (!(target instanceof ObjectProperty)) {
+        throw `Unable to process target with ref ${oneOf.refName} for resource ${name}`;
+      }
+      if (!(target.properties.properties instanceof RefProperty)) {
+        throw `Unable to process target with ref ${oneOf.refName} for resource ${name}`;
+      }
+
+      resourceProperties.push(target.properties.properties);
+    }
+  else {
+    throw `Unable to process properties for resource ${name}`;
+  }
+
+  const resourceType = definition.properties.type;
+  if (!(resourceType instanceof EnumProperty)) {
+    throw `Unable to process type for resource ${name}`;
+  }
+
+  const resourceApiVersion = definition.properties.apiVersion;
+  if (!(resourceApiVersion instanceof EnumProperty)) {
+    throw `Unable to process apiVersion for resource ${name}`;
+  }
+  globalApiVersion = resourceApiVersion.values[0];
+
+  const propertiesType = resourceProperties.length > 0 ? resourceProperties.map(r => r.refName).join(' | ') : 'any';
+  appendOutput(`  public static ${name}(name: Expressionable<string>, properties: ${propertiesType}, location: Expressionable<string>): ResourceDefinition<${propertiesType}> {`);
+  appendOutput(`    return {`);
+  appendOutput(`      type: '${resourceType.values[0]}',`);
+  appendOutput(`      apiVersion: '${resourceApiVersion.values[0]}',`);
+  appendOutput(`      name,`);
+  appendOutput(`      location,`);
+  appendOutput(`      properties,`);
+  appendOutput(`    };`);
+  appendOutput(`  }`);
+}
+
+const schemaPath = path.resolve(process.argv[2]);
+const schema = JSON.parse(fs.readFileSync(schemaPath, { encoding: 'utf8' }));
+
 const namespace = schema.title;
 const shortNamespace = namespace.split('.').pop();
 let globalApiVersion;
+
+writeHeaders(schemaPath);
+
+for (const name of Object.keys(schema.definitions)) {
+  const definition = getDefinition(schema.definitions[name], name);
+  writeDefinition(definition, name);
+}
 
 if (!schema.resourceDefinitions) {
   throw `Unable to find resource definitions`;
@@ -229,31 +293,8 @@ appendOutput(`export class ${shortNamespace}Builder {`);
 const resources = schema.resourceDefinitions;
 for (const name of Object.keys(resources)) {
   const definition = getDefinition(resources[name], name);
-  const properties = definition.properties.properties;
-  if (!(properties instanceof RefProperty)) {
-    throw `Unable to process properties for resource ${name}`;
-  }
 
-  const type = definition.properties.type;
-  if (!(type instanceof EnumProperty)) {
-    throw `Unable to process type for resource ${name}`;
-  }
-
-  const apiVersion = definition.properties.apiVersion;
-  if (!(apiVersion instanceof EnumProperty)) {
-    throw `Unable to process apiVersion for resource ${name}`;
-  }
-  globalApiVersion = apiVersion.values[0];
-
-  appendOutput(`  public static ${name}(name: Expressionable<string>, properties: ${properties.refName}, location: Expressionable<string>): ResourceDefinition<${properties.refName}> {`);
-  appendOutput(`    return {`);
-  appendOutput(`      type: '${type.values[0]}',`);
-  appendOutput(`      apiVersion: '${apiVersion.values[0]}',`);
-  appendOutput(`      name,`);
-  appendOutput(`      location,`);
-  appendOutput(`      properties,`);
-  appendOutput(`    };`);
-  appendOutput(`  }`);
+  writeBuilderFunction(definition, name);
 }
 appendOutput(`}`);
 

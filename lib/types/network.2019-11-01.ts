@@ -1,4 +1,4 @@
-// Generated using 'npm run schema C:\github\azure-resource-manager-schemas\schemas\2019-11-01\Microsoft.Network.json'
+// Generated using 'npm run schema /Users/antm88/Desktop/azure-resource-manager-schemas/schemas/2019-11-01/Microsoft.Network.json'
 import { Expressionable, ResourceDefinition } from '../common';
 
 export interface AadAuthenticationParameters {
@@ -237,6 +237,7 @@ export interface ApplicationGatewayRewriteRule {
 export interface ApplicationGatewayRewriteRuleActionSet {
   requestHeaderConfigurations?: Expressionable<ApplicationGatewayHeaderConfiguration[]>;
   responseHeaderConfigurations?: Expressionable<ApplicationGatewayHeaderConfiguration[]>;
+  urlConfiguration?: Expressionable<ApplicationGatewayUrlConfiguration>;
 }
 
 export interface ApplicationGatewayRewriteRuleCondition {
@@ -288,6 +289,12 @@ export interface ApplicationGatewayTrustedRootCertificate {
 export interface ApplicationGatewayTrustedRootCertificatePropertiesFormat {
   data?: Expressionable<string>;
   keyVaultSecretId?: Expressionable<string>;
+}
+
+export interface ApplicationGatewayUrlConfiguration {
+  modifiedPath?: Expressionable<string>;
+  modifiedQueryString?: Expressionable<string>;
+  reroute?: Expressionable<boolean>;
 }
 
 export interface ApplicationGatewayUrlPathMap {
@@ -423,6 +430,7 @@ export interface AzureFirewallPropertiesFormat {
   natRuleCollections?: Expressionable<AzureFirewallNatRuleCollection[]>;
   networkRuleCollections?: Expressionable<AzureFirewallNetworkRuleCollection[]>;
   ipConfigurations?: Expressionable<AzureFirewallIPConfiguration[]>;
+  managementIpConfiguration?: Expressionable<AzureFirewallIPConfiguration>;
   threatIntelMode?: Expressionable<('Alert' | 'Deny' | 'Off')>;
   virtualHub?: Expressionable<SubResource>;
   firewallPolicy?: Expressionable<SubResource>;
@@ -468,6 +476,97 @@ export interface BgpSettings {
   peerWeight?: Expressionable<number>;
 }
 
+export interface ConnectionMonitorDestination {
+  resourceId?: Expressionable<string>;
+  address?: Expressionable<string>;
+  port?: Expressionable<number>;
+}
+
+export interface ConnectionMonitorEndpoint {
+  name: Expressionable<string>;
+  resourceId?: Expressionable<string>;
+  address?: Expressionable<string>;
+  filter?: Expressionable<ConnectionMonitorEndpointFilter>;
+}
+
+export interface ConnectionMonitorEndpointFilter {
+  type?: Expressionable<('Include')>;
+  items?: Expressionable<ConnectionMonitorEndpointFilterItem[]>;
+}
+
+export interface ConnectionMonitorEndpointFilterItem {
+  type?: Expressionable<('AgentAddress')>;
+  address?: Expressionable<string>;
+}
+
+export interface ConnectionMonitorHttpConfiguration {
+  port?: Expressionable<number>;
+  method?: Expressionable<('Get' | 'Post')>;
+  path?: Expressionable<string>;
+  requestHeaders?: Expressionable<HTTPHeader[]>;
+  validStatusCodeRanges?: Expressionable<string[]>;
+  preferHTTPS?: Expressionable<boolean>;
+}
+
+export interface ConnectionMonitorIcmpConfiguration {
+  disableTraceRoute?: Expressionable<boolean>;
+}
+
+export interface ConnectionMonitorOutput {
+  type?: Expressionable<('Workspace')>;
+  workspaceSettings?: Expressionable<ConnectionMonitorWorkspaceSettings>;
+}
+
+export interface ConnectionMonitorParameters {
+  source?: Expressionable<ConnectionMonitorSource>;
+  destination?: Expressionable<ConnectionMonitorDestination>;
+  autoStart?: Expressionable<boolean>;
+  monitoringIntervalInSeconds?: Expressionable<number>;
+  endpoints?: Expressionable<ConnectionMonitorEndpoint[]>;
+  testConfigurations?: Expressionable<ConnectionMonitorTestConfiguration[]>;
+  testGroups?: Expressionable<ConnectionMonitorTestGroup[]>;
+  outputs?: Expressionable<ConnectionMonitorOutput[]>;
+  notes?: Expressionable<string>;
+}
+
+export interface ConnectionMonitorSource {
+  resourceId: Expressionable<string>;
+  port?: Expressionable<number>;
+}
+
+export interface ConnectionMonitorSuccessThreshold {
+  checksFailedPercent?: Expressionable<number>;
+  roundTripTimeMs?: Expressionable<number>;
+}
+
+export interface ConnectionMonitorTcpConfiguration {
+  port?: Expressionable<number>;
+  disableTraceRoute?: Expressionable<boolean>;
+}
+
+export interface ConnectionMonitorTestConfiguration {
+  name: Expressionable<string>;
+  testFrequencySec?: Expressionable<number>;
+  protocol: Expressionable<('Tcp' | 'Http' | 'Icmp')>;
+  preferredIPVersion?: Expressionable<('IPv4' | 'IPv6')>;
+  httpConfiguration?: Expressionable<ConnectionMonitorHttpConfiguration>;
+  tcpConfiguration?: Expressionable<ConnectionMonitorTcpConfiguration>;
+  icmpConfiguration?: Expressionable<ConnectionMonitorIcmpConfiguration>;
+  successThreshold?: Expressionable<ConnectionMonitorSuccessThreshold>;
+}
+
+export interface ConnectionMonitorTestGroup {
+  name: Expressionable<string>;
+  disable?: Expressionable<boolean>;
+  testConfigurations: Expressionable<string[]>;
+  sources: Expressionable<string[]>;
+  destinations: Expressionable<string[]>;
+}
+
+export interface ConnectionMonitorWorkspaceSettings {
+  workspaceResourceId?: Expressionable<string>;
+}
+
 export interface ContainerNetworkInterfaceConfiguration {
   properties?: Expressionable<ContainerNetworkInterfaceConfigurationPropertiesFormat>;
   name?: Expressionable<string>;
@@ -488,6 +587,7 @@ export interface DdosProtectionPlanPropertiesFormat {
 export interface DdosSettings {
   ddosCustomPolicy?: Expressionable<SubResource>;
   protectionCoverage?: Expressionable<('Basic' | 'Standard')>;
+  protectedIP?: Expressionable<boolean>;
 }
 
 export interface Delegation {
@@ -739,6 +839,20 @@ export interface FirewallPolicyRuleGroupProperties {
   rules?: Expressionable<FirewallPolicyRule[]>;
 }
 
+export interface FlowLogFormatParameters {
+  type?: Expressionable<('JSON')>;
+  version?: Expressionable<number>;
+}
+
+export interface FlowLogPropertiesFormat {
+  targetResourceId: Expressionable<string>;
+  storageId: Expressionable<string>;
+  enabled?: Expressionable<boolean>;
+  retentionPolicy?: Expressionable<RetentionPolicyParameters>;
+  format?: Expressionable<FlowLogFormatParameters>;
+  flowAnalyticsConfiguration?: Expressionable<TrafficAnalyticsProperties>;
+}
+
 export interface FrontendIPConfiguration {
   properties?: Expressionable<FrontendIPConfigurationPropertiesFormat>;
   name: Expressionable<string>;
@@ -752,6 +866,11 @@ export interface FrontendIPConfigurationPropertiesFormat {
   subnet?: Expressionable<SubResource>;
   publicIPAddress?: Expressionable<SubResource>;
   publicIPPrefix?: Expressionable<SubResource>;
+}
+
+export interface HTTPHeader {
+  name?: Expressionable<string>;
+  value?: Expressionable<string>;
 }
 
 export interface HubVirtualNetworkConnection {
@@ -1000,6 +1119,22 @@ export interface networkSecurityGroups_securityRules_childResource {
 export interface NetworkWatcherPropertiesFormat {
 }
 
+export interface networkWatchers_connectionMonitors_childResource {
+  name: Expressionable<string>;
+  type: Expressionable<('connectionMonitors')>;
+  apiVersion: Expressionable<('2019-11-01')>;
+  location?: Expressionable<string>;
+  properties: Expressionable<ConnectionMonitorParameters>;
+}
+
+export interface networkWatchers_flowLogs_childResource {
+  name: Expressionable<string>;
+  type: Expressionable<('flowLogs')>;
+  apiVersion: Expressionable<('2019-11-01')>;
+  location: Expressionable<string>;
+  properties: Expressionable<FlowLogPropertiesFormat>;
+}
+
 export interface networkWatchers_packetCaptures_childResource {
   name: Expressionable<string>;
   type: Expressionable<('packetCaptures')>;
@@ -1190,6 +1325,11 @@ export interface PublicIPPrefixSku {
   name?: Expressionable<('Standard')>;
 }
 
+export interface RetentionPolicyParameters {
+  days?: Expressionable<number>;
+  enabled?: Expressionable<boolean>;
+}
+
 export interface Route {
   properties?: Expressionable<RoutePropertiesFormat>;
   name?: Expressionable<string>;
@@ -1311,6 +1451,18 @@ export interface SubnetPropertiesFormat {
 
 export interface SubResource {
   id: Expressionable<string>;
+}
+
+export interface TrafficAnalyticsConfigurationProperties {
+  enabled?: Expressionable<boolean>;
+  workspaceId?: Expressionable<string>;
+  workspaceRegion?: Expressionable<string>;
+  workspaceResourceId?: Expressionable<string>;
+  trafficAnalyticsInterval?: Expressionable<number>;
+}
+
+export interface TrafficAnalyticsProperties {
+  networkWatcherFlowAnalyticsConfiguration?: Expressionable<TrafficAnalyticsConfigurationProperties>;
 }
 
 export interface TrafficSelectorPolicy {
@@ -1920,6 +2072,24 @@ export class NetworkBuilder {
   public static networkWatchers(name: Expressionable<string>, properties: NetworkWatcherPropertiesFormat, location: Expressionable<string>): ResourceDefinition<NetworkWatcherPropertiesFormat> {
     return {
       type: 'Microsoft.Network/networkWatchers',
+      apiVersion: '2019-11-01',
+      name,
+      location,
+      properties,
+    };
+  }
+  public static networkWatchers_connectionMonitors(name: Expressionable<string>, properties: ConnectionMonitorParameters, location: Expressionable<string>): ResourceDefinition<ConnectionMonitorParameters> {
+    return {
+      type: 'Microsoft.Network/networkWatchers/connectionMonitors',
+      apiVersion: '2019-11-01',
+      name,
+      location,
+      properties,
+    };
+  }
+  public static networkWatchers_flowLogs(name: Expressionable<string>, properties: FlowLogPropertiesFormat, location: Expressionable<string>): ResourceDefinition<FlowLogPropertiesFormat> {
+    return {
+      type: 'Microsoft.Network/networkWatchers/flowLogs',
       apiVersion: '2019-11-01',
       name,
       location,

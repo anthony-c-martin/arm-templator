@@ -1,4 +1,4 @@
-// Generated using 'npm run schema C:\github\azure-resource-manager-schemas\schemas\2019-07-01\Microsoft.Compute.json'
+// Generated using 'npm run schema /Users/antm88/Desktop/azure-resource-manager-schemas/schemas/2019-07-01/Microsoft.Compute.json'
 import { Expressionable, ResourceDefinition } from '../common';
 
 export interface AdditionalCapabilities {
