@@ -7,8 +7,13 @@ import { inspect } from 'util';
 import chalk from 'chalk';
 import { series } from 'async';
 
-async function deployAsync(deployment: Deployment) {
-  const argv = yargs.options({ }).argv;
+
+export interface DeployArgs {
+  deployment: Deployment;
+}
+
+export async function deployAsync(args: DeployArgs) {
+  const deployment = args.deployment;
   
   const creds = await interactiveLogin();
 
@@ -49,12 +54,17 @@ async function deployAsync(deployment: Deployment) {
   }
 }
 
-async function displayAsync(deployment: Deployment) {
+export interface DisplayArgs {
+  deployment: Deployment;
+  full: boolean;
+}
+
+export async function displayAsync(args: DisplayArgs) {
   const argv = yargs.options({
     full: { type: 'boolean', demandOption: false, desc: 'Include the full deployment object' },
   }).argv;
   
-  const output: any = argv.full ? deployment : deployment.template;
+  const output: any = args.full ? args.deployment : args.deployment.template;
   
   console.log(JSON.stringify(output, null, 2));
 }
@@ -69,33 +79,4 @@ function renderParams(parameters: {[key: string]: any}) {
   }
 
   return output;
-}
-
-function runSynchronously(asyncFunction: () => Promise<any>) {
-  series(
-    [asyncFunction], 
-    (error, _) => {
-      if (error) {
-        throw error;
-      }
-    });
-}
-
-export class Cli {
-  private deployment: Deployment;
-  constructor(deployment: Deployment) {
-    this.deployment = deployment;
-  }
-
-  deploy() {
-    runSynchronously(() => deployAsync(this.deployment));
-  }
-
-  display() {
-    runSynchronously(() => displayAsync(this.deployment));
-  }
-}
-
-export function createCli(deployment: Deployment) {
-  return new Cli(deployment);
 }
