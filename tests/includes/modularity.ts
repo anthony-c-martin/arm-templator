@@ -1,6 +1,6 @@
 import { Expressionable } from '../../lib/common';
-import { VirtualMachineProperties, StorageProfile } from '../../lib/types/compute.2019-07-01';
-import { NetworkInterfacePropertiesFormat } from '../../lib/types/network.2019-11-01';
+import { VirtualMachineProperties, StorageProfile } from 'arm-templator-types/dist/compute.2019-07-01';
+import { NetworkInterfacePropertiesFormat } from 'arm-templator-types/dist/network.2019-11-01';
 
 const baseStorageProfile: StorageProfile = {
   imageReference: {

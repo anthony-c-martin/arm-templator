@@ -1,6 +1,6 @@
 import { renderTemplate, concat, resourceGroupLocation, getResourceId } from '../../lib/template';
-import { virtualMachines } from '../../lib/types/compute.2019-07-01';
-import { networkInterfaces, virtualNetworks, publicIPAddresses } from '../../lib/types/network.2019-11-01';
+import { virtualMachines } from 'arm-templator-types/dist/compute.2019-07-01';
+import { networkInterfaces, virtualNetworks, publicIPAddresses } from 'arm-templator-types/dist/network.2019-11-01';
 import { createBaseNic, createBaseVm } from '../includes/modularity';
 
 export default renderTemplate(template => {
@@ -31,7 +31,7 @@ export default renderTemplate(template => {
 
   const subnet = template.deploy(
     virtualNetworks.subnets.create(
-      concat(namePrefix, '/default'),
+      [namePrefix, 'default'],
       {
         addressPrefix: '10.0.0.0/24'
       },

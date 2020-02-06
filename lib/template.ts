@@ -243,6 +243,19 @@ export function concat(...components: Expressionable<string>[]): Expression<stri
   return new ConcatExpression(components);
 }
 
+export function concatResourceName(...components: Expressionable<string>[]): Expression<string> {
+  const separated = components.reduce<Expressionable<string>[]>((acc, cur, i) => {
+    if (i > 0) {
+      acc.push('/');
+    }
+    acc.push(cur);
+
+    return acc;
+  }, []);
+
+  return concat(...separated);
+}
+
 export function resourceGroupLocation(): Expression<string> {
   return new ResourceGroupLocationExpression();
 }

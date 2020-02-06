@@ -1,6 +1,6 @@
 {
   "name": "arm-templator",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "ARM Typescript template generator prototype",
   "main": "dist/template",
   "typings": "dist/template",
@@ -12,7 +12,7 @@
     "compile": "npm run clean && tsc -p .",
     "watch": "tsc -w -p .",
     "clean": "rimraf ./dist",
-    "test": "mocha -r ts-node/register tests.ts"
+    "test": "mocha -r ts-node/register tests/run.ts"
   },
   "bugs": {
     "url": "https://github.com/anthony-c-martin/arm-templator/issues"

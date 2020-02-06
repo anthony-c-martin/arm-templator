@@ -1,6 +1,6 @@
 import { Expressionable, ResourceDefinition, Expression } from '../../lib/common';
 import { ConcatExpression } from '../../lib/expression';
-import { deploymentScripts } from '../../lib/types/resources.2019-10-01-preview';
+import { deploymentScripts } from 'arm-templator-types/dist/resources.2019-10-01-preview';
 import fs from 'fs';
 
 function readScriptFile(path: string): string {
