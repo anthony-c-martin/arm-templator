@@ -204,8 +204,10 @@ function flattenOneOf(prop: any, replaceFunc: (prop: any) => void) {
 }
 
 let output = '';
-function appendOutput(line: string) {
-  output += `${line}${os.EOL}`;
+function appendOutput(line: string, indent?: number) {
+  indent = indent ?? 0;
+
+  output += `${' '.repeat(indent ?? 0)}${line}${os.EOL}`;
 }
 
 function writeHeaders(schemaPath: string) {
@@ -257,18 +259,33 @@ function writeBuilderFunction(definition: ObjectProperty, name: string) {
   if (!(resourceApiVersion instanceof EnumProperty)) {
     throw `Unable to process apiVersion for resource ${name}`;
   }
-  globalApiVersion = resourceApiVersion.values[0];
+  const apiVersionName = resourceApiVersion.values[0];
+  const typeName = resourceType.values[0];
+
+  let indent = 0;
+  const typeSections = typeName.split('/').splice(1);
+  for (const section of typeSections) {
+    appendOutput(`export namespace ${section} {`, indent);
+    indent += 2;
+  }
 
   const propertiesType = resourceProperties.length > 0 ? resourceProperties.map(r => r.refName).join(' | ') : 'any';
-  appendOutput(`  public static ${name}(name: Expressionable<string>, properties: ${propertiesType}, location: Expressionable<string>): ResourceDefinition<${propertiesType}> {`);
-  appendOutput(`    return {`);
-  appendOutput(`      type: '${resourceType.values[0]}',`);
-  appendOutput(`      apiVersion: '${resourceApiVersion.values[0]}',`);
-  appendOutput(`      name,`);
-  appendOutput(`      location,`);
-  appendOutput(`      properties,`);
-  appendOutput(`    };`);
-  appendOutput(`  }`);
+  appendOutput(`export function create(name: Expressionable<string>, properties: ${propertiesType}, location: Expressionable<string>): ResourceDefinition<${propertiesType}> {`, indent);
+  appendOutput(`  return {`, indent);
+  appendOutput(`    type: '${typeName}',`, indent);
+  appendOutput(`    apiVersion: '${apiVersionName}',`, indent);
+  appendOutput(`    name,`, indent);
+  appendOutput(`    location,`, indent);
+  appendOutput(`    properties,`, indent);
+  appendOutput(`  };`, indent);
+  appendOutput(`}`, indent);
+
+  for (const section of typeSections) {
+    indent -= 2;
+    appendOutput(`}`, indent);
+  }
+
+  globalApiVersion = apiVersionName;
 }
 
 const schemaPath = path.resolve(process.argv[2]);
@@ -289,14 +306,12 @@ if (!schema.resourceDefinitions) {
   throw `Unable to find resource definitions`;
 }
 
-appendOutput(`export class ${shortNamespace}Builder {`);
 const resources = schema.resourceDefinitions;
 for (const name of Object.keys(resources)) {
   const definition = getDefinition(resources[name], name);
 
   writeBuilderFunction(definition, name);
 }
-appendOutput(`}`);
 
 fs.writeFileSync(
   `${__dirname}/../lib/types/${shortNamespace.toLowerCase()}.${globalApiVersion}.ts`,

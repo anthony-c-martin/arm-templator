@@ -297,8 +297,8 @@ export interface TransparentDataEncryptionProperties {
   status?: Expressionable<('Enabled' | 'Disabled')>;
 }
 
-export class SqlBuilder {
-  public static servers(name: Expressionable<string>, properties: ServerPropertiesModel, location: Expressionable<string>): ResourceDefinition<ServerPropertiesModel> {
+export namespace servers {
+  export function create(name: Expressionable<string>, properties: ServerPropertiesModel, location: Expressionable<string>): ResourceDefinition<ServerPropertiesModel> {
     return {
       type: 'Microsoft.Sql/servers',
       apiVersion: '2014-04-01',
@@ -307,184 +307,286 @@ export class SqlBuilder {
       properties,
     };
   }
-  public static servers_administrators(name: Expressionable<string>, properties: ServerAdministratorProperties, location: Expressionable<string>): ResourceDefinition<ServerAdministratorProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/administrators',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace administrators {
+    export function create(name: Expressionable<string>, properties: ServerAdministratorProperties, location: Expressionable<string>): ResourceDefinition<ServerAdministratorProperties> {
+      return {
+        type: 'Microsoft.Sql/servers/administrators',
+        apiVersion: '2014-04-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static servers_advisors(name: Expressionable<string>, properties: AdvisorPropertiesModel, location: Expressionable<string>): ResourceDefinition<AdvisorPropertiesModel> {
-    return {
-      type: 'Microsoft.Sql/servers/advisors',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace advisors {
+    export function create(name: Expressionable<string>, properties: AdvisorPropertiesModel, location: Expressionable<string>): ResourceDefinition<AdvisorPropertiesModel> {
+      return {
+        type: 'Microsoft.Sql/servers/advisors',
+        apiVersion: '2014-04-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static servers_auditingPolicies(name: Expressionable<string>, properties: ServerTableAuditingPolicyProperties, location: Expressionable<string>): ResourceDefinition<ServerTableAuditingPolicyProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/auditingPolicies',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace auditingPolicies {
+    export function create(name: Expressionable<string>, properties: ServerTableAuditingPolicyProperties, location: Expressionable<string>): ResourceDefinition<ServerTableAuditingPolicyProperties> {
+      return {
+        type: 'Microsoft.Sql/servers/auditingPolicies',
+        apiVersion: '2014-04-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static servers_backupLongTermRetentionVaults(name: Expressionable<string>, properties: BackupLongTermRetentionVaultProperties, location: Expressionable<string>): ResourceDefinition<BackupLongTermRetentionVaultProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/backupLongTermRetentionVaults',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace backupLongTermRetentionVaults {
+    export function create(name: Expressionable<string>, properties: BackupLongTermRetentionVaultProperties, location: Expressionable<string>): ResourceDefinition<BackupLongTermRetentionVaultProperties> {
+      return {
+        type: 'Microsoft.Sql/servers/backupLongTermRetentionVaults',
+        apiVersion: '2014-04-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static servers_communicationLinks(name: Expressionable<string>, properties: ServerCommunicationLinkProperties, location: Expressionable<string>): ResourceDefinition<ServerCommunicationLinkProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/communicationLinks',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace communicationLinks {
+    export function create(name: Expressionable<string>, properties: ServerCommunicationLinkProperties, location: Expressionable<string>): ResourceDefinition<ServerCommunicationLinkProperties> {
+      return {
+        type: 'Microsoft.Sql/servers/communicationLinks',
+        apiVersion: '2014-04-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static servers_connectionPolicies(name: Expressionable<string>, properties: ServerConnectionPolicyProperties, location: Expressionable<string>): ResourceDefinition<ServerConnectionPolicyProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/connectionPolicies',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace connectionPolicies {
+    export function create(name: Expressionable<string>, properties: ServerConnectionPolicyProperties, location: Expressionable<string>): ResourceDefinition<ServerConnectionPolicyProperties> {
+      return {
+        type: 'Microsoft.Sql/servers/connectionPolicies',
+        apiVersion: '2014-04-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static servers_databases(name: Expressionable<string>, properties: DatabaseProperties, location: Expressionable<string>): ResourceDefinition<DatabaseProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/databases',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace databases {
+    export function create(name: Expressionable<string>, properties: DatabaseProperties, location: Expressionable<string>): ResourceDefinition<DatabaseProperties> {
+      return {
+        type: 'Microsoft.Sql/servers/databases',
+        apiVersion: '2014-04-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static servers_databases_advisors(name: Expressionable<string>, properties: AdvisorPropertiesModel, location: Expressionable<string>): ResourceDefinition<AdvisorPropertiesModel> {
-    return {
-      type: 'Microsoft.Sql/servers/databases/advisors',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace databases {
+    export namespace advisors {
+      export function create(name: Expressionable<string>, properties: AdvisorPropertiesModel, location: Expressionable<string>): ResourceDefinition<AdvisorPropertiesModel> {
+        return {
+          type: 'Microsoft.Sql/servers/databases/advisors',
+          apiVersion: '2014-04-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static servers_databases_auditingPolicies(name: Expressionable<string>, properties: DatabaseTableAuditingPolicyProperties, location: Expressionable<string>): ResourceDefinition<DatabaseTableAuditingPolicyProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/databases/auditingPolicies',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace databases {
+    export namespace auditingPolicies {
+      export function create(name: Expressionable<string>, properties: DatabaseTableAuditingPolicyProperties, location: Expressionable<string>): ResourceDefinition<DatabaseTableAuditingPolicyProperties> {
+        return {
+          type: 'Microsoft.Sql/servers/databases/auditingPolicies',
+          apiVersion: '2014-04-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static servers_databases_backupLongTermRetentionPolicies(name: Expressionable<string>, properties: BackupLongTermRetentionPolicyProperties, location: Expressionable<string>): ResourceDefinition<BackupLongTermRetentionPolicyProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace databases {
+    export namespace backupLongTermRetentionPolicies {
+      export function create(name: Expressionable<string>, properties: BackupLongTermRetentionPolicyProperties, location: Expressionable<string>): ResourceDefinition<BackupLongTermRetentionPolicyProperties> {
+        return {
+          type: 'Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies',
+          apiVersion: '2014-04-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static servers_databases_connectionPolicies(name: Expressionable<string>, properties: DatabaseConnectionPolicyProperties, location: Expressionable<string>): ResourceDefinition<DatabaseConnectionPolicyProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/databases/connectionPolicies',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace databases {
+    export namespace connectionPolicies {
+      export function create(name: Expressionable<string>, properties: DatabaseConnectionPolicyProperties, location: Expressionable<string>): ResourceDefinition<DatabaseConnectionPolicyProperties> {
+        return {
+          type: 'Microsoft.Sql/servers/databases/connectionPolicies',
+          apiVersion: '2014-04-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static servers_databases_dataMaskingPolicies(name: Expressionable<string>, properties: DataMaskingPolicyProperties, location: Expressionable<string>): ResourceDefinition<DataMaskingPolicyProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/databases/dataMaskingPolicies',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace databases {
+    export namespace dataMaskingPolicies {
+      export function create(name: Expressionable<string>, properties: DataMaskingPolicyProperties, location: Expressionable<string>): ResourceDefinition<DataMaskingPolicyProperties> {
+        return {
+          type: 'Microsoft.Sql/servers/databases/dataMaskingPolicies',
+          apiVersion: '2014-04-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static servers_databases_dataMaskingPolicies_rules(name: Expressionable<string>, properties: DataMaskingRuleProperties, location: Expressionable<string>): ResourceDefinition<DataMaskingRuleProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/databases/dataMaskingPolicies/rules',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace databases {
+    export namespace dataMaskingPolicies {
+      export namespace rules {
+        export function create(name: Expressionable<string>, properties: DataMaskingRuleProperties, location: Expressionable<string>): ResourceDefinition<DataMaskingRuleProperties> {
+          return {
+            type: 'Microsoft.Sql/servers/databases/dataMaskingPolicies/rules',
+            apiVersion: '2014-04-01',
+            name,
+            location,
+            properties,
+          };
+        }
+      }
+    }
   }
-  public static servers_databases_extensions(name: Expressionable<string>, properties: ImportExtensionProperties, location: Expressionable<string>): ResourceDefinition<ImportExtensionProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/databases/extensions',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace databases {
+    export namespace extensions {
+      export function create(name: Expressionable<string>, properties: ImportExtensionProperties, location: Expressionable<string>): ResourceDefinition<ImportExtensionProperties> {
+        return {
+          type: 'Microsoft.Sql/servers/databases/extensions',
+          apiVersion: '2014-04-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static servers_databases_geoBackupPolicies(name: Expressionable<string>, properties: GeoBackupPolicyProperties, location: Expressionable<string>): ResourceDefinition<GeoBackupPolicyProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/databases/geoBackupPolicies',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace databases {
+    export namespace geoBackupPolicies {
+      export function create(name: Expressionable<string>, properties: GeoBackupPolicyProperties, location: Expressionable<string>): ResourceDefinition<GeoBackupPolicyProperties> {
+        return {
+          type: 'Microsoft.Sql/servers/databases/geoBackupPolicies',
+          apiVersion: '2014-04-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static servers_databases_securityAlertPolicies(name: Expressionable<string>, properties: DatabaseSecurityAlertPolicyProperties, location: Expressionable<string>): ResourceDefinition<DatabaseSecurityAlertPolicyProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/databases/securityAlertPolicies',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace databases {
+    export namespace securityAlertPolicies {
+      export function create(name: Expressionable<string>, properties: DatabaseSecurityAlertPolicyProperties, location: Expressionable<string>): ResourceDefinition<DatabaseSecurityAlertPolicyProperties> {
+        return {
+          type: 'Microsoft.Sql/servers/databases/securityAlertPolicies',
+          apiVersion: '2014-04-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static servers_databases_transparentDataEncryption(name: Expressionable<string>, properties: TransparentDataEncryptionProperties, location: Expressionable<string>): ResourceDefinition<TransparentDataEncryptionProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/databases/transparentDataEncryption',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace databases {
+    export namespace transparentDataEncryption {
+      export function create(name: Expressionable<string>, properties: TransparentDataEncryptionProperties, location: Expressionable<string>): ResourceDefinition<TransparentDataEncryptionProperties> {
+        return {
+          type: 'Microsoft.Sql/servers/databases/transparentDataEncryption',
+          apiVersion: '2014-04-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static servers_disasterRecoveryConfiguration(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
-    return {
-      type: 'Microsoft.Sql/servers/disasterRecoveryConfiguration',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace disasterRecoveryConfiguration {
+    export function create(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
+      return {
+        type: 'Microsoft.Sql/servers/disasterRecoveryConfiguration',
+        apiVersion: '2014-04-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static servers_elasticPools(name: Expressionable<string>, properties: ElasticPoolPropertiesModel, location: Expressionable<string>): ResourceDefinition<ElasticPoolPropertiesModel> {
-    return {
-      type: 'Microsoft.Sql/servers/elasticPools',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace elasticPools {
+    export function create(name: Expressionable<string>, properties: ElasticPoolPropertiesModel, location: Expressionable<string>): ResourceDefinition<ElasticPoolPropertiesModel> {
+      return {
+        type: 'Microsoft.Sql/servers/elasticPools',
+        apiVersion: '2014-04-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static servers_firewallRules(name: Expressionable<string>, properties: FirewallRuleProperties, location: Expressionable<string>): ResourceDefinition<FirewallRuleProperties> {
-    return {
-      type: 'Microsoft.Sql/servers/firewallRules',
-      apiVersion: '2014-04-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace servers {
+  export namespace firewallRules {
+    export function create(name: Expressionable<string>, properties: FirewallRuleProperties, location: Expressionable<string>): ResourceDefinition<FirewallRuleProperties> {
+      return {
+        type: 'Microsoft.Sql/servers/firewallRules',
+        apiVersion: '2014-04-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
 }

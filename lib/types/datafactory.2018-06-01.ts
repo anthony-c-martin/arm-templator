@@ -4365,8 +4365,8 @@ export interface ZohoSource {
   type: Expressionable<('ZohoSource')>;
 }
 
-export class DataFactoryBuilder {
-  public static factories(name: Expressionable<string>, properties: FactoryProperties, location: Expressionable<string>): ResourceDefinition<FactoryProperties> {
+export namespace factories {
+  export function create(name: Expressionable<string>, properties: FactoryProperties, location: Expressionable<string>): ResourceDefinition<FactoryProperties> {
     return {
       type: 'Microsoft.DataFactory/factories',
       apiVersion: '2018-06-01',
@@ -4375,67 +4375,97 @@ export class DataFactoryBuilder {
       properties,
     };
   }
-  public static factories_dataflows(name: Expressionable<string>, properties: DataFlow, location: Expressionable<string>): ResourceDefinition<DataFlow> {
-    return {
-      type: 'Microsoft.DataFactory/factories/dataflows',
-      apiVersion: '2018-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace factories {
+  export namespace dataflows {
+    export function create(name: Expressionable<string>, properties: DataFlow, location: Expressionable<string>): ResourceDefinition<DataFlow> {
+      return {
+        type: 'Microsoft.DataFactory/factories/dataflows',
+        apiVersion: '2018-06-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static factories_datasets(name: Expressionable<string>, properties: Dataset, location: Expressionable<string>): ResourceDefinition<Dataset> {
-    return {
-      type: 'Microsoft.DataFactory/factories/datasets',
-      apiVersion: '2018-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace factories {
+  export namespace datasets {
+    export function create(name: Expressionable<string>, properties: Dataset, location: Expressionable<string>): ResourceDefinition<Dataset> {
+      return {
+        type: 'Microsoft.DataFactory/factories/datasets',
+        apiVersion: '2018-06-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static factories_integrationRuntimes(name: Expressionable<string>, properties: IntegrationRuntime, location: Expressionable<string>): ResourceDefinition<IntegrationRuntime> {
-    return {
-      type: 'Microsoft.DataFactory/factories/integrationRuntimes',
-      apiVersion: '2018-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace factories {
+  export namespace integrationRuntimes {
+    export function create(name: Expressionable<string>, properties: IntegrationRuntime, location: Expressionable<string>): ResourceDefinition<IntegrationRuntime> {
+      return {
+        type: 'Microsoft.DataFactory/factories/integrationRuntimes',
+        apiVersion: '2018-06-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static factories_linkedservices(name: Expressionable<string>, properties: LinkedService, location: Expressionable<string>): ResourceDefinition<LinkedService> {
-    return {
-      type: 'Microsoft.DataFactory/factories/linkedservices',
-      apiVersion: '2018-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace factories {
+  export namespace linkedservices {
+    export function create(name: Expressionable<string>, properties: LinkedService, location: Expressionable<string>): ResourceDefinition<LinkedService> {
+      return {
+        type: 'Microsoft.DataFactory/factories/linkedservices',
+        apiVersion: '2018-06-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static factories_pipelines(name: Expressionable<string>, properties: Pipeline, location: Expressionable<string>): ResourceDefinition<Pipeline> {
-    return {
-      type: 'Microsoft.DataFactory/factories/pipelines',
-      apiVersion: '2018-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace factories {
+  export namespace pipelines {
+    export function create(name: Expressionable<string>, properties: Pipeline, location: Expressionable<string>): ResourceDefinition<Pipeline> {
+      return {
+        type: 'Microsoft.DataFactory/factories/pipelines',
+        apiVersion: '2018-06-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static factories_triggers(name: Expressionable<string>, properties: Trigger, location: Expressionable<string>): ResourceDefinition<Trigger> {
-    return {
-      type: 'Microsoft.DataFactory/factories/triggers',
-      apiVersion: '2018-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace factories {
+  export namespace triggers {
+    export function create(name: Expressionable<string>, properties: Trigger, location: Expressionable<string>): ResourceDefinition<Trigger> {
+      return {
+        type: 'Microsoft.DataFactory/factories/triggers',
+        apiVersion: '2018-06-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static factories_triggers_rerunTriggers(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
-    return {
-      type: 'Microsoft.DataFactory/factories/triggers/rerunTriggers',
-      apiVersion: '2018-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace factories {
+  export namespace triggers {
+    export namespace rerunTriggers {
+      export function create(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
+        return {
+          type: 'Microsoft.DataFactory/factories/triggers/rerunTriggers',
+          apiVersion: '2018-06-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
 }

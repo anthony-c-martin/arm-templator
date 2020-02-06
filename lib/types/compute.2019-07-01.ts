@@ -781,8 +781,8 @@ export interface WinRMListener {
   certificateUrl?: Expressionable<string>;
 }
 
-export class ComputeBuilder {
-  public static availabilitySets(name: Expressionable<string>, properties: AvailabilitySetProperties, location: Expressionable<string>): ResourceDefinition<AvailabilitySetProperties> {
+export namespace availabilitySets {
+  export function create(name: Expressionable<string>, properties: AvailabilitySetProperties, location: Expressionable<string>): ResourceDefinition<AvailabilitySetProperties> {
     return {
       type: 'Microsoft.Compute/availabilitySets',
       apiVersion: '2019-07-01',
@@ -791,7 +791,9 @@ export class ComputeBuilder {
       properties,
     };
   }
-  public static diskEncryptionSets(name: Expressionable<string>, properties: EncryptionSetProperties, location: Expressionable<string>): ResourceDefinition<EncryptionSetProperties> {
+}
+export namespace diskEncryptionSets {
+  export function create(name: Expressionable<string>, properties: EncryptionSetProperties, location: Expressionable<string>): ResourceDefinition<EncryptionSetProperties> {
     return {
       type: 'Microsoft.Compute/diskEncryptionSets',
       apiVersion: '2019-07-01',
@@ -800,7 +802,9 @@ export class ComputeBuilder {
       properties,
     };
   }
-  public static disks(name: Expressionable<string>, properties: DiskProperties, location: Expressionable<string>): ResourceDefinition<DiskProperties> {
+}
+export namespace disks {
+  export function create(name: Expressionable<string>, properties: DiskProperties, location: Expressionable<string>): ResourceDefinition<DiskProperties> {
     return {
       type: 'Microsoft.Compute/disks',
       apiVersion: '2019-07-01',
@@ -809,7 +813,9 @@ export class ComputeBuilder {
       properties,
     };
   }
-  public static galleries(name: Expressionable<string>, properties: GalleryProperties, location: Expressionable<string>): ResourceDefinition<GalleryProperties> {
+}
+export namespace galleries {
+  export function create(name: Expressionable<string>, properties: GalleryProperties, location: Expressionable<string>): ResourceDefinition<GalleryProperties> {
     return {
       type: 'Microsoft.Compute/galleries',
       apiVersion: '2019-07-01',
@@ -818,43 +824,65 @@ export class ComputeBuilder {
       properties,
     };
   }
-  public static galleries_applications(name: Expressionable<string>, properties: GalleryApplicationProperties, location: Expressionable<string>): ResourceDefinition<GalleryApplicationProperties> {
-    return {
-      type: 'Microsoft.Compute/galleries/applications',
-      apiVersion: '2019-07-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace galleries {
+  export namespace applications {
+    export function create(name: Expressionable<string>, properties: GalleryApplicationProperties, location: Expressionable<string>): ResourceDefinition<GalleryApplicationProperties> {
+      return {
+        type: 'Microsoft.Compute/galleries/applications',
+        apiVersion: '2019-07-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static galleries_applications_versions(name: Expressionable<string>, properties: GalleryApplicationVersionProperties, location: Expressionable<string>): ResourceDefinition<GalleryApplicationVersionProperties> {
-    return {
-      type: 'Microsoft.Compute/galleries/applications/versions',
-      apiVersion: '2019-07-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace galleries {
+  export namespace applications {
+    export namespace versions {
+      export function create(name: Expressionable<string>, properties: GalleryApplicationVersionProperties, location: Expressionable<string>): ResourceDefinition<GalleryApplicationVersionProperties> {
+        return {
+          type: 'Microsoft.Compute/galleries/applications/versions',
+          apiVersion: '2019-07-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static galleries_images(name: Expressionable<string>, properties: GalleryImageProperties, location: Expressionable<string>): ResourceDefinition<GalleryImageProperties> {
-    return {
-      type: 'Microsoft.Compute/galleries/images',
-      apiVersion: '2019-07-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace galleries {
+  export namespace images {
+    export function create(name: Expressionable<string>, properties: GalleryImageProperties, location: Expressionable<string>): ResourceDefinition<GalleryImageProperties> {
+      return {
+        type: 'Microsoft.Compute/galleries/images',
+        apiVersion: '2019-07-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static galleries_images_versions(name: Expressionable<string>, properties: GalleryImageVersionProperties, location: Expressionable<string>): ResourceDefinition<GalleryImageVersionProperties> {
-    return {
-      type: 'Microsoft.Compute/galleries/images/versions',
-      apiVersion: '2019-07-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace galleries {
+  export namespace images {
+    export namespace versions {
+      export function create(name: Expressionable<string>, properties: GalleryImageVersionProperties, location: Expressionable<string>): ResourceDefinition<GalleryImageVersionProperties> {
+        return {
+          type: 'Microsoft.Compute/galleries/images/versions',
+          apiVersion: '2019-07-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static hostGroups(name: Expressionable<string>, properties: DedicatedHostGroupProperties, location: Expressionable<string>): ResourceDefinition<DedicatedHostGroupProperties> {
+}
+export namespace hostGroups {
+  export function create(name: Expressionable<string>, properties: DedicatedHostGroupProperties, location: Expressionable<string>): ResourceDefinition<DedicatedHostGroupProperties> {
     return {
       type: 'Microsoft.Compute/hostGroups',
       apiVersion: '2019-07-01',
@@ -863,16 +891,22 @@ export class ComputeBuilder {
       properties,
     };
   }
-  public static hostGroups_hosts(name: Expressionable<string>, properties: DedicatedHostProperties, location: Expressionable<string>): ResourceDefinition<DedicatedHostProperties> {
-    return {
-      type: 'Microsoft.Compute/hostGroups/hosts',
-      apiVersion: '2019-07-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace hostGroups {
+  export namespace hosts {
+    export function create(name: Expressionable<string>, properties: DedicatedHostProperties, location: Expressionable<string>): ResourceDefinition<DedicatedHostProperties> {
+      return {
+        type: 'Microsoft.Compute/hostGroups/hosts',
+        apiVersion: '2019-07-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static images(name: Expressionable<string>, properties: ImageProperties, location: Expressionable<string>): ResourceDefinition<ImageProperties> {
+}
+export namespace images {
+  export function create(name: Expressionable<string>, properties: ImageProperties, location: Expressionable<string>): ResourceDefinition<ImageProperties> {
     return {
       type: 'Microsoft.Compute/images',
       apiVersion: '2019-07-01',
@@ -881,7 +915,9 @@ export class ComputeBuilder {
       properties,
     };
   }
-  public static proximityPlacementGroups(name: Expressionable<string>, properties: ProximityPlacementGroupProperties, location: Expressionable<string>): ResourceDefinition<ProximityPlacementGroupProperties> {
+}
+export namespace proximityPlacementGroups {
+  export function create(name: Expressionable<string>, properties: ProximityPlacementGroupProperties, location: Expressionable<string>): ResourceDefinition<ProximityPlacementGroupProperties> {
     return {
       type: 'Microsoft.Compute/proximityPlacementGroups',
       apiVersion: '2019-07-01',
@@ -890,7 +926,9 @@ export class ComputeBuilder {
       properties,
     };
   }
-  public static snapshots(name: Expressionable<string>, properties: SnapshotProperties, location: Expressionable<string>): ResourceDefinition<SnapshotProperties> {
+}
+export namespace snapshots {
+  export function create(name: Expressionable<string>, properties: SnapshotProperties, location: Expressionable<string>): ResourceDefinition<SnapshotProperties> {
     return {
       type: 'Microsoft.Compute/snapshots',
       apiVersion: '2019-07-01',
@@ -899,7 +937,9 @@ export class ComputeBuilder {
       properties,
     };
   }
-  public static virtualMachines(name: Expressionable<string>, properties: VirtualMachineProperties, location: Expressionable<string>): ResourceDefinition<VirtualMachineProperties> {
+}
+export namespace virtualMachines {
+  export function create(name: Expressionable<string>, properties: VirtualMachineProperties, location: Expressionable<string>): ResourceDefinition<VirtualMachineProperties> {
     return {
       type: 'Microsoft.Compute/virtualMachines',
       apiVersion: '2019-07-01',
@@ -908,7 +948,9 @@ export class ComputeBuilder {
       properties,
     };
   }
-  public static virtualMachineScaleSets(name: Expressionable<string>, properties: VirtualMachineScaleSetProperties, location: Expressionable<string>): ResourceDefinition<VirtualMachineScaleSetProperties> {
+}
+export namespace virtualMachineScaleSets {
+  export function create(name: Expressionable<string>, properties: VirtualMachineScaleSetProperties, location: Expressionable<string>): ResourceDefinition<VirtualMachineScaleSetProperties> {
     return {
       type: 'Microsoft.Compute/virtualMachineScaleSets',
       apiVersion: '2019-07-01',
@@ -917,22 +959,32 @@ export class ComputeBuilder {
       properties,
     };
   }
-  public static virtualMachineScaleSets_virtualmachines(name: Expressionable<string>, properties: VirtualMachineScaleSetVMProperties, location: Expressionable<string>): ResourceDefinition<VirtualMachineScaleSetVMProperties> {
-    return {
-      type: 'Microsoft.Compute/virtualMachineScaleSets/virtualmachines',
-      apiVersion: '2019-07-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace virtualMachineScaleSets {
+  export namespace virtualmachines {
+    export function create(name: Expressionable<string>, properties: VirtualMachineScaleSetVMProperties, location: Expressionable<string>): ResourceDefinition<VirtualMachineScaleSetVMProperties> {
+      return {
+        type: 'Microsoft.Compute/virtualMachineScaleSets/virtualmachines',
+        apiVersion: '2019-07-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static virtualMachineScaleSets_virtualMachines_extensions(name: Expressionable<string>, properties: VirtualMachineExtensionProperties, location: Expressionable<string>): ResourceDefinition<VirtualMachineExtensionProperties> {
-    return {
-      type: 'Microsoft.Compute/virtualMachineScaleSets/virtualMachines/extensions',
-      apiVersion: '2019-07-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace virtualMachineScaleSets {
+  export namespace virtualMachines {
+    export namespace extensions {
+      export function create(name: Expressionable<string>, properties: VirtualMachineExtensionProperties, location: Expressionable<string>): ResourceDefinition<VirtualMachineExtensionProperties> {
+        return {
+          type: 'Microsoft.Compute/virtualMachineScaleSets/virtualMachines/extensions',
+          apiVersion: '2019-07-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
 }

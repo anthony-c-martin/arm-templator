@@ -61,8 +61,8 @@ export interface vaults_secrets_childResource {
   properties: Expressionable<SecretProperties>;
 }
 
-export class KeyVaultBuilder {
-  public static vaults(name: Expressionable<string>, properties: VaultProperties, location: Expressionable<string>): ResourceDefinition<VaultProperties> {
+export namespace vaults {
+  export function create(name: Expressionable<string>, properties: VaultProperties, location: Expressionable<string>): ResourceDefinition<VaultProperties> {
     return {
       type: 'Microsoft.KeyVault/vaults',
       apiVersion: '2016-10-01',
@@ -71,22 +71,30 @@ export class KeyVaultBuilder {
       properties,
     };
   }
-  public static vaults_accessPolicies(name: Expressionable<string>, properties: VaultAccessPolicyProperties, location: Expressionable<string>): ResourceDefinition<VaultAccessPolicyProperties> {
-    return {
-      type: 'Microsoft.KeyVault/vaults/accessPolicies',
-      apiVersion: '2016-10-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace vaults {
+  export namespace accessPolicies {
+    export function create(name: Expressionable<string>, properties: VaultAccessPolicyProperties, location: Expressionable<string>): ResourceDefinition<VaultAccessPolicyProperties> {
+      return {
+        type: 'Microsoft.KeyVault/vaults/accessPolicies',
+        apiVersion: '2016-10-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static vaults_secrets(name: Expressionable<string>, properties: SecretProperties, location: Expressionable<string>): ResourceDefinition<SecretProperties> {
-    return {
-      type: 'Microsoft.KeyVault/vaults/secrets',
-      apiVersion: '2016-10-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace vaults {
+  export namespace secrets {
+    export function create(name: Expressionable<string>, properties: SecretProperties, location: Expressionable<string>): ResourceDefinition<SecretProperties> {
+      return {
+        type: 'Microsoft.KeyVault/vaults/secrets',
+        apiVersion: '2016-10-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
 }

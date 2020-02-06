@@ -93,41 +93,57 @@ export interface WindowsProperties {
   rebootSetting?: Expressionable<string>;
 }
 
-export class AutomationBuilder {
-  public static automationAccounts_jobs(name: Expressionable<string>, properties: JobCreateProperties, location: Expressionable<string>): ResourceDefinition<JobCreateProperties> {
-    return {
-      type: 'Microsoft.Automation/automationAccounts/jobs',
-      apiVersion: '2017-05-15-preview',
-      name,
-      location,
-      properties,
-    };
+export namespace automationAccounts {
+  export namespace jobs {
+    export function create(name: Expressionable<string>, properties: JobCreateProperties, location: Expressionable<string>): ResourceDefinition<JobCreateProperties> {
+      return {
+        type: 'Microsoft.Automation/automationAccounts/jobs',
+        apiVersion: '2017-05-15-preview',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static automationAccounts_softwareUpdateConfigurations(name: Expressionable<string>, properties: SoftwareUpdateConfigurationProperties, location: Expressionable<string>): ResourceDefinition<SoftwareUpdateConfigurationProperties> {
-    return {
-      type: 'Microsoft.Automation/automationAccounts/softwareUpdateConfigurations',
-      apiVersion: '2017-05-15-preview',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace automationAccounts {
+  export namespace softwareUpdateConfigurations {
+    export function create(name: Expressionable<string>, properties: SoftwareUpdateConfigurationProperties, location: Expressionable<string>): ResourceDefinition<SoftwareUpdateConfigurationProperties> {
+      return {
+        type: 'Microsoft.Automation/automationAccounts/softwareUpdateConfigurations',
+        apiVersion: '2017-05-15-preview',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static automationAccounts_sourceControls(name: Expressionable<string>, properties: SourceControlCreateOrUpdateProperties, location: Expressionable<string>): ResourceDefinition<SourceControlCreateOrUpdateProperties> {
-    return {
-      type: 'Microsoft.Automation/automationAccounts/sourceControls',
-      apiVersion: '2017-05-15-preview',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace automationAccounts {
+  export namespace sourceControls {
+    export function create(name: Expressionable<string>, properties: SourceControlCreateOrUpdateProperties, location: Expressionable<string>): ResourceDefinition<SourceControlCreateOrUpdateProperties> {
+      return {
+        type: 'Microsoft.Automation/automationAccounts/sourceControls',
+        apiVersion: '2017-05-15-preview',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static automationAccounts_sourceControls_sourceControlSyncJobs(name: Expressionable<string>, properties: SourceControlSyncJobCreateProperties, location: Expressionable<string>): ResourceDefinition<SourceControlSyncJobCreateProperties> {
-    return {
-      type: 'Microsoft.Automation/automationAccounts/sourceControls/sourceControlSyncJobs',
-      apiVersion: '2017-05-15-preview',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace automationAccounts {
+  export namespace sourceControls {
+    export namespace sourceControlSyncJobs {
+      export function create(name: Expressionable<string>, properties: SourceControlSyncJobCreateProperties, location: Expressionable<string>): ResourceDefinition<SourceControlSyncJobCreateProperties> {
+        return {
+          type: 'Microsoft.Automation/automationAccounts/sourceControls/sourceControlSyncJobs',
+          apiVersion: '2017-05-15-preview',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
 }

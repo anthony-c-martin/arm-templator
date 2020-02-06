@@ -1,6 +1,6 @@
 import { renderTemplate, concat, resourceGroupLocation, getResourceId } from '../../lib/template';
-import { ComputeBuilder as compute } from '../../lib/types/compute.2019-07-01';
-import { NetworkBuilder as network } from '../../lib/types/network.2019-11-01';
+import { virtualMachines } from '../../lib/types/compute.2019-07-01';
+import { networkInterfaces, virtualNetworks, publicIPAddresses } from '../../lib/types/network.2019-11-01';
 import { createBaseNic, createBaseVm } from '../includes/modularity';
 
 export default renderTemplate(template => {
@@ -8,7 +8,7 @@ export default renderTemplate(template => {
   const namePrefix = template.addStringParameter('namePrefix', 'test');
 
   const publicIp = template.deploy(
-    network.publicIPAddresses(
+    publicIPAddresses.create(
       concat(namePrefix, '-pip'),
       {
         publicIPAllocationMethod: 'Dynamic',
@@ -17,7 +17,7 @@ export default renderTemplate(template => {
     []);
 
   const vnet = template.deploy(
-    network.virtualNetworks(
+    virtualNetworks.create(
       concat(namePrefix, '-vnet'),
       {
         addressSpace: {
@@ -30,7 +30,7 @@ export default renderTemplate(template => {
     []);
 
   const subnet = template.deploy(
-    network.virtualNetworks_subnets(
+    virtualNetworks.subnets.create(
       concat(namePrefix, '/default'),
       {
         addressPrefix: '10.0.0.0/24'
@@ -40,14 +40,14 @@ export default renderTemplate(template => {
 
   for (let i = 0; i < 2; i++) {
     const nic = template.deploy(
-      network.networkInterfaces(
+      networkInterfaces.create(
         concat(namePrefix, `-nic${i}`),
         createBaseNic(getResourceId(subnet), getResourceId(publicIp)),
         location),
       [subnet, publicIp]);
 
     const vm = template.deploy(
-      compute.virtualMachines(
+      virtualMachines.create(
         concat(namePrefix, `-vm${i}`),
         createBaseVm(`vm${i}`, getResourceId(nic)),
         location),

@@ -250,8 +250,8 @@ export interface VirtualNetworkRule {
   state?: Expressionable<('provisioning' | 'deprovisioning' | 'succeeded' | 'failed' | 'networkSourceDeleted')>;
 }
 
-export class StorageBuilder {
-  public static storageAccounts(name: Expressionable<string>, properties: StorageAccountPropertiesCreateParameters, location: Expressionable<string>): ResourceDefinition<StorageAccountPropertiesCreateParameters> {
+export namespace storageAccounts {
+  export function create(name: Expressionable<string>, properties: StorageAccountPropertiesCreateParameters, location: Expressionable<string>): ResourceDefinition<StorageAccountPropertiesCreateParameters> {
     return {
       type: 'Microsoft.Storage/storageAccounts',
       apiVersion: '2019-06-01',
@@ -260,67 +260,103 @@ export class StorageBuilder {
       properties,
     };
   }
-  public static storageAccounts_blobServices(name: Expressionable<string>, properties: BlobServicePropertiesProperties, location: Expressionable<string>): ResourceDefinition<BlobServicePropertiesProperties> {
-    return {
-      type: 'Microsoft.Storage/storageAccounts/blobServices',
-      apiVersion: '2019-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace storageAccounts {
+  export namespace blobServices {
+    export function create(name: Expressionable<string>, properties: BlobServicePropertiesProperties, location: Expressionable<string>): ResourceDefinition<BlobServicePropertiesProperties> {
+      return {
+        type: 'Microsoft.Storage/storageAccounts/blobServices',
+        apiVersion: '2019-06-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static storageAccounts_blobServices_containers(name: Expressionable<string>, properties: ContainerProperties, location: Expressionable<string>): ResourceDefinition<ContainerProperties> {
-    return {
-      type: 'Microsoft.Storage/storageAccounts/blobServices/containers',
-      apiVersion: '2019-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace storageAccounts {
+  export namespace blobServices {
+    export namespace containers {
+      export function create(name: Expressionable<string>, properties: ContainerProperties, location: Expressionable<string>): ResourceDefinition<ContainerProperties> {
+        return {
+          type: 'Microsoft.Storage/storageAccounts/blobServices/containers',
+          apiVersion: '2019-06-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static storageAccounts_blobServices_containers_immutabilityPolicies(name: Expressionable<string>, properties: ImmutabilityPolicyProperty, location: Expressionable<string>): ResourceDefinition<ImmutabilityPolicyProperty> {
-    return {
-      type: 'Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies',
-      apiVersion: '2019-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace storageAccounts {
+  export namespace blobServices {
+    export namespace containers {
+      export namespace immutabilityPolicies {
+        export function create(name: Expressionable<string>, properties: ImmutabilityPolicyProperty, location: Expressionable<string>): ResourceDefinition<ImmutabilityPolicyProperty> {
+          return {
+            type: 'Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies',
+            apiVersion: '2019-06-01',
+            name,
+            location,
+            properties,
+          };
+        }
+      }
+    }
   }
-  public static storageAccounts_fileServices(name: Expressionable<string>, properties: FileServicePropertiesProperties, location: Expressionable<string>): ResourceDefinition<FileServicePropertiesProperties> {
-    return {
-      type: 'Microsoft.Storage/storageAccounts/fileServices',
-      apiVersion: '2019-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace storageAccounts {
+  export namespace fileServices {
+    export function create(name: Expressionable<string>, properties: FileServicePropertiesProperties, location: Expressionable<string>): ResourceDefinition<FileServicePropertiesProperties> {
+      return {
+        type: 'Microsoft.Storage/storageAccounts/fileServices',
+        apiVersion: '2019-06-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static storageAccounts_fileServices_shares(name: Expressionable<string>, properties: FileShareProperties, location: Expressionable<string>): ResourceDefinition<FileShareProperties> {
-    return {
-      type: 'Microsoft.Storage/storageAccounts/fileServices/shares',
-      apiVersion: '2019-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace storageAccounts {
+  export namespace fileServices {
+    export namespace shares {
+      export function create(name: Expressionable<string>, properties: FileShareProperties, location: Expressionable<string>): ResourceDefinition<FileShareProperties> {
+        return {
+          type: 'Microsoft.Storage/storageAccounts/fileServices/shares',
+          apiVersion: '2019-06-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static storageAccounts_managementPolicies(name: Expressionable<string>, properties: ManagementPolicyProperties, location: Expressionable<string>): ResourceDefinition<ManagementPolicyProperties> {
-    return {
-      type: 'Microsoft.Storage/storageAccounts/managementPolicies',
-      apiVersion: '2019-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace storageAccounts {
+  export namespace managementPolicies {
+    export function create(name: Expressionable<string>, properties: ManagementPolicyProperties, location: Expressionable<string>): ResourceDefinition<ManagementPolicyProperties> {
+      return {
+        type: 'Microsoft.Storage/storageAccounts/managementPolicies',
+        apiVersion: '2019-06-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static storageAccounts_privateEndpointConnections(name: Expressionable<string>, properties: PrivateEndpointConnectionProperties, location: Expressionable<string>): ResourceDefinition<PrivateEndpointConnectionProperties> {
-    return {
-      type: 'Microsoft.Storage/storageAccounts/privateEndpointConnections',
-      apiVersion: '2019-06-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace storageAccounts {
+  export namespace privateEndpointConnections {
+    export function create(name: Expressionable<string>, properties: PrivateEndpointConnectionProperties, location: Expressionable<string>): ResourceDefinition<PrivateEndpointConnectionProperties> {
+      return {
+        type: 'Microsoft.Storage/storageAccounts/privateEndpointConnections',
+        apiVersion: '2019-06-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
 }

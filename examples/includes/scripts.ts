@@ -1,6 +1,6 @@
 import { Expressionable, ResourceDefinition, Expression } from '../../lib/common';
 import { ConcatExpression } from '../../lib/expression';
-import { ResourcesBuilder as resources } from '../../lib/types/resources.2019-10-01-preview';
+import { deploymentScripts } from '../../lib/types/resources.2019-10-01-preview';
 import fs from 'fs';
 
 function readScriptFile(path: string): string {
@@ -18,7 +18,7 @@ function formatArgs(args: {[key: string]: Expressionable<string>}): Expression<s
 }
 
 export const createScriptsResource = (name: Expressionable<string>, location: Expressionable<string>, scriptPath: string, args: {[key: string]: Expressionable<string>}): ResourceDefinition<any> => 
-resources.deploymentScripts(
+deploymentScripts.create(
   name,
   {
     azPowerShellVersion: '1.7.0',

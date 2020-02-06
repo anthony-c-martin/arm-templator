@@ -53,8 +53,8 @@ export interface UserAssignedIdentity {
   principalId?: Expressionable<string>;
 }
 
-export class ResourcesBuilder {
-  public static deploymentScripts(name: Expressionable<string>, properties: AzurePowerShellScriptProperties | AzureCliScriptProperties, location: Expressionable<string>): ResourceDefinition<AzurePowerShellScriptProperties | AzureCliScriptProperties> {
+export namespace deploymentScripts {
+  export function create(name: Expressionable<string>, properties: AzurePowerShellScriptProperties | AzureCliScriptProperties, location: Expressionable<string>): ResourceDefinition<AzurePowerShellScriptProperties | AzureCliScriptProperties> {
     return {
       type: 'Microsoft.Resources/deploymentScripts',
       apiVersion: '2019-10-01-preview',

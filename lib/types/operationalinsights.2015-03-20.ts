@@ -25,23 +25,29 @@ export interface Tag {
   value: Expressionable<string>;
 }
 
-export class OperationalInsightsBuilder {
-  public static workspaces_savedSearches(name: Expressionable<string>, properties: SavedSearchProperties, location: Expressionable<string>): ResourceDefinition<SavedSearchProperties> {
-    return {
-      type: 'Microsoft.OperationalInsights/workspaces/savedSearches',
-      apiVersion: '2015-03-20',
-      name,
-      location,
-      properties,
-    };
+export namespace workspaces {
+  export namespace savedSearches {
+    export function create(name: Expressionable<string>, properties: SavedSearchProperties, location: Expressionable<string>): ResourceDefinition<SavedSearchProperties> {
+      return {
+        type: 'Microsoft.OperationalInsights/workspaces/savedSearches',
+        apiVersion: '2015-03-20',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static workspaces_storageInsightConfigs(name: Expressionable<string>, properties: StorageInsightProperties, location: Expressionable<string>): ResourceDefinition<StorageInsightProperties> {
-    return {
-      type: 'Microsoft.OperationalInsights/workspaces/storageInsightConfigs',
-      apiVersion: '2015-03-20',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace workspaces {
+  export namespace storageInsightConfigs {
+    export function create(name: Expressionable<string>, properties: StorageInsightProperties, location: Expressionable<string>): ResourceDefinition<StorageInsightProperties> {
+      return {
+        type: 'Microsoft.OperationalInsights/workspaces/storageInsightConfigs',
+        apiVersion: '2015-03-20',
+        name,
+        location,
+        properties,
+      };
+    }
   }
 }

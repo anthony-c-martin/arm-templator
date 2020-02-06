@@ -682,8 +682,8 @@ export interface X509CertificateName {
   issuerCertificateThumbprint?: Expressionable<string>;
 }
 
-export class ApiManagementBuilder {
-  public static service(name: Expressionable<string>, properties: ApiManagementServiceProperties, location: Expressionable<string>): ResourceDefinition<ApiManagementServiceProperties> {
+export namespace service {
+  export function create(name: Expressionable<string>, properties: ApiManagementServiceProperties, location: Expressionable<string>): ResourceDefinition<ApiManagementServiceProperties> {
     return {
       type: 'Microsoft.ApiManagement/service',
       apiVersion: '2019-01-01',
@@ -692,346 +692,544 @@ export class ApiManagementBuilder {
       properties,
     };
   }
-  public static service_apis(name: Expressionable<string>, properties: ApiCreateOrUpdateProperties, location: Expressionable<string>): ResourceDefinition<ApiCreateOrUpdateProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export function create(name: Expressionable<string>, properties: ApiCreateOrUpdateProperties, location: Expressionable<string>): ResourceDefinition<ApiCreateOrUpdateProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/apis',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_apis_diagnostics(name: Expressionable<string>, properties: DiagnosticContractProperties, location: Expressionable<string>): ResourceDefinition<DiagnosticContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/diagnostics',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace diagnostics {
+      export function create(name: Expressionable<string>, properties: DiagnosticContractProperties, location: Expressionable<string>): ResourceDefinition<DiagnosticContractProperties> {
+        return {
+          type: 'Microsoft.ApiManagement/service/apis/diagnostics',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_apis_issues(name: Expressionable<string>, properties: IssueContractProperties, location: Expressionable<string>): ResourceDefinition<IssueContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/issues',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace issues {
+      export function create(name: Expressionable<string>, properties: IssueContractProperties, location: Expressionable<string>): ResourceDefinition<IssueContractProperties> {
+        return {
+          type: 'Microsoft.ApiManagement/service/apis/issues',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_apis_issues_attachments(name: Expressionable<string>, properties: IssueAttachmentContractProperties, location: Expressionable<string>): ResourceDefinition<IssueAttachmentContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/issues/attachments',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace issues {
+      export namespace attachments {
+        export function create(name: Expressionable<string>, properties: IssueAttachmentContractProperties, location: Expressionable<string>): ResourceDefinition<IssueAttachmentContractProperties> {
+          return {
+            type: 'Microsoft.ApiManagement/service/apis/issues/attachments',
+            apiVersion: '2019-01-01',
+            name,
+            location,
+            properties,
+          };
+        }
+      }
+    }
   }
-  public static service_apis_issues_comments(name: Expressionable<string>, properties: IssueCommentContractProperties, location: Expressionable<string>): ResourceDefinition<IssueCommentContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/issues/comments',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace issues {
+      export namespace comments {
+        export function create(name: Expressionable<string>, properties: IssueCommentContractProperties, location: Expressionable<string>): ResourceDefinition<IssueCommentContractProperties> {
+          return {
+            type: 'Microsoft.ApiManagement/service/apis/issues/comments',
+            apiVersion: '2019-01-01',
+            name,
+            location,
+            properties,
+          };
+        }
+      }
+    }
   }
-  public static service_apis_operations(name: Expressionable<string>, properties: OperationContractProperties, location: Expressionable<string>): ResourceDefinition<OperationContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/operations',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace operations {
+      export function create(name: Expressionable<string>, properties: OperationContractProperties, location: Expressionable<string>): ResourceDefinition<OperationContractProperties> {
+        return {
+          type: 'Microsoft.ApiManagement/service/apis/operations',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_apis_operations_policies(name: Expressionable<string>, properties: PolicyContractProperties, location: Expressionable<string>): ResourceDefinition<PolicyContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/operations/policies',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace operations {
+      export namespace policies {
+        export function create(name: Expressionable<string>, properties: PolicyContractProperties, location: Expressionable<string>): ResourceDefinition<PolicyContractProperties> {
+          return {
+            type: 'Microsoft.ApiManagement/service/apis/operations/policies',
+            apiVersion: '2019-01-01',
+            name,
+            location,
+            properties,
+          };
+        }
+      }
+    }
   }
-  public static service_apis_operations_tags(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/operations/tags',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace operations {
+      export namespace tags {
+        export function create(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
+          return {
+            type: 'Microsoft.ApiManagement/service/apis/operations/tags',
+            apiVersion: '2019-01-01',
+            name,
+            location,
+            properties,
+          };
+        }
+      }
+    }
   }
-  public static service_apis_policies(name: Expressionable<string>, properties: PolicyContractProperties, location: Expressionable<string>): ResourceDefinition<PolicyContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/policies',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace policies {
+      export function create(name: Expressionable<string>, properties: PolicyContractProperties, location: Expressionable<string>): ResourceDefinition<PolicyContractProperties> {
+        return {
+          type: 'Microsoft.ApiManagement/service/apis/policies',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_apis_releases(name: Expressionable<string>, properties: ApiReleaseContractProperties, location: Expressionable<string>): ResourceDefinition<ApiReleaseContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/releases',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace releases {
+      export function create(name: Expressionable<string>, properties: ApiReleaseContractProperties, location: Expressionable<string>): ResourceDefinition<ApiReleaseContractProperties> {
+        return {
+          type: 'Microsoft.ApiManagement/service/apis/releases',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_apis_schemas(name: Expressionable<string>, properties: SchemaContractProperties, location: Expressionable<string>): ResourceDefinition<SchemaContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/schemas',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace schemas {
+      export function create(name: Expressionable<string>, properties: SchemaContractProperties, location: Expressionable<string>): ResourceDefinition<SchemaContractProperties> {
+        return {
+          type: 'Microsoft.ApiManagement/service/apis/schemas',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_apis_tagDescriptions(name: Expressionable<string>, properties: TagDescriptionBaseProperties, location: Expressionable<string>): ResourceDefinition<TagDescriptionBaseProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/tagDescriptions',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace tagDescriptions {
+      export function create(name: Expressionable<string>, properties: TagDescriptionBaseProperties, location: Expressionable<string>): ResourceDefinition<TagDescriptionBaseProperties> {
+        return {
+          type: 'Microsoft.ApiManagement/service/apis/tagDescriptions',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_apis_tags(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apis/tags',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apis {
+    export namespace tags {
+      export function create(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
+        return {
+          type: 'Microsoft.ApiManagement/service/apis/tags',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_apiVersionSets(name: Expressionable<string>, properties: ApiVersionSetContractProperties, location: Expressionable<string>): ResourceDefinition<ApiVersionSetContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/apiVersionSets',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace apiVersionSets {
+    export function create(name: Expressionable<string>, properties: ApiVersionSetContractProperties, location: Expressionable<string>): ResourceDefinition<ApiVersionSetContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/apiVersionSets',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_authorizationServers(name: Expressionable<string>, properties: AuthorizationServerContractProperties, location: Expressionable<string>): ResourceDefinition<AuthorizationServerContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/authorizationServers',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace authorizationServers {
+    export function create(name: Expressionable<string>, properties: AuthorizationServerContractProperties, location: Expressionable<string>): ResourceDefinition<AuthorizationServerContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/authorizationServers',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_backends(name: Expressionable<string>, properties: BackendContractProperties, location: Expressionable<string>): ResourceDefinition<BackendContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/backends',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace backends {
+    export function create(name: Expressionable<string>, properties: BackendContractProperties, location: Expressionable<string>): ResourceDefinition<BackendContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/backends',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_caches(name: Expressionable<string>, properties: CacheContractProperties, location: Expressionable<string>): ResourceDefinition<CacheContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/caches',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace caches {
+    export function create(name: Expressionable<string>, properties: CacheContractProperties, location: Expressionable<string>): ResourceDefinition<CacheContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/caches',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_certificates(name: Expressionable<string>, properties: CertificateCreateOrUpdateProperties, location: Expressionable<string>): ResourceDefinition<CertificateCreateOrUpdateProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/certificates',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace certificates {
+    export function create(name: Expressionable<string>, properties: CertificateCreateOrUpdateProperties, location: Expressionable<string>): ResourceDefinition<CertificateCreateOrUpdateProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/certificates',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_diagnostics(name: Expressionable<string>, properties: DiagnosticContractProperties, location: Expressionable<string>): ResourceDefinition<DiagnosticContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/diagnostics',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace diagnostics {
+    export function create(name: Expressionable<string>, properties: DiagnosticContractProperties, location: Expressionable<string>): ResourceDefinition<DiagnosticContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/diagnostics',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_groups(name: Expressionable<string>, properties: GroupCreateParametersProperties, location: Expressionable<string>): ResourceDefinition<GroupCreateParametersProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/groups',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace groups {
+    export function create(name: Expressionable<string>, properties: GroupCreateParametersProperties, location: Expressionable<string>): ResourceDefinition<GroupCreateParametersProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/groups',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_groups_users(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
-    return {
-      type: 'Microsoft.ApiManagement/service/groups/users',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace groups {
+    export namespace users {
+      export function create(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
+        return {
+          type: 'Microsoft.ApiManagement/service/groups/users',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_identityProviders(name: Expressionable<string>, properties: IdentityProviderContractProperties, location: Expressionable<string>): ResourceDefinition<IdentityProviderContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/identityProviders',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace identityProviders {
+    export function create(name: Expressionable<string>, properties: IdentityProviderContractProperties, location: Expressionable<string>): ResourceDefinition<IdentityProviderContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/identityProviders',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_loggers(name: Expressionable<string>, properties: LoggerContractProperties, location: Expressionable<string>): ResourceDefinition<LoggerContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/loggers',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace loggers {
+    export function create(name: Expressionable<string>, properties: LoggerContractProperties, location: Expressionable<string>): ResourceDefinition<LoggerContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/loggers',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_notifications(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
-    return {
-      type: 'Microsoft.ApiManagement/service/notifications',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace notifications {
+    export function create(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
+      return {
+        type: 'Microsoft.ApiManagement/service/notifications',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_notifications_recipientEmails(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
-    return {
-      type: 'Microsoft.ApiManagement/service/notifications/recipientEmails',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace notifications {
+    export namespace recipientEmails {
+      export function create(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
+        return {
+          type: 'Microsoft.ApiManagement/service/notifications/recipientEmails',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_notifications_recipientUsers(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
-    return {
-      type: 'Microsoft.ApiManagement/service/notifications/recipientUsers',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace notifications {
+    export namespace recipientUsers {
+      export function create(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
+        return {
+          type: 'Microsoft.ApiManagement/service/notifications/recipientUsers',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_openidConnectProviders(name: Expressionable<string>, properties: OpenidConnectProviderContractProperties, location: Expressionable<string>): ResourceDefinition<OpenidConnectProviderContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/openidConnectProviders',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace openidConnectProviders {
+    export function create(name: Expressionable<string>, properties: OpenidConnectProviderContractProperties, location: Expressionable<string>): ResourceDefinition<OpenidConnectProviderContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/openidConnectProviders',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_policies(name: Expressionable<string>, properties: PolicyContractProperties, location: Expressionable<string>): ResourceDefinition<PolicyContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/policies',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace policies {
+    export function create(name: Expressionable<string>, properties: PolicyContractProperties, location: Expressionable<string>): ResourceDefinition<PolicyContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/policies',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_products(name: Expressionable<string>, properties: ProductContractProperties, location: Expressionable<string>): ResourceDefinition<ProductContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/products',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace products {
+    export function create(name: Expressionable<string>, properties: ProductContractProperties, location: Expressionable<string>): ResourceDefinition<ProductContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/products',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_products_apis(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
-    return {
-      type: 'Microsoft.ApiManagement/service/products/apis',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace products {
+    export namespace apis {
+      export function create(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
+        return {
+          type: 'Microsoft.ApiManagement/service/products/apis',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_products_groups(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
-    return {
-      type: 'Microsoft.ApiManagement/service/products/groups',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace products {
+    export namespace groups {
+      export function create(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
+        return {
+          type: 'Microsoft.ApiManagement/service/products/groups',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_products_policies(name: Expressionable<string>, properties: PolicyContractProperties, location: Expressionable<string>): ResourceDefinition<PolicyContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/products/policies',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace products {
+    export namespace policies {
+      export function create(name: Expressionable<string>, properties: PolicyContractProperties, location: Expressionable<string>): ResourceDefinition<PolicyContractProperties> {
+        return {
+          type: 'Microsoft.ApiManagement/service/products/policies',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_products_tags(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
-    return {
-      type: 'Microsoft.ApiManagement/service/products/tags',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace products {
+    export namespace tags {
+      export function create(name: Expressionable<string>, properties: any, location: Expressionable<string>): ResourceDefinition<any> {
+        return {
+          type: 'Microsoft.ApiManagement/service/products/tags',
+          apiVersion: '2019-01-01',
+          name,
+          location,
+          properties,
+        };
+      }
+    }
   }
-  public static service_properties(name: Expressionable<string>, properties: PropertyContractProperties, location: Expressionable<string>): ResourceDefinition<PropertyContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/properties',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace properties {
+    export function create(name: Expressionable<string>, properties: PropertyContractProperties, location: Expressionable<string>): ResourceDefinition<PropertyContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/properties',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_subscriptions(name: Expressionable<string>, properties: SubscriptionCreateParameterProperties, location: Expressionable<string>): ResourceDefinition<SubscriptionCreateParameterProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/subscriptions',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace subscriptions {
+    export function create(name: Expressionable<string>, properties: SubscriptionCreateParameterProperties, location: Expressionable<string>): ResourceDefinition<SubscriptionCreateParameterProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/subscriptions',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_tags(name: Expressionable<string>, properties: TagContractProperties, location: Expressionable<string>): ResourceDefinition<TagContractProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/tags',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace tags {
+    export function create(name: Expressionable<string>, properties: TagContractProperties, location: Expressionable<string>): ResourceDefinition<TagContractProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/tags',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_templates(name: Expressionable<string>, properties: EmailTemplateUpdateParameterProperties, location: Expressionable<string>): ResourceDefinition<EmailTemplateUpdateParameterProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/templates',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace templates {
+    export function create(name: Expressionable<string>, properties: EmailTemplateUpdateParameterProperties, location: Expressionable<string>): ResourceDefinition<EmailTemplateUpdateParameterProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/templates',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
-  public static service_users(name: Expressionable<string>, properties: UserCreateParameterProperties, location: Expressionable<string>): ResourceDefinition<UserCreateParameterProperties> {
-    return {
-      type: 'Microsoft.ApiManagement/service/users',
-      apiVersion: '2019-01-01',
-      name,
-      location,
-      properties,
-    };
+}
+export namespace service {
+  export namespace users {
+    export function create(name: Expressionable<string>, properties: UserCreateParameterProperties, location: Expressionable<string>): ResourceDefinition<UserCreateParameterProperties> {
+      return {
+        type: 'Microsoft.ApiManagement/service/users',
+        apiVersion: '2019-01-01',
+        name,
+        location,
+        properties,
+      };
+    }
   }
 }
