@@ -10,7 +10,7 @@
     }
   },
   "variables": {
-    "bootDiagsUri": "[concat('http://', concat(parameters('namePrefix'), 'stg'), '.blob.core.windows.net')]"
+    "bootDiagsUri": "[concat('http://', parameters('namePrefix'), 'stg.blob.core.windows.net')]"
   },
   "resources": [
     {

@@ -46,7 +46,7 @@ function escapeStringLiteral(input: string) {
   return input.replace(/^\[/, '[[');
 }
 
-function formatExpressionable(expression: Expressionable<any>): any {
+export function formatExpressionable(expression: Expressionable<any>): any {
   if (expression instanceof ExpressionBase) {
     return expression.format();
   }
