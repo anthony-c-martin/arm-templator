@@ -62,6 +62,19 @@ class Template {
     };
   }
 
+  deployNested(name: Expressionable<string>, location: Expressionable<string>, execute: (template: Template) => void, dependencies?: ResourceReference<any>[]) {
+    return this.deploy({
+      apiVersion: '2019-10-01',
+      type: 'Microsoft.Resources/deployments',
+      name: [name],
+      location: location,
+      properties: {
+        mode: 'Incremental',
+        template: renderTemplate(execute),
+      },
+    }, dependencies);
+  }
+
   addVariable<T>(name: string, value: Expressionable<T>): Expression<T> {
     const variable = new VariableExpression(name, value);
     this.variables.push(variable);

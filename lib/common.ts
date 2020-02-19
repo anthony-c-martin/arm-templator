@@ -46,12 +46,29 @@ function escapeStringLiteral(input: string) {
   return input.replace(/^\[/, '[[');
 }
 
-export function formatExpressionable(expression: Expressionable<string>) {
+function formatExpressionable(expression: Expressionable<any>): any {
   if (expression instanceof ExpressionBase) {
     return expression.format();
   }
 
-  return `'${escapeParameterStringLiteral(expression)}'`;
+  if (typeof expression === 'string') {
+    return `'${escapeParameterStringLiteral(expression)}'`;
+  }
+
+  if (Array.isArray(expression)) {
+    return expression.map(formatTopLevelExpressionable);
+  }
+
+  if (typeof expression === 'object') {
+    const output: any = {};
+    for (const key of Object.keys(expression)) {
+      output[key] = formatTopLevelExpressionable(expression[key]);
+    }
+
+    return output;
+  }
+
+  return expression;
 }
 
 export function formatTopLevelExpressionable(expression: Expressionable<string>) {
@@ -59,7 +76,11 @@ export function formatTopLevelExpressionable(expression: Expressionable<string>)
     return `[${expression.format()}]`;
   }
 
-  return escapeStringLiteral(expression);
+  if (typeof expression === 'string') {
+    return escapeStringLiteral(expression);
+  }
+
+  return formatExpressionable(expression);
 }
 
 export function formatFunction(name: string, ...parameters: Expressionable<string>[]) {

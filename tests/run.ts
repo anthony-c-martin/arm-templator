@@ -12,4 +12,5 @@ describe('generation tests', () => {
   it('basic', async () => await executeTest('basic'));
   it('modularity', async () => await executeTest('modularity'));
   it('scripts', async () => await executeTest('scripts'));
+  it('nested', async () => await executeTest('nested'));
 });
