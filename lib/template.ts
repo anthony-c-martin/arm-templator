@@ -182,9 +182,12 @@ function formatResourceObject<T>(resource: TemplateResource<T>): any {
     type: formatObject(resource.type),
     apiVersion: formatObject(resource.apiVersion),
     name: formatObject(concatResourceName(...resource.name)),
-    location: formatObject(resource.location),
     properties: formatObject(resource.properties),
   };
+
+  if (resource.location) {
+    output.location = formatObject(resource.location);
+  }
 
   if (resource.dependsOn) {
     output.dependsOn = formatObject(resource.dependsOn);

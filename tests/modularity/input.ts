@@ -33,7 +33,6 @@ export default renderTemplate(template => {
     type: 'Microsoft.Network/virtualNetworks/subnets',
     apiVersion: '2019-11-01',
     name: [...vnet.name, 'default'],
-    location: location,
     properties: {
       addressPrefix: '10.0.0.0/24'
     }
