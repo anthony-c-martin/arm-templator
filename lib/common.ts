@@ -27,13 +27,13 @@ export type Expressionable<T> = T | Expression<T>
 export interface ResourceReference<T> {
   readonly type: string;
   readonly apiVersion: string;
-  readonly name: Expressionable<string>;
+  readonly name: Expressionable<string>[];
 }
 
 export interface ResourceDefinition<T> {
   type: string;
   apiVersion: string;
-  name: Expressionable<string>;
+  name: Expressionable<string>[];
   location?: Expressionable<string>;
   properties: Expressionable<T>;
 }

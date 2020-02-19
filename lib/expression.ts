@@ -70,7 +70,7 @@ export class ResourceIdExpression extends Expression<string> {
   }
 
   format() {
-    return formatFunction('resourceId', this.resource.type, this.resource.name);
+    return formatFunction('resourceId', this.resource.type, ...this.resource.name);
   }
 }
 

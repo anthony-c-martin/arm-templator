@@ -11,7 +11,7 @@ const TYPE_BOOL = 'bool';
 interface TemplateResource<T> {
   type: string;
   apiVersion: string;
-  name: Expressionable<string>;
+  name: Expressionable<string>[];
   location?: Expressionable<string>;
   properties: Expressionable<T>;
   dependsOn?: Expressionable<string>[];
@@ -168,7 +168,7 @@ function formatResourceObject<T>(resource: TemplateResource<T>): any {
   const output: any = {
     type: formatObject(resource.type),
     apiVersion: formatObject(resource.apiVersion),
-    name: formatObject(resource.name),
+    name: formatObject(concatResourceName(...resource.name)),
     location: formatObject(resource.location),
     properties: formatObject(resource.properties),
   };
@@ -243,7 +243,11 @@ export function concat(...components: Expressionable<string>[]): Expression<stri
   return new ConcatExpression(components);
 }
 
-export function concatResourceName(...components: Expressionable<string>[]): Expression<string> {
+function concatResourceName(...components: Expressionable<string>[]): Expressionable<string> {
+  if (components.length === 1) {
+    return components[0];
+  }
+
   const separated = components.reduce<Expressionable<string>[]>((acc, cur, i) => {
     if (i > 0) {
       acc.push('/');

@@ -34,7 +34,7 @@
     {
       "type": "Microsoft.Network/virtualNetworks/subnets",
       "apiVersion": "2019-11-01",
-      "name": "[concat(parameters('namePrefix'), '/default')]",
+      "name": "[concat(concat(parameters('namePrefix'), '-vnet'), '/', 'default')]",
       "location": "[resourceGroup().location]",
       "properties": {
         "addressPrefix": "10.0.0.0/24"
@@ -54,7 +54,7 @@
             "name": "myConfig",
             "properties": {
               "subnet": {
-                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '/default'))]"
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]"
               },
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
@@ -65,7 +65,7 @@
         ]
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '/default'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]",
         "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip'))]"
       ]
     },
@@ -124,7 +124,7 @@
             "name": "myConfig",
             "properties": {
               "subnet": {
-                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '/default'))]"
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]"
               },
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
@@ -135,7 +135,7 @@
         ]
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '/default'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]",
         "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip'))]"
       ]
     },

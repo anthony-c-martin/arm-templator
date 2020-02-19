@@ -1,8 +1,6 @@
 import { Expressionable } from '../../lib/common';
-import { VirtualMachineProperties, StorageProfile } from 'arm-templator-types/dist/compute.2019-07-01';
-import { NetworkInterfacePropertiesFormat } from 'arm-templator-types/dist/network.2019-11-01';
 
-const baseStorageProfile: StorageProfile = {
+const baseStorageProfile = {
   imageReference: {
     publisher: 'MicrosoftWindowsServer',
     offer: 'WindowsServer',
@@ -15,7 +13,7 @@ const baseStorageProfile: StorageProfile = {
   dataDisks: []
 };
 
-export const createBaseVm = (computerName: Expressionable<string>, nicResourceId: Expressionable<string>): VirtualMachineProperties => ({
+export const createBaseVm = (computerName: Expressionable<string>, nicResourceId: Expressionable<string>) => ({
   osProfile: {
     computerName: computerName,
     adminUsername: 'antm88',
@@ -40,7 +38,7 @@ export const createBaseVm = (computerName: Expressionable<string>, nicResourceId
   },
 });
 
-export const createBaseNic = (subnetResourceId: Expressionable<string>, publicIpAddressResourceId: Expressionable<string>): NetworkInterfacePropertiesFormat => ({
+export const createBaseNic = (subnetResourceId: Expressionable<string>, publicIpAddressResourceId: Expressionable<string>) => ({
   ipConfigurations: [{
     name: 'myConfig',
     properties: {
