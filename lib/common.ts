@@ -71,7 +71,7 @@ export function formatExpressionable(expression: Expressionable<any>): any {
   return expression;
 }
 
-export function formatTopLevelExpressionable(expression: Expressionable<string>) {
+export function formatTopLevelExpressionable(expression: Expressionable<any>) {
   if (expression instanceof ExpressionBase) {
     return `[${expression.format()}]`;
   }

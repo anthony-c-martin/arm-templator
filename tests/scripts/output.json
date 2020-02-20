@@ -6,13 +6,11 @@
       "type": "string"
     }
   },
-  "variables": {},
   "resources": [
     {
       "type": "Microsoft.Resources/deploymentScripts",
       "apiVersion": "2019-10-01-preview",
       "name": "myScript",
-      "location": "[resourceGroup().location]",
       "properties": {
         "azPowerShellVersion": "1.7.0",
         "scriptContent": "Param(\r\n  [string] $name\r\n)\r\n\r\n$output = 'Hello {0}' -f $name\r\nWrite-Output $output\r\n\r\n$DeploymentScriptOutputs = @{}\r\n$DeploymentScriptOutputs['text'] = $output",
@@ -20,12 +18,13 @@
         "retentionInterval": "PT7D",
         "timeout": "PT1H",
         "cleanupPreference": "Always"
-      }
+      },
+      "location": "[resourceGroup().location]"
     }
   ],
   "outputs": {
     "text": {
-      "type": "object",
+      "type": "string",
       "value": "[reference(resourceId('Microsoft.Resources/deploymentScripts', 'myScript')).output.text]"
     }
   }

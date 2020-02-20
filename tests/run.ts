@@ -1,12 +1,12 @@
 import 'mocha';
 import { expect } from 'chai';
-import { Template } from '../lib/template';
 
 async function executeTest(name: string) {
-  const generated: Template = require(`${__dirname}/${name}/input.ts`).default;
+  const generated = require(`${__dirname}/${name}/input.ts`).default.render();
+  //fs.writeFileSync(`${__dirname}/${name}/output.json`, JSON.stringify(generated, null, 2), {encoding:'utf8'});
   const expected = require(`${__dirname}/${name}/output.json`);
-
-  expect(generated.render()).to.deep.equal(expected);
+  
+  expect(generated).to.deep.equal(expected);
 }
 
 describe('generation tests', () => {

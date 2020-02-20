@@ -9,24 +9,20 @@
       "type": "string"
     }
   },
-  "variables": {
-    "bootDiagsUri": "[concat('http://', parameters('namePrefix'), 'stg.blob.core.windows.net')]"
-  },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2015-06-15",
       "name": "[concat(parameters('namePrefix'), 'stg')]",
-      "location": "[resourceGroup().location]",
       "properties": {
         "accountType": "Standard_LRS"
-      }
+      },
+      "location": "[resourceGroup().location]"
     },
     {
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2019-11-01",
       "name": "[concat(parameters('namePrefix'), '-nic')]",
-      "location": "[resourceGroup().location]",
       "properties": {
         "ipConfigurations": [
           {
@@ -39,13 +35,13 @@
             }
           }
         ]
-      }
+      },
+      "location": "[resourceGroup().location]"
     },
     {
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2019-07-01",
       "name": "[concat(parameters('namePrefix'), '-vm')]",
-      "location": "[resourceGroup().location]",
       "properties": {
         "osProfile": {
           "computerName": "myVm",
@@ -83,10 +79,11 @@
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": true,
-            "storageUri": "[variables('bootDiagsUri')]"
+            "storageUri": "[concat('http://', parameters('namePrefix'), 'stg.blob.core.windows.net')]"
           }
         }
       },
+      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namePrefix'), '-nic'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', concat(parameters('namePrefix'), 'stg'))]"
@@ -96,7 +93,7 @@
   "outputs": {
     "storageUri": {
       "type": "string",
-      "value": "[variables('bootDiagsUri')]"
+      "value": "[concat('http://', parameters('namePrefix'), 'stg.blob.core.windows.net')]"
     }
   }
 }

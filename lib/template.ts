@@ -17,28 +17,90 @@ interface TemplateResource<T> {
   dependsOn?: Expressionable<string>[];
 }
 
-export interface Deployment {
-  location: string,
-  subscriptionId: string,
-  resourceGroup: string,
-  name: string,
-  mode: 'Incremental' | 'Complete',
-  template: Template,
-  parameters: {[key: string]: any},
+export class Deployment<TParams, TOutputs> {
+  constructor(
+    location: string,
+    subscriptionId: string,
+    resourceGroup: string,
+    name: string,
+    mode: 'Incremental' | 'Complete',
+    builder: TemplateBuilder<TParams, TOutputs>,
+    parameters: TParams,
+  ) {
+    this.location = location;
+    this.subscriptionId = subscriptionId;
+    this.resourceGroup = resourceGroup;
+    this.name = name;
+    this.mode = mode;
+    this.builder = builder;
+    this.parameters = parameters;
+  }
+  location: string;
+  subscriptionId: string;
+  resourceGroup: string;
+  name: string;
+  mode: 'Incremental' | 'Complete';
+  builder: TemplateBuilder<TParams, TOutputs>;
+  parameters: TParams;
+
+  renderParams() {
+    return renderParams(this.parameters);
+  }
 }
 
-export class Template {
-  constructor() {
-    this.resources = [];
-    this.parameters = [];
-    this.variables = [];
-    this.outputs = [];
+type Parameterify<T> = {
+  [P in keyof T]?: ParameterExpression<T[P]>;
+}
+
+type Outputify<T> = {
+  [P in keyof T]?: TemplateOutput<T[P]>;
+}
+
+type Expressionify<T> = {
+  readonly [P in keyof T]: Expressionable<T[P]>;
+}
+
+export class TemplateBuilder<TParams, TOutputs> {
+  private readonly execute: (template: Template<TParams, TOutputs>) => void;
+
+  constructor(execute: (template: Template<TParams, TOutputs>) => void) {
+    this.execute = execute;
   }
 
-  resources: TemplateResource<any>[];
-  parameters: ParameterExpression<any>[];
-  variables: VariableExpression<any>[];
-  outputs: TemplateOutput<any>[];
+  render() {
+    const template = new Template<TParams, TOutputs>();
+    this.execute(template);
+
+    return template.render();
+  }
+}
+
+export function buildTemplate<TParams, TOutputs>(execute: (template: Template<TParams, TOutputs>) => void) {
+  return new TemplateBuilder<TParams, TOutputs>(execute);
+}
+
+export class Template<TParams, TOutputs> {
+  constructor() {
+    this.resources = [];
+    this.parameters = {};
+    this.outputs = {};
+  }
+
+  public getParam<K extends keyof TParams>(type: string, key: K): Expressionable<TParams[K]> {
+    if (!this.parameters[key]) {
+      this.parameters[key] = new ParameterExpression<TParams[K]>(key as string, type);
+    }
+
+    return this.parameters[key] as Expressionable<TParams[K]>;
+  }
+
+  public setOutput<K extends keyof TOutputs>(type: string, key: K, value: Expressionable<TOutputs[K]>) {
+    this.outputs[key] = new TemplateOutput(key as string, type, value);
+  }
+
+  private readonly resources: TemplateResource<any>[];
+  private readonly parameters: Parameterify<TParams>;
+  private readonly outputs: Outputify<TOutputs>;
 
   deploy<T>(resource: ResourceDefinition<T>, dependencies?: ResourceReference<any>[]): ResourceReference<T> {
     const templateResource: TemplateResource<T> = {
@@ -62,7 +124,7 @@ export class Template {
     };
   }
 
-  deployNested(name: Expressionable<string>, location: Expressionable<string>, template: Template, dependencies?: ResourceReference<any>[]) {
+  deployNested<TNestedParams, TNestedOutputs>(name: Expressionable<string>, location: Expressionable<string>, builder: TemplateBuilder<TNestedParams, TNestedOutputs>, parameters: Expressionify<TNestedParams>, dependencies?: ResourceReference<any>[]) {
     return this.deploy({
       apiVersion: '2019-10-01',
       type: 'Microsoft.Resources/deployments',
@@ -70,98 +132,19 @@ export class Template {
       location: location,
       properties: {
         mode: 'Incremental',
-        template: template.render(),
+        template: builder.render(),
+        parameters: renderParams(parameters),
       },
     }, dependencies);
-  }
-
-  addVariable<T>(name: string, value: Expressionable<T>): Expression<T> {
-    const variable = new VariableExpression(name, value);
-    this.variables.push(variable);
-
-    return variable;
-  }
-
-  addObjectParameter<T extends object>(name: string, defaultValue?: T): Expression<T> {
-    const parameter = new ParameterExpression(name, TYPE_OBJECT, defaultValue);
-    this.parameters.push(parameter);
-
-    return parameter;
-  }
-
-  addArrayParameter<T>(name: string, defaultValue?: T[]): Expression<T[]> {
-    const parameter = new ParameterExpression(name, TYPE_ARRAY, defaultValue);
-    this.parameters.push(parameter);
-
-    return parameter;
-  }
-
-  addBooleanParameter(name: string, defaultValue?: boolean): Expression<boolean> {
-    const parameter = new ParameterExpression(name, TYPE_BOOL, defaultValue);
-    this.parameters.push(parameter);
-
-    return parameter;
-  }
-
-  addNumericParameter(name: string, defaultValue?: number): Expression<number> {
-    const parameter = new ParameterExpression(name, TYPE_INT, defaultValue);
-    this.parameters.push(parameter);
-
-    return parameter;
-  }
-
-  addStringParameter(name: string, defaultValue?: string): Expression<string> {
-    const parameter = new ParameterExpression(name, TYPE_STRING, defaultValue);
-    this.parameters.push(parameter);
-
-    return parameter;
-  }
-
-  addSecureStringParameter(name: string, defaultValue?: string): Expression<string> {
-    const parameter = new ParameterExpression(name, TYPE_SECURESTRING, defaultValue);
-    this.parameters.push(parameter);
-
-    return parameter;
-  }
-
-  addObjectOutput<T extends object>(name: string, value: Expressionable<T>) {
-    const output = new TemplateOutput(name, TYPE_OBJECT, value);
-    this.outputs.push(output);
-  }
-
-  addArrayOutput<T>(name: string, value: Expressionable<T[]>) {
-    const output = new TemplateOutput(name, TYPE_ARRAY, value);
-    this.outputs.push(output);
-  }
-
-  addBooleanOutput(name: string, value: Expressionable<boolean>) {
-    const output = new TemplateOutput(name, TYPE_BOOL, value);
-    this.outputs.push(output);
-  }
-
-  addNumberOutput(name: string, value: Expressionable<number>) {
-    const output = new TemplateOutput(name, TYPE_INT, value);
-    this.outputs.push(output);
-  }
-
-  addStringOutput(name: string, value: Expressionable<string>) {
-    const output = new TemplateOutput(name, TYPE_STRING, value);
-    this.outputs.push(output);
-  }
-
-  addSecureStringOutput(name: string, value: Expressionable<string>) {
-    const output = new TemplateOutput(name, TYPE_SECURESTRING, value);
-    this.outputs.push(output);
   }
 
   render(): any {
     return {
       $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
       contentVersion: '1.0.0.0',
-      parameters: formatParameters(this),
-      variables: formatVariables(this),
+      parameters: formatParameters(this.parameters),
       resources: this.resources.map(formatResourceObject),
-      outputs: formatOutputs(this),
+      outputs: formatOutputs(this.outputs),
     };
   }
 }
@@ -207,9 +190,14 @@ function formatResourceObject<T>(resource: TemplateResource<T>): any {
   return output;
 }
 
-function formatParameters(template: Template): any {
+function formatParameters<T>(parameters: Parameterify<T>): any {
   const output: any = {};
-  for (const parameter of template.parameters) {
+  for (const name in parameters) {
+    const parameter = parameters[name];
+    if (parameter === undefined) {
+      continue;
+    }
+
     const paramDefinition: any = {
       type: parameter.getType(),
     }
@@ -224,27 +212,35 @@ function formatParameters(template: Template): any {
   return output;
 }
 
-function formatVariables(template: Template): any {
-  const output: any = {};
-  for (const variable of template.variables) {
-    output[variable.name] = formatTopLevelExpressionable(variable.value);
-  }
+function formatOutputs<T>(outputs: Outputify<T>): any {
+  const result: any = {};
+  for (const name in outputs) {
+    const output = outputs[name];
+    if (output === undefined) {
+      continue;
+    }
 
-  return output;
-}
-
-function formatOutputs(template: Template): any {
-  const outputs: any = {};
-  for (const output of template.outputs) {
     const outputDefinition: any = {
       type: output.getType(),
       value: formatTopLevelExpressionable(output.value),
     };
 
-    outputs[output.name] = outputDefinition;
+    result[output.name] = outputDefinition;
   }
 
-  return outputs;
+  return result;
+}
+
+function renderParams<TParams>(parameters: Expressionify<TParams>) {
+  const output: {[key: string]: any} = {};
+
+  for (const key in parameters) {
+    output[key] = {
+      value: parameters[key],
+    };
+  }
+
+  return output;
 }
 
 export function concat(...components: Expressionable<string>[]): Expression<string> {

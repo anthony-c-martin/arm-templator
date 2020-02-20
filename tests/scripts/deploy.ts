@@ -1,19 +1,17 @@
 import { Deployment } from '../../lib/template';
-import { default as template } from './input'
+import { default as builder } from './input'
 
 const subscriptionId = '319b29d4-ae29-421c-b557-eac405f673b6';
 const resourceGroup = 'antscripts';
 
-const deployment: Deployment = {
-  location: 'West US',
+export default new Deployment(
+  'West US',
   subscriptionId,
   resourceGroup,
-  name: 'antscripts',
-  mode: 'Complete',
-  template: template,
-  parameters: {
+  'antscripts',
+  'Complete',
+  builder,
+  {
     myName: 'Anthony Martin',
   }
-}
-
-export default deployment;
+);

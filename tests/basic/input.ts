@@ -1,4 +1,4 @@
-import { concat, getResourceId, resourceGroupLocation, Template } from '../../lib/template';
+import { concat, getResourceId, resourceGroupLocation, buildTemplate } from '../../lib/template';
 
 const defaultStorageProfile = {
   imageReference: {
@@ -13,79 +13,86 @@ const defaultStorageProfile = {
   dataDisks: []
 };
 
-const template = new Template();
+interface Params {
+  namePrefix: string,
+  subnetResourceId: string,
+}
 
-const location = resourceGroupLocation();
-const namePrefix = template.addStringParameter('namePrefix');
-const subnetResourceId = template.addStringParameter('subnetResourceId');
+interface Outputs {
+  storageUri: string,
+}
 
-const storageAccount = template.deploy({
-  apiVersion: '2015-06-15',
-  type: 'Microsoft.Storage/storageAccounts',
-  name: [concat(namePrefix, 'stg')],
-  location: location,
-  properties: {
-    accountType: 'Standard_LRS',
-  },
-});
+export default buildTemplate<Params, Outputs>(template => {
+  const namePrefix = template.getParam('string', 'namePrefix');
+  const subnetResourceId = template.getParam('string', 'subnetResourceId');
+  const location = resourceGroupLocation();
 
-const nic = template.deploy({
-  type: 'Microsoft.Network/networkInterfaces',
-  apiVersion: '2019-11-01',
-  name: [concat(namePrefix, '-nic')],
-  location: location,
-  properties: {
-    ipConfigurations: [{
-      name: 'myConfig',
-      properties: {
-        subnet: {
-          id: subnetResourceId,
-        },
-        privateIPAllocationMethod: 'Dynamic',
-      }
-    }],
-  },
-});
-
-const storageUri = template.addVariable('bootDiagsUri', concat('http://', storageAccount.name[0], '.blob.core.windows.net'));
-
-const vm = template.deploy({
-  type: 'Microsoft.Compute/virtualMachines',
-  apiVersion: '2019-07-01',
-  name: [concat(namePrefix, '-vm')],
-  location: location,
-  properties: {
-    osProfile: {
-      computerName: 'myVm',
-      adminUsername: concat(namePrefix, 'admin'),
-      adminPassword: 'myS3cretP@ssw0rd',
-      windowsConfiguration: {
-        provisionVMAgent: true,
-      },
+  const storageAccount = template.deploy({
+    apiVersion: '2015-06-15',
+    type: 'Microsoft.Storage/storageAccounts',
+    name: [concat(namePrefix, 'stg')],
+    location: location,
+    properties: {
+      accountType: 'Standard_LRS',
     },
-    hardwareProfile: {
-      vmSize: 'Standard_A1_v2',
-    },
-    storageProfile: defaultStorageProfile,
-    networkProfile: {
-      networkInterfaces: [
-        {
-          properties: {
-            primary: true
+  });
+
+  const nic = template.deploy({
+    type: 'Microsoft.Network/networkInterfaces',
+    apiVersion: '2019-11-01',
+    name: [concat(namePrefix, '-nic')],
+    location: location,
+    properties: {
+      ipConfigurations: [{
+        name: 'myConfig',
+        properties: {
+          subnet: {
+            id: subnetResourceId,
           },
-          id: getResourceId(nic),
+          privateIPAllocationMethod: 'Dynamic',
+        }
+      }],
+    },
+  });
+
+  const storageUri = concat('http://', storageAccount.name[0], '.blob.core.windows.net');
+
+  const vm = template.deploy({
+    type: 'Microsoft.Compute/virtualMachines',
+    apiVersion: '2019-07-01',
+    name: [concat(namePrefix, '-vm')],
+    location: location,
+    properties: {
+      osProfile: {
+        computerName: 'myVm',
+        adminUsername: concat(namePrefix, 'admin'),
+        adminPassword: 'myS3cretP@ssw0rd',
+        windowsConfiguration: {
+          provisionVMAgent: true,
         },
-      ]
-    },
-    diagnosticsProfile: {
-      bootDiagnostics: {
-        enabled: true,
-        storageUri: storageUri,
       },
-    },
-  }
-}, [nic, storageAccount]);
-
-template.addStringOutput('storageUri', storageUri);
-
-export default template;
+      hardwareProfile: {
+        vmSize: 'Standard_A1_v2',
+      },
+      storageProfile: defaultStorageProfile,
+      networkProfile: {
+        networkInterfaces: [
+          {
+            properties: {
+              primary: true
+            },
+            id: getResourceId(nic),
+          },
+        ]
+      },
+      diagnosticsProfile: {
+        bootDiagnostics: {
+          enabled: true,
+          storageUri: storageUri,
+        },
+      },
+    }
+  }, [nic, storageAccount]);
+  
+  template.setOutput('string', 'storageUri', storageUri);
+});

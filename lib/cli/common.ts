@@ -1,13 +1,12 @@
 import { interactiveLogin } from 'ms-rest-azure';
 import { ResourceManagementClient } from 'azure-arm-resource';
-import * as yargs from 'yargs';
 import { Deployment } from '../template';
 import { inspect } from 'util';
 import chalk from 'chalk';
 
 
 export interface DeployArgs {
-  deployment: Deployment;
+  deployment: Deployment<any, any>;
 }
 
 export async function deployAsync(args: DeployArgs) {
@@ -34,9 +33,9 @@ export async function deployAsync(args: DeployArgs) {
       deployment.name,
       {
         properties: {
-          template: deployment.template.render(),
+          template: deployment.builder.render(),
           mode: deployment.mode,
-          parameters: renderParams(deployment.parameters),
+          parameters: deployment.renderParams(),
         },
       });
 
@@ -53,27 +52,12 @@ export async function deployAsync(args: DeployArgs) {
 }
 
 export interface DisplayArgs {
-  deployment: Deployment;
+  deployment: Deployment<any, any>;
+  full: boolean;
 }
 
 export async function displayAsync(args: DisplayArgs) {
-  const argv = yargs.options({
-    full: { type: 'boolean', demandOption: false, desc: 'Include the full deployment object' },
-  }).argv;
-
-  const template = args.deployment.template;
+  const template = args.deployment.builder.render();
   
-  console.log(JSON.stringify(template.render(), null, 2));
-}
-  
-function renderParams(parameters: {[key: string]: any}) {
-  const output: {[key: string]: any} = {};
-
-  for (const key of Object.keys(parameters)) {
-    output[key] = {
-      value: parameters[key],
-    };
-  }
-
-  return output;
+  console.log(JSON.stringify(template, null, 2));
 }

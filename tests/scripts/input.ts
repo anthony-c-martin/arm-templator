@@ -1,19 +1,26 @@
-import { resourceGroupLocation, getReference, Template } from '../../lib/template';
+import { resourceGroupLocation, getReference, Template, buildTemplate } from '../../lib/template';
 import { createScriptsResource } from '../includes/scripts';
 
-const template = new Template();
-const location = resourceGroupLocation();
-const name = template.addStringParameter('myName');
+interface Params {
+  myName: string,
+}
 
-const script = template.deploy(createScriptsResource(
-  'myScript',
-  location,
-  `${__dirname}/myScript.ps1`,
-  {
-    name,
-  }), []);
+interface Outputs {
+  text: string,
+}
 
-const ref = getReference(script);
-template.addObjectOutput('text', ref.call('output').call('text'));
+export default buildTemplate<Params, Outputs>(template => {
+  const location = resourceGroupLocation();
+  const myName = template.getParam('string', 'myName');
 
-export default template;
+  const script = template.deploy(createScriptsResource(
+    'myScript',
+    location,
+    `${__dirname}/myScript.ps1`,
+    {
+      name: myName,
+    }), []);
+
+  const ref = getReference(script);
+  template.setOutput('string', 'text', ref.call('output').call('text'));
+});
