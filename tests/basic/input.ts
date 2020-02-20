@@ -1,4 +1,4 @@
-import { concat, getResourceId, resourceGroupLocation, buildTemplate } from '../../lib/template';
+import { concat, getResourceId, resourceGroupLocation, buildTemplate, Params, Outputs } from '../../lib/template';
 
 const defaultStorageProfile = {
   imageReference: {
@@ -13,18 +13,17 @@ const defaultStorageProfile = {
   dataDisks: []
 };
 
-interface Params {
-  namePrefix: string,
-  subnetResourceId: string,
+const params = {
+  namePrefix: Params.String,
+  subnetResourceId: Params.String,
 }
 
-interface Outputs {
-  storageUri: string,
+const outputs = {
+  storageUri: Outputs.String,
 }
 
-export default buildTemplate<Params, Outputs>(template => {
-  const namePrefix = template.getParam('string', 'namePrefix');
-  const subnetResourceId = template.getParam('string', 'subnetResourceId');
+export default buildTemplate(params, outputs, (params, template) => {
+  const { namePrefix, subnetResourceId } = params;
   const location = resourceGroupLocation();
 
   const storageAccount = template.deploy({
@@ -94,5 +93,7 @@ export default buildTemplate<Params, Outputs>(template => {
     }
   }, [nic, storageAccount]);
   
-  template.setOutput('string', 'storageUri', storageUri);
+  return {
+    storageUri
+  };
 });

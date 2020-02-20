@@ -1,18 +1,14 @@
-import { resourceGroupLocation, buildTemplate } from '../../lib/template';
+import { resourceGroupLocation, buildTemplate, Params } from '../../lib/template';
 import { default as builder } from './nestedTemplate';
 
-interface Params {
-  namePrefix: string,
-  subnetResourceId: string,
+const params = {
+  namePrefix: Params.String,
+  subnetResourceId: Params.String,
 }
 
-interface Outputs {
-}
-
-export default buildTemplate<Params, Outputs>(template => {
+export default buildTemplate(params, {}, (params, template) => {
+  const { namePrefix, subnetResourceId } = params;
   const location = resourceGroupLocation();
-  const namePrefix = template.getParam('string', 'namePrefix');
-  const subnetResourceId = template.getParam('string', 'subnetResourceId');
 
   for (let i = 0; i < 3; i++) {
     const result = template.deployNested(
@@ -25,4 +21,6 @@ export default buildTemplate<Params, Outputs>(template => {
         subnetResourceId,
       });
   }
+
+  return {};
 });

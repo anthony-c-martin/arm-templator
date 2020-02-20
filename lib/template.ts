@@ -48,59 +48,103 @@ export class Deployment<TParams, TOutputs> {
   }
 }
 
-type Parameterify<T> = {
-  [P in keyof T]?: ParameterExpression<T[P]>;
-}
-
-type Outputify<T> = {
-  [P in keyof T]?: TemplateOutput<T[P]>;
-}
-
 type Expressionify<T> = {
   readonly [P in keyof T]: Expressionable<T[P]>;
 }
 
 export class TemplateBuilder<TParams, TOutputs> {
-  private readonly execute: (template: Template<TParams, TOutputs>) => void;
+  private readonly params: Paramify<TParams>;
+  private readonly outputs: Outputify<TOutputs>;
+  private readonly execute: (params: Expressionify<TParams>, template: Template<TParams, TOutputs>) => Expressionify<TOutputs>;
 
-  constructor(execute: (template: Template<TParams, TOutputs>) => void) {
+  constructor(params: Paramify<TParams>, outputs: Outputify<TOutputs>, execute: (params: Expressionify<TParams>, template: Template<TParams, TOutputs>) => Expressionify<TOutputs>) {
+    this.params = params;
+    this.outputs = outputs;
     this.execute = execute;
   }
 
   render() {
-    const template = new Template<TParams, TOutputs>();
-    this.execute(template);
+    const template = new Template<TParams, TOutputs>(this.params, this.outputs);
+    const params = getParamExpressions(this.params);
+    const outputs = this.execute(params, template);
 
-    return template.render();
+    return template.render(outputs);
   }
 }
 
-export function buildTemplate<TParams, TOutputs>(execute: (template: Template<TParams, TOutputs>) => void) {
-  return new TemplateBuilder<TParams, TOutputs>(execute);
+type Paramify<T> = {
+  [P in keyof T]: ParamType<T[P]>;
+}
+
+class ParamType<T> {
+  constructor(type: string) {
+    this.type = type;
+  }
+  type: string;
+}
+
+export class Params {
+  public static readonly String = new ParamType<string>('string');
+  public static readonly SecureString = new ParamType<string>('securestring');
+  public static readonly Int = new ParamType<number>('int');
+  public static readonly Bool = new ParamType<boolean>('bool');
+  public static Array<T>(): ParamType<T[]> {
+    return new ParamType<T[]>('array');
+  }
+  public static Object<T>(): ParamType<T> {
+    return new ParamType<T[]>('object');
+  }
+}
+
+type Outputify<T> = {
+  [P in keyof T]: OutputType<T[P]>;
+}
+
+class OutputType<T> {
+  constructor(type: string) {
+    this.type = type;
+  }
+  type: string;
+}
+
+export class Outputs {
+  public static readonly String = new OutputType<string>('string');
+  public static readonly Int = new OutputType<number>('int');
+  public static readonly Bool = new OutputType<boolean>('bool');
+  public static Array<T>(): ParamType<T[]> {
+    return new OutputType<T[]>('array');
+  }
+  public static Object<T>(): ParamType<T> {
+    return new OutputType<T[]>('object');
+  }
+}
+
+export function buildTemplate<TParams, TOutputs>(params: Paramify<TParams>, outputs: Outputify<TOutputs>, execute: (params: Expressionify<TParams>, template: Template<TParams, TOutputs>) => Expressionify<TOutputs>) {
+  return new TemplateBuilder<TParams, TOutputs>(params, outputs, execute);
+}
+
+function getParamExpressions<TParams>(params: Paramify<TParams>): Expressionify<TParams> {
+  let result: any = {};
+  for (const k in params) {
+      result[k] = new ParameterExpression<any>(k as string, params[k].type);
+  }
+  return result;
 }
 
 export class Template<TParams, TOutputs> {
-  constructor() {
+  constructor(paramTypes: Paramify<TParams>, outputTypes: Outputify<TOutputs>) {
     this.resources = [];
-    this.parameters = {};
-    this.outputs = {};
+    this.paramTypes = paramTypes;
+    this.outputTypes = outputTypes;
   }
 
-  public getParam<K extends keyof TParams>(type: string, key: K): Expressionable<TParams[K]> {
-    if (!this.parameters[key]) {
-      this.parameters[key] = new ParameterExpression<TParams[K]>(key as string, type);
-    }
-
-    return this.parameters[key] as Expressionable<TParams[K]>;
-  }
-
-  public setOutput<K extends keyof TOutputs>(type: string, key: K, value: Expressionable<TOutputs[K]>) {
-    this.outputs[key] = new TemplateOutput(key as string, type, value);
+  public getParam<K extends keyof TParams>(key: K): Expressionable<TParams[K]> {
+    return new ParameterExpression<TParams[K]>(key as string, this.paramTypes[key].type);
   }
 
   private readonly resources: TemplateResource<any>[];
-  private readonly parameters: Parameterify<TParams>;
-  private readonly outputs: Outputify<TOutputs>;
+  private readonly paramTypes: Paramify<TParams>;
+  private readonly outputTypes: Outputify<TOutputs>;
 
   deploy<T>(resource: ResourceDefinition<T>, dependencies?: ResourceReference<any>[]): ResourceReference<T> {
     const templateResource: TemplateResource<T> = {
@@ -138,13 +182,13 @@ export class Template<TParams, TOutputs> {
     }, dependencies);
   }
 
-  render(): any {
+  render(outputs: Expressionify<TOutputs>): any {
     return {
       $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
       contentVersion: '1.0.0.0',
-      parameters: formatParameters(this.parameters),
+      parameters: formatParameters(this.paramTypes),
       resources: this.resources.map(formatResourceObject),
-      outputs: formatOutputs(this.outputs),
+      outputs: formatOutputs(this.outputTypes, outputs),
     };
   }
 }
@@ -190,42 +234,24 @@ function formatResourceObject<T>(resource: TemplateResource<T>): any {
   return output;
 }
 
-function formatParameters<T>(parameters: Parameterify<T>): any {
+function formatParameters<T>(types: Paramify<T>): any {
   const output: any = {};
-  for (const name in parameters) {
-    const parameter = parameters[name];
-    if (parameter === undefined) {
-      continue;
-    }
-
-    const paramDefinition: any = {
-      type: parameter.getType(),
-    }
-
-    if (parameter.defaultValue) {
-      paramDefinition.defaultValue = parameter.defaultValue;
-    }
-
-    output[parameter.name] = paramDefinition;
+  for (const name in types) {
+    output[name] = {
+      type: types[name].type,
+    };
   }
 
   return output;
 }
 
-function formatOutputs<T>(outputs: Outputify<T>): any {
+function formatOutputs<T>(types: Outputify<T>, values: Expressionify<T>): any {
   const result: any = {};
-  for (const name in outputs) {
-    const output = outputs[name];
-    if (output === undefined) {
-      continue;
-    }
-
-    const outputDefinition: any = {
-      type: output.getType(),
-      value: formatTopLevelExpressionable(output.value),
+  for (const name in types) {
+    result[name] = {
+      type: types[name].type,
+      value: formatTopLevelExpressionable(values[name]),
     };
-
-    result[output.name] = outputDefinition;
   }
 
   return result;

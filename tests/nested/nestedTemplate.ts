@@ -1,21 +1,19 @@
-import { resourceGroupLocation, concat, getResourceId, buildTemplate } from '../../lib/template';
+import { resourceGroupLocation, concat, getResourceId, buildTemplate, Params, Outputs } from '../../lib/template';
 import { createBaseNic, createBaseVm } from '../includes/modularity';
 
-interface Params {
-  index: string,
-  namePrefix: string,
-  subnetResourceId: string,
+const params = {
+  index: Params.String,
+  namePrefix: Params.String,
+  subnetResourceId: Params.String,
 }
 
-interface Outputs {
-  vmResourceId: string,
+const outputs = {
+  vmResourceId: Outputs.String,
 }
 
-export default buildTemplate<Params, Outputs>(template => {
+export default buildTemplate(params, outputs, (params, template) => {
   const location = resourceGroupLocation();
-  const index = template.getParam('string', 'index');
-  const namePrefix = template.getParam('string', 'namePrefix');
-  const subnetResourceId = template.getParam('string', 'subnetResourceId');
+  const { index, namePrefix, subnetResourceId } = params;
 
   const publicIp = template.deploy({
     type: 'Microsoft.Network/publicIPAddresses',
@@ -43,5 +41,7 @@ export default buildTemplate<Params, Outputs>(template => {
     properties: createBaseVm(concat('vm', index), getResourceId(nic)),
   }, [nic]);
 
-  template.setOutput('string', 'vmResourceId', getResourceId(vm));
+  return {
+    vmResourceId: getResourceId(vm),
+  };
 });

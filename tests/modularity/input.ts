@@ -1,13 +1,13 @@
-import { concat, resourceGroupLocation, getResourceId, buildTemplate } from '../../lib/template';
+import { concat, resourceGroupLocation, getResourceId, buildTemplate, Params } from '../../lib/template';
 import { createBaseNic, createBaseVm } from '../includes/modularity';
 
-interface Params {
-  namePrefix: string,
+const params = {
+  namePrefix: Params.String,
 }
 
-export default buildTemplate<Params, {}>(template => {
+export default buildTemplate(params, {}, (params, template) => {
   const location = resourceGroupLocation();
-  const namePrefix = template.getParam('string', 'namePrefix');
+  const { namePrefix } = params;
 
   const publicIp = template.deploy({
     type: 'Microsoft.Network/publicIPAddresses',
@@ -59,4 +59,6 @@ export default buildTemplate<Params, {}>(template => {
       properties: createBaseVm(`vm${i}`, getResourceId(nic)),
     }, [nic]);
   }
+
+  return {};
 });
