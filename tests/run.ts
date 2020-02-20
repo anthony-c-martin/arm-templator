@@ -1,11 +1,12 @@
 import 'mocha';
 import { expect } from 'chai';
+import { Template } from '../lib/template';
 
 async function executeTest(name: string) {
-  const generated = require(`${__dirname}/${name}/input.ts`).default;
+  const generated: Template = require(`${__dirname}/${name}/input.ts`).default;
   const expected = require(`${__dirname}/${name}/output.json`);
 
-  expect(generated).to.deep.equal(expected);
+  expect(generated.render()).to.deep.equal(expected);
 }
 
 describe('generation tests', () => {

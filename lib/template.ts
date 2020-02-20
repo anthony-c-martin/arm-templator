@@ -23,11 +23,11 @@ export interface Deployment {
   resourceGroup: string,
   name: string,
   mode: 'Incremental' | 'Complete',
-  template: any,
+  template: Template,
   parameters: {[key: string]: any},
 }
 
-class Template {
+export class Template {
   constructor() {
     this.resources = [];
     this.parameters = [];
@@ -62,7 +62,7 @@ class Template {
     };
   }
 
-  deployNested(name: Expressionable<string>, location: Expressionable<string>, execute: (template: Template) => void, dependencies?: ResourceReference<any>[]) {
+  deployNested(name: Expressionable<string>, location: Expressionable<string>, template: Template, dependencies?: ResourceReference<any>[]) {
     return this.deploy({
       apiVersion: '2019-10-01',
       type: 'Microsoft.Resources/deployments',
@@ -70,7 +70,7 @@ class Template {
       location: location,
       properties: {
         mode: 'Incremental',
-        template: renderTemplate(execute),
+        template: template.render(),
       },
     }, dependencies);
   }
@@ -153,6 +153,17 @@ class Template {
     const output = new TemplateOutput(name, TYPE_SECURESTRING, value);
     this.outputs.push(output);
   }
+
+  render(): any {
+    return {
+      $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
+      contentVersion: '1.0.0.0',
+      parameters: formatParameters(this),
+      variables: formatVariables(this),
+      resources: this.resources.map(formatResourceObject),
+      outputs: formatOutputs(this),
+    };
+  }
 }
 
 function formatObject(input: any): any {
@@ -234,25 +245,6 @@ function formatOutputs(template: Template): any {
   }
 
   return outputs;
-}
-
-export function renderTemplate(execute: (template: Template) => void): any {
-  const template = new Template();
-  execute(template);
-
-  const resources = template.resources.map(formatResourceObject);
-  const parameters = formatParameters(template);
-  const variables = formatVariables(template);
-  const outputs = formatOutputs(template);
-
-  return {
-    $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
-    contentVersion: '1.0.0.0',
-    parameters,
-    variables,
-    resources,
-    outputs,
-  };
 }
 
 export function concat(...components: Expressionable<string>[]): Expression<string> {

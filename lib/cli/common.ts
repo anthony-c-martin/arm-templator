@@ -34,7 +34,7 @@ export async function deployAsync(args: DeployArgs) {
       deployment.name,
       {
         properties: {
-          template: deployment.template,
+          template: deployment.template.render(),
           mode: deployment.mode,
           parameters: renderParams(deployment.parameters),
         },
@@ -54,17 +54,16 @@ export async function deployAsync(args: DeployArgs) {
 
 export interface DisplayArgs {
   deployment: Deployment;
-  full: boolean;
 }
 
 export async function displayAsync(args: DisplayArgs) {
   const argv = yargs.options({
     full: { type: 'boolean', demandOption: false, desc: 'Include the full deployment object' },
   }).argv;
+
+  const template = args.deployment.template;
   
-  const output: any = args.full ? args.deployment : args.deployment.template;
-  
-  console.log(JSON.stringify(output, null, 2));
+  console.log(JSON.stringify(template.render(), null, 2));
 }
   
 function renderParams(parameters: {[key: string]: any}) {
