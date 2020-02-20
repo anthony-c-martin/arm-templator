@@ -48,58 +48,108 @@ export class Deployment<TParams, TOutputs> {
   }
 }
 
-type Parameterify<T> = {
-  [P in keyof T]?: ParameterExpression<T[P]>;
-}
-
-type Outputify<T> = {
-  [P in keyof T]?: TemplateOutput<T[P]>;
-}
-
 type Expressionify<T> = {
   readonly [P in keyof T]: Expressionable<T[P]>;
 }
 
 export class TemplateBuilder<TParams, TOutputs> {
+  private readonly params: Paramify<TParams>;
+  private readonly outputs: Outputify<TOutputs>;
   private readonly execute: (template: Template<TParams, TOutputs>) => void;
 
-  constructor(execute: (template: Template<TParams, TOutputs>) => void) {
+  constructor(params: Paramify<TParams>, outputs: Outputify<TOutputs>, execute: (template: Template<TParams, TOutputs>) => void) {
+    this.params = params;
+    this.outputs = outputs;
     this.execute = execute;
   }
 
   render() {
-    const template = new Template<TParams, TOutputs>();
+    const template = new Template<TParams, TOutputs>(this.params, this.outputs);
     this.execute(template);
 
     return template.render();
   }
 }
 
-export function buildTemplate<TParams, TOutputs>(execute: (template: Template<TParams, TOutputs>) => void) {
-  return new TemplateBuilder<TParams, TOutputs>(execute);
+type Paramify<T> = {
+  [P in keyof T]: ParamType<T[P]>;
+}
+
+class ParamType<T> {
+  constructor(type: string) {
+    this.type = type;
+  }
+  type: string;
+}
+
+export class Params {
+  public static readonly String = new ParamType<string>('string');
+  public static readonly SecureString = new ParamType<string>('securestring');
+  public static readonly Int = new ParamType<number>('int');
+  public static readonly Bool = new ParamType<boolean>('bool');
+  public static Array<T>(): ParamType<T[]> {
+    return new ParamType<T[]>('array');
+  }
+  public static Object<T>(): ParamType<T> {
+    return new ParamType<T[]>('object');
+  }
+}
+
+type Outputify<T> = {
+  [P in keyof T]: OutputType<T[P]>;
+}
+
+class OutputType<T> {
+  constructor(type: string) {
+    this.type = type;
+  }
+  type: string;
+}
+
+export class Outputs {
+  public static readonly String = new OutputType<string>('string');
+  public static readonly Int = new OutputType<number>('int');
+  public static readonly Bool = new OutputType<boolean>('bool');
+  public static Array<T>(): ParamType<T[]> {
+    return new OutputType<T[]>('array');
+  }
+  public static Object<T>(): ParamType<T> {
+    return new OutputType<T[]>('object');
+  }
+}
+
+export function buildTemplate<TParams, TOutputs>(params: Paramify<TParams>, outputs: Outputify<TOutputs>, execute: (template: Template<TParams, TOutputs>) => void) {
+  return new TemplateBuilder<TParams, TOutputs>(params, outputs, execute);
+}
+
+function getParamExpressions<TParams>(params: Paramify<TParams>): Expressionify<TParams> {
+  let result: any = {};
+  for (const k in params) {
+      result[k] = new ParameterExpression<any>(k as string, params[k].type);
+  }
+  return result;
 }
 
 export class Template<TParams, TOutputs> {
-  constructor() {
+  constructor(params: Paramify<TParams>, outputs: Outputify<TOutputs>) {
     this.resources = [];
-    this.parameters = {};
-    this.outputs = {};
+    this.params = params;
+    this.outputs = outputs;
+    this.paramValues = getParamExpressions(params);
+    this.outputValues = {};
   }
 
-  public getParam<K extends keyof TParams>(type: string, key: K): Expressionable<TParams[K]> {
-    if (!this.parameters[key]) {
-      this.parameters[key] = new ParameterExpression<TParams[K]>(key as string, type);
-    }
-
-    return this.parameters[key] as Expressionable<TParams[K]>;
+  public getParam<K extends keyof TParams>(key: K): Expressionable<TParams[K]> {
+    return this.paramValues[key]
   }
 
-  public setOutput<K extends keyof TOutputs>(type: string, key: K, value: Expressionable<TOutputs[K]>) {
-    this.outputs[key] = new TemplateOutput(key as string, type, value);
+  public setOutput<K extends keyof TOutputs>(key: K, value: Expressionable<TOutputs[K]>) {
+    this.outputs[key].set(value);
   }
 
+  private readonly paramValues: Expressionify<TParams>;
   private readonly resources: TemplateResource<any>[];
-  private readonly parameters: Parameterify<TParams>;
+  private readonly params: Paramify<TParams>;
   private readonly outputs: Outputify<TOutputs>;
 
   deploy<T>(resource: ResourceDefinition<T>, dependencies?: ResourceReference<any>[]): ResourceReference<T> {
