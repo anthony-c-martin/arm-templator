@@ -162,6 +162,9 @@ export class Template<TParams, TOutputs> {
       name: [name],
       location: location,
       properties: {
+        expressionEvaluationOptions: {
+          scope: 'Inner',
+        },
         mode: 'Incremental',
         template: builder.render(),
         parameters: renderParams(parameters),

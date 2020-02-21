@@ -15,6 +15,9 @@
       "apiVersion": "2019-10-01",
       "name": "nested0",
       "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "Inner"
+        },
         "mode": "Incremental",
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
@@ -136,6 +139,9 @@
       "apiVersion": "2019-10-01",
       "name": "nested1",
       "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "Inner"
+        },
         "mode": "Incremental",
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
@@ -257,6 +263,9 @@
       "apiVersion": "2019-10-01",
       "name": "nested2",
       "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "Inner"
+        },
         "mode": "Incremental",
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
