@@ -1,4 +1,4 @@
-import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatTopLevelExpressionable } from './common';
+import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatTopLevelExpressionable, formatFunction } from './common';
 import { ParameterExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression } from './expression';
 
 const TYPE_OBJECT = 'object';
@@ -277,6 +277,33 @@ function renderParams<TParams>(parameters: Expressionify<TParams>) {
 
 export function concat(...components: Expressionable<string>[]): Expression<string> {
   return new ConcatExpression(components);
+}
+
+class CustomExpression<T> extends Expression<T> {
+  private name: string;
+  private components: Expressionable<any>[];
+  constructor(name: string, components: Expressionable<any>[]) {
+    super();
+    this.name = name;
+    this.components = components;
+  }
+
+  format() {
+    return formatFunction(this.name, ...this.components);
+  }
+}
+
+/* idea for usage:
+function getPrimaryConnectionString(resource: ResourceReference<any> & { type: 'Microsoft.Eventhub/namespaces/authorizationRules'}): Expressionable<string> {
+  return customExpression<any>(
+    'listKeys', [
+      getResourceId(resource),
+      '2017-04-01'
+    ]
+  ).call('primaryConnectionString');
+} */
+export function customExpression<TOutput>(name: string, components: Expressionable<any>[]): Expression<TOutput> {
+  return new CustomExpression<TOutput>(name, components);
 }
 
 function concatResourceName(...components: Expressionable<string>[]): Expressionable<string> {

@@ -84,6 +84,6 @@ export function formatTopLevelExpressionable(expression: Expressionable<any>) {
   return formatExpressionable(expression);
 }
 
-export function formatFunction(name: string, ...parameters: Expressionable<string>[]) {
+export function formatFunction(name: string, ...parameters: Expressionable<any>[]) {
   return `${name}(${parameters.map(formatExpressionable).join(', ')})`;
 }
