@@ -30,12 +30,13 @@ export interface ResourceReference<T> {
   readonly name: Expressionable<string>[];
 }
 
-export interface ResourceDefinition<T> {
+export interface ResourceDefinition<TProperties, TAdditional> {
   type: string;
   apiVersion: string;
   name: Expressionable<string>[];
   location?: Expressionable<string>;
-  properties: Expressionable<T>;
+  properties: Expressionable<TProperties>;
+  additional?: TAdditional;
 }
 
 function escapeParameterStringLiteral(input: string) {

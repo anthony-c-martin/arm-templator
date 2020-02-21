@@ -1,5 +1,5 @@
 import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatTopLevelExpressionable } from './common';
-import { ParameterExpression, VariableExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression, TemplateOutput } from './expression';
+import { ParameterExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression } from './expression';
 
 const TYPE_OBJECT = 'object';
 const TYPE_ARRAY = 'array';
@@ -8,13 +8,9 @@ const TYPE_SECURESTRING = 'securestring';
 const TYPE_INT = 'int';
 const TYPE_BOOL = 'bool';
 
-interface TemplateResource<T> {
-  type: string;
-  apiVersion: string;
-  name: Expressionable<string>[];
-  location?: Expressionable<string>;
-  properties: Expressionable<T>;
-  dependsOn?: Expressionable<string>[];
+interface ResourceDeployment {
+  resource: ResourceDefinition<any, any>,
+  dependencies?: ResourceReference<any>[],
 }
 
 export class Deployment<TParams, TOutputs> {
@@ -84,15 +80,15 @@ class ParamType<T> {
 }
 
 export class Params {
-  public static readonly String = new ParamType<string>('string');
-  public static readonly SecureString = new ParamType<string>('securestring');
-  public static readonly Int = new ParamType<number>('int');
-  public static readonly Bool = new ParamType<boolean>('bool');
+  public static readonly String = new ParamType<string>(TYPE_STRING);
+  public static readonly SecureString = new ParamType<string>(TYPE_SECURESTRING);
+  public static readonly Int = new ParamType<number>(TYPE_INT);
+  public static readonly Bool = new ParamType<boolean>(TYPE_BOOL);
   public static Array<T>(): ParamType<T[]> {
-    return new ParamType<T[]>('array');
+    return new ParamType<T[]>(TYPE_ARRAY);
   }
   public static Object<T>(): ParamType<T> {
-    return new ParamType<T[]>('object');
+    return new ParamType<T[]>(TYPE_OBJECT);
   }
 }
 
@@ -108,14 +104,14 @@ class OutputType<T> {
 }
 
 export class Outputs {
-  public static readonly String = new OutputType<string>('string');
-  public static readonly Int = new OutputType<number>('int');
-  public static readonly Bool = new OutputType<boolean>('bool');
-  public static Array<T>(): ParamType<T[]> {
-    return new OutputType<T[]>('array');
+  public static readonly String = new OutputType<string>(TYPE_STRING);
+  public static readonly Int = new OutputType<number>(TYPE_INT);
+  public static readonly Bool = new OutputType<boolean>(TYPE_BOOL);
+  public static Array<T>(): OutputType<T[]> {
+    return new OutputType<T[]>(TYPE_ARRAY);
   }
-  public static Object<T>(): ParamType<T> {
-    return new OutputType<T[]>('object');
+  public static Object<T>(): OutputType<T> {
+    return new OutputType<T[]>(TYPE_OBJECT);
   }
 }
 
@@ -142,24 +138,15 @@ export class Template<TParams, TOutputs> {
     return new ParameterExpression<TParams[K]>(key as string, this.paramTypes[key].type);
   }
 
-  private readonly resources: TemplateResource<any>[];
+  private readonly resources: ResourceDeployment[];
   private readonly paramTypes: Paramify<TParams>;
   private readonly outputTypes: Outputify<TOutputs>;
 
-  deploy<T>(resource: ResourceDefinition<T>, dependencies?: ResourceReference<any>[]): ResourceReference<T> {
-    const templateResource: TemplateResource<T> = {
-      type: resource.type,
-      apiVersion: resource.apiVersion,
-      name: resource.name,
-      location: resource.location,
-      properties: resource.properties,
-    };
-
-    if (dependencies && dependencies.length > 0) {
-      templateResource.dependsOn = dependencies.map(d => new ResourceIdExpression(d));
-    }
-
-    this.resources.push(templateResource);
+  deploy<T, U>(resource: ResourceDefinition<T, U>, dependencies?: ResourceReference<any>[]): ResourceReference<T> {
+    this.resources.push({
+      resource,
+      dependencies
+    });
     
     return {
       type: resource.type,
@@ -178,7 +165,7 @@ export class Template<TParams, TOutputs> {
         mode: 'Incremental',
         template: builder.render(),
         parameters: renderParams(parameters),
-      },
+      }
     }, dependencies);
   }
 
@@ -195,7 +182,7 @@ export class Template<TParams, TOutputs> {
 
 function formatObject(input: any): any {
   if (input === null || input === undefined) {
-    throw new Error(`Unable to format null or undefined input`);
+    return undefined;
   }
 
   if (Array.isArray(input)) {
@@ -215,7 +202,21 @@ function formatObject(input: any): any {
   return input;
 }
 
-function formatResourceObject<T>(resource: TemplateResource<T>): any {
+function formatOptionalProperties(input: any, output: any, keys: string[]) {
+  if (!input) { 
+    return;
+  }
+
+  for (const key of keys) {
+    if (input[key]) {
+      output[key] = formatObject(input[key]);
+    }
+  }
+}
+
+function formatResourceObject<T>(deployment: ResourceDeployment): any {
+  const { resource, dependencies } = deployment;
+
   const output: any = {
     type: formatObject(resource.type),
     apiVersion: formatObject(resource.apiVersion),
@@ -227,10 +228,12 @@ function formatResourceObject<T>(resource: TemplateResource<T>): any {
     output.location = formatObject(resource.location);
   }
 
-  if (resource.dependsOn) {
-    output.dependsOn = formatObject(resource.dependsOn);
+  formatOptionalProperties(resource.additional, output, ['identity', 'sku', 'zones', 'kind', 'plan', 'tags']);
+
+  if (dependencies && dependencies.length > 0) {
+    output.dependsOn = formatObject(dependencies.map(d => getResourceId(d)));
   }
-  
+
   return output;
 }
 

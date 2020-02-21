@@ -10,6 +10,9 @@
     {
       "type": "Microsoft.Resources/deploymentScripts",
       "apiVersion": "2019-10-01-preview",
+      "identity": {
+        "type": "UserAssigned"
+      },
       "name": "myScript",
       "properties": {
         "azPowerShellVersion": "1.7.0",

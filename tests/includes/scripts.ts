@@ -16,17 +16,24 @@ function formatArgs(args: {[key: string]: Expressionable<string>}): Expression<s
   return new ConcatExpression(output);
 }
 
-export const createScriptsResource = (name: Expressionable<string>, location: Expressionable<string>, scriptPath: string, args: {[key: string]: Expressionable<string>}): ResourceDefinition<any> => ({
-  type: 'Microsoft.Resources/deploymentScripts',
-  apiVersion: '2019-10-01-preview',
-  name: [name],
-  location: location,
-  properties: {
-    azPowerShellVersion: '1.7.0',
-    scriptContent: readScriptFile(scriptPath),
-    arguments: formatArgs(args),
-    retentionInterval: 'PT7D',
-    timeout: 'PT1H',
-    cleanupPreference: 'Always'
-  },
-});
+export function createScriptsResource(name: Expressionable<string>, location: Expressionable<string>, scriptPath: string, args: {[key: string]: Expressionable<string>}): ResourceDefinition<any, any> {
+  return {
+    type: 'Microsoft.Resources/deploymentScripts',
+    apiVersion: '2019-10-01-preview',
+    name: [name],
+    location: location,
+    properties: {
+      azPowerShellVersion: '1.7.0',
+      scriptContent: readScriptFile(scriptPath),
+      arguments: formatArgs(args),
+      retentionInterval: 'PT7D',
+      timeout: 'PT1H',
+      cleanupPreference: 'Always'
+    },
+    additional: {
+      identity: {
+        type: 'UserAssigned',
+      }
+    }
+  }
+}
