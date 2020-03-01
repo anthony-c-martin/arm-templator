@@ -1,4 +1,4 @@
-import { resourceGroupLocation, buildTemplate, Params } from '../../lib/template';
+import { resourceGroupLocation, buildTemplate, Params } from '../../lib';
 import { default as builder } from './nestedTemplate';
 
 const params = {

@@ -1,4 +1,4 @@
-import { concat, getResourceId, resourceGroupLocation, buildTemplate, Params, Outputs } from '../../lib/template';
+import { concat, getResourceId, resourceGroupLocation, buildTemplate, Params, Outputs } from '../../lib';
 
 const defaultStorageProfile = {
   imageReference: {

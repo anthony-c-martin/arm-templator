@@ -1,51 +1,45 @@
-import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatTopLevelExpressionable, formatFunction } from './common';
-import { ParameterExpression, ResourceIdExpression, ReferenceExpression, ConcatExpression, ResourceGroupLocationExpression } from './expression';
-
-const TYPE_OBJECT = 'object';
-const TYPE_ARRAY = 'array';
-const TYPE_STRING = 'string';
-const TYPE_SECURESTRING = 'securestring';
-const TYPE_INT = 'int';
-const TYPE_BOOL = 'bool';
+import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatTopLevelExpressionable, Paramify, Outputify, Expressionify } from './common';
+import { ParameterExpression, ResourceIdExpression, ReferenceExpression, concat, getResourceId } from './expression';
 
 interface ResourceDeployment {
   resource: ResourceDefinition<any, any>,
   dependencies?: ResourceReference<any>[],
 }
 
-export class Deployment<TParams, TOutputs> {
-  constructor(
-    location: string,
-    subscriptionId: string,
-    resourceGroup: string,
-    name: string,
-    mode: 'Incremental' | 'Complete',
-    builder: TemplateBuilder<TParams, TOutputs>,
-    parameters: TParams,
-  ) {
-    this.location = location;
-    this.subscriptionId = subscriptionId;
-    this.resourceGroup = resourceGroup;
-    this.name = name;
-    this.mode = mode;
-    this.builder = builder;
-    this.parameters = parameters;
-  }
+export interface DeploymentSettings {
   location: string;
   subscriptionId: string;
   resourceGroup: string;
   name: string;
   mode: 'Incremental' | 'Complete';
-  builder: TemplateBuilder<TParams, TOutputs>;
-  parameters: TParams;
+}
+
+export class DeploymentBuilder<TParams, TOutputs> {
+  constructor(settings: DeploymentSettings, builder: TemplateBuilder<TParams, TOutputs>, parameters: TParams) {
+    this.settings = settings;
+    this.builder = builder;
+    this.parameters = parameters;
+  }
+
+  private settings: DeploymentSettings;
+  private builder: TemplateBuilder<TParams, TOutputs>;
+  private parameters: TParams;
 
   renderParams() {
     return renderParams(this.parameters);
   }
+
+  renderTemplate() {
+    return this.builder.render();
+  }
+
+  getSettings() {
+    return this.settings;
+  }
 }
 
-type Expressionify<T> = {
-  readonly [P in keyof T]: Expressionable<T[P]>;
+export function buildDeployment<TParams, TOutputs>(settings: DeploymentSettings, builder: TemplateBuilder<TParams, TOutputs>, parameters: TParams) {
+  return new DeploymentBuilder(settings, builder, parameters);
 }
 
 export class TemplateBuilder<TParams, TOutputs> {
@@ -65,53 +59,6 @@ export class TemplateBuilder<TParams, TOutputs> {
     const outputs = this.execute(params, template);
 
     return template.render(outputs);
-  }
-}
-
-type Paramify<T> = {
-  [P in keyof T]: ParamType<T[P]>;
-}
-
-class ParamType<T> {
-  constructor(type: string) {
-    this.type = type;
-  }
-  type: string;
-}
-
-export class Params {
-  public static readonly String = new ParamType<string>(TYPE_STRING);
-  public static readonly SecureString = new ParamType<string>(TYPE_SECURESTRING);
-  public static readonly Int = new ParamType<number>(TYPE_INT);
-  public static readonly Bool = new ParamType<boolean>(TYPE_BOOL);
-  public static Array<T>(): ParamType<T[]> {
-    return new ParamType<T[]>(TYPE_ARRAY);
-  }
-  public static Object<T>(): ParamType<T> {
-    return new ParamType<T[]>(TYPE_OBJECT);
-  }
-}
-
-type Outputify<T> = {
-  [P in keyof T]: OutputType<T[P]>;
-}
-
-class OutputType<T> {
-  constructor(type: string) {
-    this.type = type;
-  }
-  type: string;
-}
-
-export class Outputs {
-  public static readonly String = new OutputType<string>(TYPE_STRING);
-  public static readonly Int = new OutputType<number>(TYPE_INT);
-  public static readonly Bool = new OutputType<boolean>(TYPE_BOOL);
-  public static Array<T>(): OutputType<T[]> {
-    return new OutputType<T[]>(TYPE_ARRAY);
-  }
-  public static Object<T>(): OutputType<T> {
-    return new OutputType<T[]>(TYPE_OBJECT);
   }
 }
 
@@ -275,37 +222,6 @@ function renderParams<TParams>(parameters: Expressionify<TParams>) {
   return output;
 }
 
-export function concat(...components: Expressionable<string>[]): Expression<string> {
-  return new ConcatExpression(components);
-}
-
-class CustomExpression<T> extends Expression<T> {
-  private name: string;
-  private components: Expressionable<any>[];
-  constructor(name: string, components: Expressionable<any>[]) {
-    super();
-    this.name = name;
-    this.components = components;
-  }
-
-  format() {
-    return formatFunction(this.name, ...this.components);
-  }
-}
-
-/* idea for usage:
-function getPrimaryConnectionString(resource: ResourceReference<any> & { type: 'Microsoft.Eventhub/namespaces/authorizationRules'}): Expressionable<string> {
-  return customExpression<any>(
-    'listKeys', [
-      getResourceId(resource),
-      '2017-04-01'
-    ]
-  ).call('primaryConnectionString');
-} */
-export function customExpression<TOutput>(name: string, components: Expressionable<any>[]): Expression<TOutput> {
-  return new CustomExpression<TOutput>(name, components);
-}
-
 function concatResourceName(...components: Expressionable<string>[]): Expressionable<string> {
   if (components.length === 1) {
     return components[0];
@@ -321,16 +237,4 @@ function concatResourceName(...components: Expressionable<string>[]): Expression
   }, []);
 
   return concat(...separated);
-}
-
-export function resourceGroupLocation(): Expression<string> {
-  return new ResourceGroupLocationExpression();
-}
-
-export function getReference<T>(resource: ResourceReference<T>): Expression<T> {
-  return new ReferenceExpression<T>(resource);
-}
-
-export function getResourceId<T>(resource: ResourceReference<T>): Expression<string> {
-  return new ResourceIdExpression(resource);
 }

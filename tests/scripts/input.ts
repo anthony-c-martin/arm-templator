@@ -1,4 +1,4 @@
-import { resourceGroupLocation, getReference, buildTemplate, Params, Outputs } from '../../lib/template';
+import { resourceGroupLocation, getReference, buildTemplate, Params, Outputs } from '../../lib';
 import { createScriptsResource } from '../includes/scripts';
 
 const params = {

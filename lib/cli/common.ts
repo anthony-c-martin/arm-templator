@@ -1,40 +1,41 @@
 import { interactiveLogin } from 'ms-rest-azure';
 import { ResourceManagementClient } from 'azure-arm-resource';
-import { Deployment } from '../template';
+import { DeploymentBuilder } from '../template';
 import { inspect } from 'util';
 import chalk from 'chalk';
 
 
 export interface DeployArgs {
-  deployment: Deployment<any, any>;
+  deployment: DeploymentBuilder<any, any>;
 }
 
 export async function deployAsync(args: DeployArgs) {
   const deployment = args.deployment;
+  const settings = deployment.getSettings();
   
   const creds = await interactiveLogin();
 
-  const client = new ResourceManagementClient.ResourceManagementClient(creds, deployment.subscriptionId);
+  const client = new ResourceManagementClient.ResourceManagementClient(creds, settings.subscriptionId);
   
-  const rgExists = await client.resourceGroups.checkExistence(deployment.resourceGroup);
+  const rgExists = await client.resourceGroups.checkExistence(settings.resourceGroup);
   
   if (!rgExists) {
     await client.resourceGroups.createOrUpdate(
-      deployment.resourceGroup,
+      settings.resourceGroup,
       {
-        location: deployment.location,
+        location: settings.location,
       },
     );
   }
 
   try {
     const result = await client.deployments.createOrUpdate(
-      deployment.resourceGroup,
-      deployment.name,
+      settings.resourceGroup,
+      settings.name,
       {
         properties: {
-          template: deployment.builder.render(),
-          mode: deployment.mode,
+          template: deployment.renderTemplate(),
+          mode: settings.mode,
           parameters: deployment.renderParams(),
         },
       });
@@ -44,7 +45,7 @@ export async function deployAsync(args: DeployArgs) {
   } catch (err) {
     console.log(chalk.red('Deployment Failed!'));
 
-    const result = await client.deploymentOperations.list(deployment.resourceGroup, deployment.name);
+    const result = await client.deploymentOperations.list(settings.resourceGroup, settings.name);
     console.log(inspect(result.slice(), false, null));
 
     throw err;
@@ -52,12 +53,12 @@ export async function deployAsync(args: DeployArgs) {
 }
 
 export interface DisplayArgs {
-  deployment: Deployment<any, any>;
+  deployment: DeploymentBuilder<any, any>;
   full: boolean;
 }
 
 export async function displayAsync(args: DisplayArgs) {
-  const template = args.deployment.builder.render();
+  const template = args.deployment.renderTemplate();
   
   console.log(JSON.stringify(template, null, 2));
 }

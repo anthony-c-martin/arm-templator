@@ -1,4 +1,4 @@
-import { concat, resourceGroupLocation, getResourceId, buildTemplate, Params } from '../../lib/template';
+import { concat, resourceGroupLocation, getResourceId, buildTemplate, Params } from '../../lib';
 import { createBaseNic, createBaseVm } from '../includes/modularity';
 
 const params = {

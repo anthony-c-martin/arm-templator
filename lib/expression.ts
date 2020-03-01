@@ -1,4 +1,4 @@
-import { Expression, Expressionable, formatFunction, ResourceReference, formatExpressionable } from './common';
+import { Expression, Expressionable, formatFunction, ResourceReference } from './common';
 
 export class ParameterExpression<T> extends Expression<T> {
   name: string;
@@ -87,8 +87,36 @@ export class ConcatExpression extends Expression<string> {
   }
 }
 
-export class ResourceGroupLocationExpression extends Expression<string> {
-  format() {
-    return `${formatFunction('resourceGroup')}.location`;
+export function concat(...components: Expressionable<string>[]): Expression<string> {
+  return new ConcatExpression(components);
+}
+
+class CustomExpression<T> extends Expression<T> {
+  private name: string;
+  private components: Expressionable<any>[];
+  constructor(name: string, components: Expressionable<any>[]) {
+    super();
+    this.name = name;
+    this.components = components;
   }
+
+  format() {
+    return formatFunction(this.name, ...this.components);
+  }
+}
+
+export function custom<TOutput>(name: string, components: Expressionable<any>[]): Expression<TOutput> {
+  return new CustomExpression<TOutput>(name, components);
+}
+
+export function resourceGroupLocation(): Expression<string> {
+  return custom<any>('resourceGroup', []).call('location');
+}
+
+export function getReference<T>(resource: ResourceReference<T>): Expression<T> {
+  return new ReferenceExpression<T>(resource);
+}
+
+export function getResourceId<T>(resource: ResourceReference<T>): Expression<string> {
+  return new ResourceIdExpression(resource);
 }
