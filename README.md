@@ -25,6 +25,6 @@ Please feel free to contribute via Pull Requests or the Issue tracker!
 
 [npm-image]: https://img.shields.io/npm/v/arm-templator.svg
 [npm-url]: https://npmjs.org/package/arm-templator
-[status-image]: https://img.shields.io/github/workflow/status/anthony-c-martin/arm-templator/CIT
+[status-image]: https://img.shields.io/github/workflow/status/anthony-c-martin/arm-templator/CI
 [usage-repo]: https://github.com/anthony-c-martin/arm-templator-usage
 [types-repo]: https://github.com/anthony-c-martin/arm-templator-types

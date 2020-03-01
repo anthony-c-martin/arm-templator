@@ -1,4 +1,4 @@
-name: CIT
+name: CI
 
 on: [push, pull_request]
 
@@ -13,4 +13,5 @@ jobs:
       with:
         node-version: 12
     - run: npm install
+    - run: npm run compile
     - run: npm test
