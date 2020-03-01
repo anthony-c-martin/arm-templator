@@ -16,7 +16,7 @@
       "name": "myScript",
       "properties": {
         "azPowerShellVersion": "1.7.0",
-        "scriptContent": "Param(\r\n  [string] $name\r\n)\r\n\r\n$output = 'Hello {0}' -f $name\r\nWrite-Output $output\r\n\r\n$DeploymentScriptOutputs = @{}\r\n$DeploymentScriptOutputs['text'] = $output",
+        "scriptContent": "Param(\n  [string] $name\n)\n\n$output = 'Hello {0}' -f $name\nWrite-Output $output\n\n$DeploymentScriptOutputs = @{}\n$DeploymentScriptOutputs['text'] = $output",
         "arguments": "[concat(' -name', parameters('myName'))]",
         "retentionInterval": "PT7D",
         "timeout": "PT1H",

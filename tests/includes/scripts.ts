@@ -3,7 +3,7 @@ import { ConcatExpression } from '../../lib/expression';
 import fs from 'fs';
 
 function readScriptFile(path: string): string {
-  return fs.readFileSync(path, { encoding: 'utf8' });
+  return fs.readFileSync(path, { encoding: 'utf8' }).replace(/\r/g, '');
 }
 
 function formatArgs(args: {[key: string]: Expressionable<string>}): Expression<string> {
