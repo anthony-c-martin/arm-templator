@@ -1,5 +1,5 @@
-import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, Expression, formatTopLevelExpressionable, Paramify, Outputify, Expressionify } from './common';
-import { ParameterExpression, ResourceIdExpression, ReferenceExpression, concat, getResourceId } from './expression';
+import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, formatTopLevelExpressionable, Paramify, Outputify, Expressionify } from './common';
+import { ParameterExpression, concat, getResourceId } from './expression';
 
 interface ResourceDeployment {
   resource: ResourceDefinition<any, any>,
@@ -69,7 +69,7 @@ export function buildTemplate<TParams, TOutputs>(params: Paramify<TParams>, outp
 function getParamExpressions<TParams>(params: Paramify<TParams>): Expressionify<TParams> {
   let result: any = {};
   for (const k in params) {
-      result[k] = new ParameterExpression<any>(k as string, params[k].type);
+    result[k] = new ParameterExpression<any>(k as string, params[k].type);
   }
   return result;
 }

@@ -1,19 +1,16 @@
-import { interactiveLogin } from 'ms-rest-azure';
+import { ServiceClientCredentials } from 'ms-rest';
 import { ResourceManagementClient } from 'azure-arm-resource';
-import { DeploymentBuilder } from '../template';
+import { DeploymentBuilder } from './template';
 import { inspect } from 'util';
 import chalk from 'chalk';
 
-
-export interface DeployArgs {
-  deployment: DeploymentBuilder<any, any>;
+export interface DeployArgs<TParams, TOutput> {
+  deployment: DeploymentBuilder<TParams, TOutput>;
 }
 
-export async function deployAsync(args: DeployArgs) {
+export async function deployAsync<TParams, TOutput>(creds: ServiceClientCredentials, args: DeployArgs<TParams, TOutput>) {
   const deployment = args.deployment;
   const settings = deployment.getSettings();
-  
-  const creds = await interactiveLogin();
 
   const client = new ResourceManagementClient.ResourceManagementClient(creds, settings.subscriptionId);
   
@@ -52,13 +49,23 @@ export async function deployAsync(args: DeployArgs) {
   }
 }
 
-export interface DisplayArgs {
-  deployment: DeploymentBuilder<any, any>;
+export interface DisplayArgs<TParams, TOutput> {
+  deployment: DeploymentBuilder<TParams, TOutput>;
   full: boolean;
 }
 
-export async function displayAsync(args: DisplayArgs) {
-  const template = args.deployment.renderTemplate();
-  
-  console.log(JSON.stringify(template, null, 2));
+export function display<TParams, TOutput>(args: DisplayArgs<TParams, TOutput>): string {
+  let output;
+
+  if (args.full) {
+    output = {
+      params: args.deployment.renderParams(),
+      settings: args.deployment.getSettings(),
+      template: args.deployment.renderTemplate(),
+    };
+  } else {
+    output = args.deployment.renderTemplate();
+  }
+
+  return JSON.stringify(output, null, 2);
 }

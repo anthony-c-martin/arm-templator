@@ -1,5 +1,5 @@
 import { Expressionable, ResourceDefinition, Expression } from '../../lib/common';
-import { ConcatExpression } from '../../lib/expression';
+import { concat } from '../../lib/expression';
 import fs from 'fs';
 
 function readScriptFile(path: string): string {
@@ -13,7 +13,7 @@ function formatArgs(args: {[key: string]: Expressionable<string>}): Expression<s
     output.push(args[key]);
   }
 
-  return new ConcatExpression(output);
+  return concat(...output);
 }
 
 export function createScriptsResource(name: Expressionable<string>, location: Expressionable<string>, scriptPath: string, args: {[key: string]: Expressionable<string>}): ResourceDefinition<any, any> {
