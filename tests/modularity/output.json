@@ -11,65 +11,29 @@
       "type": "Microsoft.Network/publicIPAddresses",
       "apiVersion": "2019-11-01",
       "name": "[concat(parameters('namePrefix'), '-pip')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic"
-      },
-      "location": "[resourceGroup().location]"
+      }
     },
     {
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2019-11-01",
       "name": "[concat(parameters('namePrefix'), '-vnet')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
             "10.0.0.0/24"
           ]
         }
-      },
-      "location": "[resourceGroup().location]"
-    },
-    {
-      "type": "Microsoft.Network/virtualNetworks/subnets",
-      "apiVersion": "2019-11-01",
-      "name": "[concat(parameters('namePrefix'), '-vnet/default')]",
-      "properties": {
-        "addressPrefix": "10.0.0.0/24"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', concat(parameters('namePrefix'), '-vnet'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Network/networkInterfaces",
-      "apiVersion": "2019-11-01",
-      "name": "[concat(parameters('namePrefix'), '-nic0')]",
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "myConfig",
-            "properties": {
-              "subnet": {
-                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]"
-              },
-              "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip'))]"
-              }
-            }
-          }
-        ]
-      },
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]",
-        "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip'))]"
-      ]
+      }
     },
     {
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2019-07-01",
       "name": "[concat(parameters('namePrefix'), '-vm0')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "osProfile": {
           "computerName": "vm0",
@@ -105,41 +69,15 @@
           ]
         }
       },
-      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namePrefix'), '-nic0'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Network/networkInterfaces",
-      "apiVersion": "2019-11-01",
-      "name": "[concat(parameters('namePrefix'), '-nic1')]",
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "myConfig",
-            "properties": {
-              "subnet": {
-                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]"
-              },
-              "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip'))]"
-              }
-            }
-          }
-        ]
-      },
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]",
-        "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip'))]"
       ]
     },
     {
       "type": "Microsoft.Compute/virtualMachines",
       "apiVersion": "2019-07-01",
       "name": "[concat(parameters('namePrefix'), '-vm1')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "osProfile": {
           "computerName": "vm1",
@@ -175,9 +113,71 @@
           ]
         }
       },
-      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namePrefix'), '-nic1'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "apiVersion": "2019-11-01",
+      "name": "[concat(parameters('namePrefix'), '-vnet/default')]",
+      "properties": {
+        "addressPrefix": "10.0.0.0/24"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', concat(parameters('namePrefix'), '-vnet'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2019-11-01",
+      "name": "[concat(parameters('namePrefix'), '-nic0')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "myConfig",
+            "properties": {
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]"
+              },
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip'))]"
+              }
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2019-11-01",
+      "name": "[concat(parameters('namePrefix'), '-nic1')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "myConfig",
+            "properties": {
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]"
+              },
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip'))]"
+              }
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('namePrefix'), '-pip'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', concat(parameters('namePrefix'), '-vnet'), 'default')]"
       ]
     }
   ],

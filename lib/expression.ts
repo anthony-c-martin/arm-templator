@@ -1,4 +1,4 @@
-import { Expression, Expressionable, formatFunction, ResourceReference } from './common';
+import { Expression, Expressionable, formatFunction, ResourceBase } from './common';
 
 export class ParameterExpression<T> extends Expression<T> {
   name: string;
@@ -88,10 +88,18 @@ export function resourceGroupLocation(): Expression<string> {
   return custom<any>('resourceGroup', []).call('location');
 }
 
-export function getReference<T>(resource: ResourceReference<T>): Expression<T> {
+export function getReference<T extends ResourceBase>(resource: T): Expression<T> {
   return custom<T>('reference', [getResourceId(resource)]);
 }
 
-export function getResourceId<T>(resource: ResourceReference<T>): Expression<string> {
-  return custom<string>('resourceId', [resource.type, ...resource.name]);
+export function getResourceId(resource: ResourceBase): Expression<string> {
+  return custom<string>('resourceId', [getFullyQualifiedType(resource), ...getNameComponents(resource)]);
+}
+
+export function getFullyQualifiedType(resource: ResourceBase) {
+  return `${resource.namespace}/${resource.nameTypes.map(t => t.type).join('/')}`;
+}
+
+export function getNameComponents(resource: ResourceBase) {
+  return resource.nameTypes.map(t => t.name);
 }

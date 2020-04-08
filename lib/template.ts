@@ -1,10 +1,5 @@
-import { Expressionable, ResourceReference, ResourceDefinition, ExpressionBase, formatTopLevelExpressionable, Paramify, Outputify, Expressionify } from './common';
-import { ParameterExpression, concat, getResourceId } from './expression';
-
-interface ResourceDeployment {
-  resource: ResourceDefinition<any, any>,
-  dependencies?: ResourceReference<any>[],
-}
+import { Expressionable, ExpressionBase, formatTopLevelExpressionable, Paramify, Outputify, Expressionify, ResourceBase } from './common';
+import { ParameterExpression, concat, getResourceId, getFullyQualifiedType, getNameComponents, custom } from './expression';
 
 export interface DeploymentSettings {
   location: string;
@@ -74,7 +69,81 @@ function getParamExpressions<TParams>(params: Paramify<TParams>): Expressionify<
   return result;
 }
 
-export class Template<TParams, TOutputs> {
+class DependencyNode {
+  constructor(resource: ResourceBase) {
+    this.resource = resource;
+  }
+
+  readonly resource: ResourceBase;
+  readonly children: DependencyNode[] = [];
+}
+
+interface ResourceDeployer {
+  deploy<TResource extends ResourceBase>(resource: TResource): ResourceFuture<TResource>;
+}
+
+interface ResourceFuture<TData> {
+  then<TOutput>(func: (deployer: ResourceDeployer, data: TData) => TOutput): TOutput;
+}
+
+export function thenMultiple<T1, T2, TOutput>(future1: ResourceFuture<T1>, future2: ResourceFuture<T2>, func: (deployer: ResourceDeployer, resourceA: T1, resourceB: T2) => TOutput): TOutput {
+  const data1 = future1.then((deployer, data) => ({deployer, data}));
+  const data2 = future2.then((deployer, data) => ({deployer, data}));
+
+  return func(new AggregatedDeployer([data1.deployer, data2.deployer]), data1.data, data2.data);
+}
+
+class DependencyTrackingFuture<TData> implements ResourceFuture<TData> {
+  private readonly deployer: ResourceDeployer;
+  private readonly data: TData;
+  constructor(deployer: ResourceDeployer, data: TData) {
+    this.deployer = deployer;
+    this.data = data;
+  }
+
+  then<TOutput>(func: (deployer: ResourceDeployer, data: TData) => TOutput): TOutput {
+    return func(this.deployer, this.data);
+  }
+}
+
+class AggregatedDeployer implements ResourceDeployer {
+  private readonly deployers: ResourceDeployer[];
+  constructor(deployers: ResourceDeployer[]) {
+    this.deployers = deployers;
+  }
+
+  deploy<TResource extends ResourceBase>(resource: TResource): ResourceFuture<TResource> {
+    let future;
+    for (const deployer of this.deployers) {
+      future = deployer.deploy(resource);
+    }
+
+    if (!future) {
+      throw new Error(`No deployers specified`);
+    }
+
+    return future;
+  }
+}
+
+class DependentDeployer implements ResourceDeployer {
+  private readonly parents: DependencyNode[];
+  constructor(parents: DependencyNode[]) {
+    this.parents = parents;
+  }
+
+  deploy<TResource extends ResourceBase>(resource: TResource): ResourceFuture<TResource> {
+    const node = new DependencyNode(resource);
+    for (const parent of this.parents) {
+      parent.children.push(node);
+    }
+
+    const deployer = new DependentDeployer([node]);
+    return new DependencyTrackingFuture(deployer, resource);
+  }
+}
+
+export class Template<TParams, TOutputs> implements ResourceDeployer {
   constructor(paramTypes: Paramify<TParams>, outputTypes: Outputify<TOutputs>) {
     this.resources = [];
     this.paramTypes = paramTypes;
@@ -85,28 +154,23 @@ export class Template<TParams, TOutputs> {
     return new ParameterExpression<TParams[K]>(key as string, this.paramTypes[key].type);
   }
 
-  private readonly resources: ResourceDeployment[];
+  private readonly resources: DependencyNode[];
   private readonly paramTypes: Paramify<TParams>;
   private readonly outputTypes: Outputify<TOutputs>;
 
-  deploy<T, U>(resource: ResourceDefinition<T, U>, dependencies?: ResourceReference<any>[]): ResourceReference<T> {
-    this.resources.push({
-      resource,
-      dependencies
-    });
-    
-    return {
-      type: resource.type,
-      apiVersion: resource.apiVersion,
-      name: resource.name,
-    };
+  deploy<TResource extends ResourceBase>(resource: TResource): ResourceFuture<TResource> {
+    const node = new DependencyNode(resource);
+    this.resources.push(node);
+
+    const deployer = new DependentDeployer([node]);
+    return new DependencyTrackingFuture(deployer, resource);
   }
 
-  deployNested<TNestedParams, TNestedOutputs>(name: Expressionable<string>, location: Expressionable<string>, builder: TemplateBuilder<TNestedParams, TNestedOutputs>, parameters: Expressionify<TNestedParams>, dependencies?: ResourceReference<any>[]) {
-    return this.deploy({
+  deployNested<TNestedParams, TNestedOutputs>(name: Expressionable<string>, location: Expressionable<string>, builder: TemplateBuilder<TNestedParams, TNestedOutputs>, parameters: Expressionify<TNestedParams>, dependencies?: ResourceFuture<any>[]): ResourceFuture<ResourceBase> {
+    const resource = {
+      namespace: 'Microsoft.Resources',
       apiVersion: '2019-10-01',
-      type: 'Microsoft.Resources/deployments',
-      name: [name],
+      nameTypes: [{type: 'deployments', name: name}],
       location: location,
       properties: {
         expressionEvaluationOptions: {
@@ -116,7 +180,14 @@ export class Template<TParams, TOutputs> {
         template: builder.render(),
         parameters: renderParams(parameters),
       }
-    }, dependencies);
+    };
+
+    if (dependencies && dependencies.length > 0) {
+      const futures = dependencies.map(d => d.then(deployer => deployer.deploy(resource)));
+      return futures[0];
+    } else {
+      return this.deploy(resource);
+    }
   }
 
   render(outputs: Expressionify<TOutputs>): any {
@@ -124,10 +195,46 @@ export class Template<TParams, TOutputs> {
       $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
       contentVersion: '1.0.0.0',
       parameters: formatParameters(this.paramTypes),
-      resources: this.resources.map(formatResourceObject),
+      resources: getResourceDependencies(this.resources).map(({resource, dependencies}) => formatResourceObject(resource, dependencies)),
       outputs: formatOutputs(this.outputTypes, outputs),
     };
   }
+}
+
+function getResourceDependencies(nodes: DependencyNode[]) {
+  const resources = listResources(nodes);
+  const dependencies = resources.map<ResourceBase[]>(_ => []);
+
+  const nodesToVisit = [...nodes];
+  while (nodesToVisit.length > 0) {
+    const [current] = nodesToVisit.splice(0, 1);
+
+    for (const child of current.children) {
+      const childIndex = resources.indexOf(child.resource);
+      dependencies[childIndex].push(current.resource);
+    }
+
+    nodesToVisit.unshift(...current.children);
+  }
+
+  return resources.map((resource, i) => ({
+    resource,
+    dependencies: dependencies[i],
+  })).sort((a, b) => a.dependencies.length - b.dependencies.length);
+}
+
+function listResources(nodes: DependencyNode[]) {
+  const foundResources = new Set<ResourceBase>();
+
+  const nodesToVisit = [...nodes];
+  while (nodesToVisit.length > 0) {
+    const [current] = nodesToVisit.splice(0, 1);
+    nodesToVisit.unshift(...current.children);
+
+    foundResources.add(current.resource);
+  }
+
+  return [...foundResources];
 }
 
 function formatObject(input: any): any {
@@ -164,27 +271,27 @@ function formatOptionalProperties(input: any, output: any, keys: string[]) {
   }
 }
 
-function formatResourceObject<T>(deployment: ResourceDeployment): any {
-  const { resource, dependencies } = deployment;
+function formatResourceObject<TResource extends ResourceBase>(resource: TResource, dependencies: ResourceBase[]): any {
+  const fullyQualifiedType = getFullyQualifiedType(resource);
+  const fullyQuaifiedName = concatResourceName(...getNameComponents(resource));
 
-  const output: any = {
-    type: formatObject(resource.type),
-    apiVersion: formatObject(resource.apiVersion),
-    name: formatObject(concatResourceName(...resource.name)),
-    properties: formatObject(resource.properties),
+  let output: any = {...resource};
+  delete output.namespace;
+  delete output.nameTypes;
+  delete output.apiVersion;
+
+  output = {
+    type: fullyQualifiedType,
+    apiVersion: resource.apiVersion,
+    name: fullyQuaifiedName,
+    ...output,
   };
-
-  if (resource.location) {
-    output.location = formatObject(resource.location);
-  }
-
-  formatOptionalProperties(resource.additional, output, ['identity', 'sku', 'zones', 'kind', 'plan', 'tags']);
-
-  if (dependencies && dependencies.length > 0) {
+  
+  if (dependencies.length > 0) {
     output.dependsOn = formatObject(dependencies.map(d => getResourceId(d)));
   }
 
-  return output;
+  return formatObject(output);
 }
 
 function formatParameters<T>(types: Paramify<T>): any {

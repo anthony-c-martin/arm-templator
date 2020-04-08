@@ -1,4 +1,4 @@
-import { Expressionable } from '../../lib/common';
+import { Expressionable } from '../../lib';
 
 const baseStorageProfile = {
   imageReference: {

@@ -16,32 +16,32 @@ export default buildTemplate(params, outputs, (params, template) => {
   const { index, namePrefix, subnetResourceId } = params;
 
   const publicIp = template.deploy({
-    type: 'Microsoft.Network/publicIPAddresses',
+    namespace: 'Microsoft.Network',
     apiVersion: '2019-11-01',
-    name: [concat(namePrefix, '-pip', index)],
+    nameTypes: [{type: 'publicIPAddresses', name: concat(namePrefix, '-pip', index)}],
     location: location,
     properties: {
       publicIPAllocationMethod: 'Dynamic',
     }
   });
 
-  const nic = template.deploy({
-    type: 'Microsoft.Network/networkInterfaces',
+  const nic = publicIp.then((deployer, publicIp) => deployer.deploy({
+    namespace: 'Microsoft.Network',
     apiVersion: '2019-11-01',
-    name: [concat(namePrefix, '-nic', index)],
+    nameTypes: [{type: 'networkInterfaces', name: concat(namePrefix, '-nic', index)}],
     location: location,
     properties: createBaseNic(subnetResourceId, getResourceId(publicIp)),
-  }, [publicIp]);
+  }));
 
-  const vm = template.deploy({
-    type: 'Microsoft.Compute/virtualMachines',
+  const vm = nic.then((deployer, nic) => deployer.deploy({
+    namespace: 'Microsoft.Compute',
     apiVersion: '2019-07-01',
-    name: [concat(namePrefix,'-vm', index)],
+    nameTypes: [{type: 'virtualMachines', name: concat(namePrefix, '-vm', index)}],
     location: location,
     properties: createBaseVm(concat('vm', index), getResourceId(nic)),
-  }, [nic]);
+  }));
 
   return {
-    vmResourceId: getResourceId(vm),
+    vmResourceId: vm.then((_, vm) => getResourceId(vm)),
   };
 });

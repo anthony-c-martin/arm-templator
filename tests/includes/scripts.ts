@@ -1,5 +1,4 @@
-import { Expressionable, ResourceDefinition, Expression } from '../../lib/common';
-import { concat } from '../../lib/expression';
+import { concat, Expressionable, Expression } from '../../lib';
 import fs from 'fs';
 
 function readScriptFile(path: string): string {
@@ -16,11 +15,11 @@ function formatArgs(args: {[key: string]: Expressionable<string>}): Expression<s
   return concat(...output);
 }
 
-export function createScriptsResource(name: Expressionable<string>, location: Expressionable<string>, scriptPath: string, args: {[key: string]: Expressionable<string>}): ResourceDefinition<any, any> {
+export function createScriptsResource(name: Expressionable<string>, location: Expressionable<string>, scriptPath: string, args: {[key: string]: Expressionable<string>}) {
   return {
-    type: 'Microsoft.Resources/deploymentScripts',
+    namespace: 'Microsoft.Resources',
+    nameTypes: [{type: 'deploymentScripts', name: name}],
     apiVersion: '2019-10-01-preview',
-    name: [name],
     location: location,
     properties: {
       azPowerShellVersion: '1.7.0',
@@ -30,10 +29,8 @@ export function createScriptsResource(name: Expressionable<string>, location: Ex
       timeout: 'PT1H',
       cleanupPreference: 'Always'
     },
-    additional: {
-      identity: {
-        type: 'UserAssigned',
-      }
+    identity: {
+      type: 'UserAssigned',
     }
   }
 }

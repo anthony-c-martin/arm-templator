@@ -11,7 +11,7 @@ export default buildTemplate(params, {}, (params, template) => {
   const location = resourceGroupLocation();
 
   for (let i = 0; i < 3; i++) {
-    const result = template.deployNested(
+    template.deployNested(
       `nested${i}`,
       location,
       builder,

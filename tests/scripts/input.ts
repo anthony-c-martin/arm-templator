@@ -19,11 +19,9 @@ export default buildTemplate(params, outputs, (params, template) => {
     `${__dirname}/myScript.ps1`,
     {
       name: myName,
-    }), []);
-
-  const ref = getReference(script);
+    }));
 
   return {
-    text: ref.call('output').call('text'),
+    text: script.then((_, script) => getReference(script)).call<any>('output').call('text'),
   };
 });

@@ -35,19 +35,15 @@ export type Expressionify<T> = {
   readonly [P in keyof T]: Expressionable<T[P]>;
 }
 
-export interface ResourceReference<T> {
+export interface NameType {
   readonly type: string;
-  readonly apiVersion: string;
-  readonly name: Expressionable<string>[];
+  readonly name: Expressionable<string>;
 }
 
-export interface ResourceDefinition<TProperties, TAdditional> {
-  type: string;
-  apiVersion: string;
-  name: Expressionable<string>[];
-  location?: Expressionable<string>;
-  properties: Expressionable<TProperties>;
-  additional?: TAdditional;
+export interface ResourceBase {
+  readonly namespace: string;
+  readonly apiVersion: string;
+  readonly nameTypes: NameType[];
 }
 
 export type Paramify<T> = {
